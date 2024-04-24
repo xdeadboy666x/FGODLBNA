@@ -155,7 +155,7 @@ def shop(item: str, quantity: str) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara10.png"
+                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara10.png"
                 }
             }
         ],
