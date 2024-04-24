@@ -47,7 +47,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Summon Tickets",
+                        "name": "Summoning Tickets",
                         "value": f"{rewards.ticket}",
                         "inline": True
                     },
@@ -62,7 +62,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Golden Fruit",
+                        "name": "Gold Fruit",
                         "value": f"{rewards.goldenfruit}",
                         "inline": True
                     },
@@ -82,7 +82,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Blue Apple Saplings",
+                        "name": "Blue Fruit Saplings",
                         "value": f"{rewards.bluebronzesapling}",
                         "inline": True
                     },
@@ -155,7 +155,7 @@ def shop(item: str, quantity: str) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara10.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/167.png"
                 }
             }
         ],
