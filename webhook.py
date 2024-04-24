@@ -33,7 +33,7 @@ def topLogin(data: list) -> None:
         "embeds": [
             {
                 "title": "FGO Login System - " + main.fate_region,
-                "description": f"Scheluded Login Fate/Grand Order.l.\n\n{messageBonus}",
+                "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
                     {
@@ -123,7 +123,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/167.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/316.png"
                 }
             }
         ],
@@ -193,7 +193,7 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Automayic Summoning System - " + main.fate_region,
+                "title": "FGO Automatic Summoning System - " + main.fate_region,
                 "description": f"Daily Free FP Summon.\n\n{message_mission}",
                 "color": 5750876,
                 "fields": [
