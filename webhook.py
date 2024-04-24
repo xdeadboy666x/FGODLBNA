@@ -123,7 +123,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara01.png"
+                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara.png"
                 }
             }
         ],
@@ -193,8 +193,8 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Automatic Summoning System - " + main.fate_region,
-                "description": f"Daily FP Free FP Summion.\n\n{message_mission}",
+                "title": "FGO Automatic Pull Summoning System - " + main.fate_region,
+                "description": f"Daily Free FP Summon.\n\n{message_mission}",
                 "color": 5750876,
                 "fields": [
                     {
