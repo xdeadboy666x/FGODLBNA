@@ -123,7 +123,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/167.png"
                 }
             }
         ],
@@ -155,7 +155,7 @@ def shop(item: str, quantity: str) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/167.png"
+                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara10.png"
                 }
             }
         ],
