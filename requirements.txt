@@ -1,0 +1,9 @@
+#utf-8
+json5
+httpx
+lxml
+requests
+py3rijndael
+msgpack
+coloredlogs
+croniter
