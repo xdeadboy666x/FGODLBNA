@@ -123,7 +123,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/316.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/295.png"
                 }
             }
         ],
