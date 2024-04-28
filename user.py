@@ -396,9 +396,6 @@ class user:
     def buyBlueApple(self, quantity=1):
         # https://game.fate-go.jp/shop/purchase
 
-        if main.fate_region != "JP":
-            main.logger.error("Region not supported.")
-            return
         
         self.builder_.AddParameter('id', '13000000') # 购买蓝苹果 / JP 限定 
         self.builder_.AddParameter('num', str(quantity))
