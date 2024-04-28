@@ -6,8 +6,6 @@ import fgourl
 import user
 import coloredlogs
 import logging
-from croniter import croniter
-from datetime import datetime
 
 # Environment Variables
 userIds = os.environ['userIds'].split(',')
@@ -16,6 +14,7 @@ secretKeys = os.environ['secretKeys'].split(',')
 fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
+
 
 UA = os.environ['UserAgent']
 
@@ -32,10 +31,11 @@ coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
 def check_blue_apple_cron(instance):
     if blue_apple_cron:
+
         cron = croniter(blue_apple_cron)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
-
+        
         if current_date >= next_date:
             logger.info('Exchanging Blue Fruit!')
             instance.buyBlueApple(1)
@@ -46,9 +46,9 @@ def get_latest_verCode():
     endpoint = ""
 
     if fate_region == "NA":
-        endpoint += "https://raw.githubusercontent.com/O-Isaac/FGO-VerCode-extractor/NA/VerCode.json"
+        endpoint += "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
     else:
-        endpoint += "https://raw.githubusercontent.com/O-Isaac/FGO-VerCode-extractor/JP/VerCode.json"
+        endpoint += "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/JP/VerCode.json"
 
     response = requests.get(endpoint).text
     response_data = json.loads(response)
@@ -73,12 +73,12 @@ def main():
                 try:
                     time.sleep(2)
                     logger.info('Pulling FP Summon!')
-                    for _ in range(1):  # Define how many times to summon friend points (default 1 time)
+                    for _ in range(1): #可定义每次登录时自动抽几次友情10连（默认1次） 
                         instance.drawFP()
                         time.sleep(4)
                 except Exception as ex:
                     logger.error(ex)
-
+                    
             except Exception as ex:
                 logger.error(ex)
 
