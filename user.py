@@ -526,6 +526,6 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"Received Rewards")
+            main.logger.info(f"Received rewards")
         else:
             main.logger.info(f"No rewards at the moment")
