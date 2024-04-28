@@ -395,9 +395,9 @@ class user:
 
     def buyBlueApple(self, quantity=1):
         # https://game.fate-go.jp/shop/purchase
-
         
-        self.builder_.AddParameter('id', '13000000') # 购买蓝苹果 / JP 限定 
+        
+        self.builder_.AddParameter('id', '13000000')
         self.builder_.AddParameter('num', str(quantity))
 
         data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
@@ -484,7 +484,7 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"读取礼物盒!")
+        main.logger.info(f"Received rewards")
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
@@ -500,7 +500,7 @@ class user:
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
 
-        main.logger.info(f"解析完成!")
+        main.logger.info(f"No rewards at the moment")
 
         time.sleep(1)
 
