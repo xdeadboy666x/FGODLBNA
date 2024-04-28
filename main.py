@@ -7,30 +7,6 @@ import user
 import coloredlogs
 import logging
 
-def configure_logging():
-    logging.basicConfig(level=logging.DEBUG)
-
-def retrieve_environment_variables():
-    global userIds, authKeys, secretKeys, userNums, authKeyNums, secretKeyNums, UA
-    userIds = os.environ['userIds'].split(',')
-    authKeys = os.environ['authKeys'].split(',')
-    secretKeys = os.environ['secretKeys'].split(',')
-    fate_region = os.environ['fateRegion']
-    webhook_discord_url = os.environ['webhookDiscord']
-    blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
-    userNums = len(userIds)
-    authKeyNums = len(authKeys)
-    secretKeyNums = len(secretKeys)
-    fgourl.ver_code_ = os.environ['verCode']
-
-    UA = os.environ['UserAgent']
-    if UA:
-        fgourl.user_agent_ = UA
-
-def main():
-    configure_logging()
-    retrieve_environment_variables()
-    
 # Environment Variables
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
@@ -65,12 +41,7 @@ def check_blue_apple_cron(instance):
 
 
 def get_latest_verCode():
-    endpoint = ""
-
-    if fate_region == "NA":
-        endpoint += "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
-    else:
-        endpoint += "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/JP/VerCode.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
 
     response = requests.get(endpoint).text
     response_data = json.loads(response)
