@@ -427,6 +427,7 @@ class user:
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
 
+        if main.fate_region == "NA":
             gachaSubId = GetGachaSubIdFP("NA")
             if gachaSubId is None:
                 gachaSubId = "0"
