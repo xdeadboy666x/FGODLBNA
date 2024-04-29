@@ -6,6 +6,8 @@ import fgourl
 import user
 import coloredlogs
 import logging
+from datetime import datetime
+from croniter import croniter
 
 # Environment Variables
 userIds = os.environ['userIds'].split(',')
@@ -60,7 +62,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info('Login in...')
+                logger.info('Loggin in...')
                 instance.topLogin2()
                 time.sleep(2)
                 instance.topHome()
@@ -68,7 +70,7 @@ def main():
                 try:
                     time.sleep(2)
                     logger.info('Pulling FP Summon!')
-                    for _ in range(1): #可定义每次登录时自动抽几次友情10连（默认1次） 
+                    for _ in range(1):
                         instance.drawFP()
                         time.sleep(4)
                 except Exception as ex:
