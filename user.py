@@ -135,7 +135,7 @@ class user:
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('deviceInfo', 'HUAWEI MAR-LX3Bm / Android OS 10 / API-29 (HUAWEIMAR-L03B/10.0.0.274C69)')
+        self.builder_.AddParameter('deviceInfo', 'Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346)')
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
@@ -269,7 +269,7 @@ class user:
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('deviceInfo', 'HUAWEI MAR-LX3Bm / Android OS 10 / API-29 (HUAWEIMAR-L03B/10.0.0.274C69)')
+        self.builder_.AddParameter('deviceInfo', 'Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346)')
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
@@ -427,16 +427,9 @@ class user:
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
 
-        if main.fate_region == "NA":
             gachaSubId = GetGachaSubIdFP("NA")
             if gachaSubId is None:
-                gachaSubId = "0"  # or any other default value as a string
-            self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
-        else:
-            gachaSubId = GetGachaSubIdFP("JP")
-            if gachaSubId is None:
-                gachaSubId = "0"  # or any other default value as a string
+                gachaSubId = "0"
             self.builder_.AddParameter('gachaSubId', gachaSubId)
             main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
@@ -484,7 +477,7 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"Received rewards")
+        main.logger.info(f"Getting rewards!")
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
@@ -500,7 +493,7 @@ class user:
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
 
-        main.logger.info(f"No rewards at the moment")
+        main.logger.info(f"Parsing!")
 
         time.sleep(1)
 
@@ -523,6 +516,6 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"Received rewards")
+            main.logger.info(f"Claimed rewards!")
         else:
-            main.logger.info(f"No rewards at the moment")
+            main.logger.info(f"No rewards at the moment!")
