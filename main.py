@@ -6,6 +6,8 @@ import fgourl
 import user
 import coloredlogs
 import logging
+from datetime import datetime
+from croniter import croniter
 
 # Environment Variables
 userIds = os.environ['userIds'].split(',')
@@ -58,7 +60,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info('Login in...')
+                logger.info('Loggin in...')
                 instance.topLogin()
                 time.sleep(2)
                 instance.topHome()
