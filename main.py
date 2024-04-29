@@ -5,6 +5,7 @@ import json
 import fgourl
 import user
 import coloredlogs
+import logging
 
 # Environment Variables
 userIds = os.environ['userIds'].split(',')
