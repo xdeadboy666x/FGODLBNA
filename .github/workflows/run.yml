@@ -19,11 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11]
+        python-version: [3.8]
 
     steps:
       - name: Install dependencies
-        run: pip install -r https://raw.githubusercontent.com/xdeadboy666x/FGODLB/main/requirements.txt
+        run: pip install -r https://raw.githubusercontent.com/xdeadboy666x/FGODLBNA/main/requirements.txt
         
       - name: Fetch repository files
         uses: actions/checkout@v4
