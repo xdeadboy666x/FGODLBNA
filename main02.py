@@ -43,12 +43,7 @@ def check_blue_apple_cron(instance):
 
 
 def get_latest_verCode():
-    endpoint = ""
-
-    if fate_region == "NA":
-        endpoint += "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
-    else:
-        endpoint += "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/JP/VerCode.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
 
     response = requests.get(endpoint).text
     response_data = json.loads(response)
