@@ -10,12 +10,13 @@ def topLogin(data: list) -> None:
     rewards: user.Rewards = data[0]
     login: user.Login = data[1]
     bonus: user.Bonus or str = data[2]
+    
     with open('login.json', 'r', encoding='utf-8')as f:
         data22 = json.load(f)
 
         name1 = data22['cache']['replaced']['userGame'][0]['name']
         fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
-    
+
     messageBonus = ''
     nl = '\n'
 
@@ -32,16 +33,11 @@ def topLogin(data: list) -> None:
         "embeds": [
             {
                 "title": "FGO Login System - " + main.fate_region,
-                "description": f"Scheduled Login to Fate/Grand Order.\n\n{messageBonus}",
+                "description": f"Scheluded Login Fate/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
                     {
-                        "name": "Master Name",
-                        "value": f"{name1}",
-                        "inline": True
-                    },
-                    {
-                        "name": "Friend ID",
+                        "name": "ID",
                         "value": f"{fpids1}",
                         "inline": True
                     },
@@ -51,22 +47,22 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Summon Ticket", 
+                        "name": "Summon Tickets",
                         "value": f"{rewards.ticket}",
                         "inline": True
-                    },                    
+                    },
                     {
                         "name": "Saint Quartz",
                         "value": f"{rewards.stone}",
                         "inline": True
                     },
                     {
-                        "name": "Saint Quartz Fragment",
+                        "name": "Saint Quartz Fragments",
                         "value": f"{rewards.sqf01}",
                         "inline": True
                     },
                     {
-                        "name": "Golden Fruit",
+                        "name": "Gold Fruit",
                         "value": f"{rewards.goldenfruit}",
                         "inline": True
                     },
@@ -76,17 +72,17 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Bronze Fruit",
+                        "name": "Copper Fruit",
                         "value": f"{rewards.bronzefruit}",
                         "inline": True
                     },
                     {
-                        "name": "Blue Bronze Fruit",
+                        "name": "Blue Fruit",
                         "value": f"{rewards.bluebronzefruit}",
                         "inline": True
                     },
                     {
-                        "name": "Blue Bronze Sapling",
+                        "name": "Blue Fruit Saplings",
                         "value": f"{rewards.bluebronzesapling}",
                         "inline": True
                     },
@@ -101,23 +97,23 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Pure Prism",
+                        "name": "White Prism",
                         "value": f"{rewards.pureprism}",
                         "inline": True
                     },
                     {
-                        "name": "Friend Points",
+                        "name": "FP",
                         "value": f"{login.total_fp}",
                         "inline": True
                     },
                     {
-                        "name": "Friend Points Gained Today",
+                        "name": "Gained FP",
                         "value": f"+{login.add_fp}",
                         "inline": True
                     },
                     {
-                        "name": "Current AP",
-                        "value": f"{login.remaining_ap}",
+                        "name": "Current Maximum AP",
+                        "value": f"{login.act_max}",
                         "inline": True
                     },
                     {
@@ -127,7 +123,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/295.png"
                 }
             }
         ],
@@ -143,18 +139,18 @@ def topLogin(data: list) -> None:
 
 def shop(item: str, quantity: str) -> None:
     endpoint = main.webhook_discord_url
-    
+
     jsonData = {
         "content": None,
         "embeds": [
             {
-                "title": "FGO Automatic Shopping System - " + main.fate_region,
-                "description": f"Purchase Successful.",
+                "title": "FGO Blue Fruit Exchange - " + main.fate_region,
+                "description": f"Received Blue Fruit.",
                 "color": 5814783,
                 "fields": [
                     {
                         "name": f"Shop",
-                        "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item}",
+                        "value": f"Spent {40 * quantity} AP to buy {quantity}x {item}",
                         "inline": False
                     }
                 ],
@@ -178,7 +174,7 @@ def drawFP(servants, missions) -> None:
 
     message_mission = ""
     message_servant = ""
-    
+
     if (len(servants) > 0):
         servants_atlas = requests.get(
             f"https://api.atlasacademy.io/export/NA/basic_svt.json").json()
@@ -198,11 +194,11 @@ def drawFP(servants, missions) -> None:
         "embeds": [
             {
                 "title": "FGO Automatic Summoning System - " + main.fate_region,
-                "description": f"Completed daily free Friend Point summons. Listing summon results.\n\n{message_mission}",
+                "description": f"Daily Free FP Summon.\n\n{message_mission}",
                 "color": 5750876,
                 "fields": [
                     {
-                        "name": "Friend Point Summons",
+                        "name": "Gacha Results",
                         "value": f"{message_servant}",
                         "inline": False
                     }
