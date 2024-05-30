@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8]
+        python-version: [3.11]
 
     steps:
       - name: Install dependencies
@@ -27,10 +27,6 @@ jobs:
         
       - name: Fetch repository files
         uses: actions/checkout@v4
-
-      - name: Set Time Zone
-        run: |
-           sudo timedatectl set-timezone 'America/Mexico_City'
 
       - name: Execute script 1
         run: |
