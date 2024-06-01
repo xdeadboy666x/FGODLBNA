@@ -10,7 +10,8 @@ def topLogin(data: list) -> None:
     rewards: user.Rewards = data[0]
     login: user.Login = data[1]
     bonus: user.Bonus or str = data[2]
-    with open('login.json', 'r', encoding='utf-8') as f:
+    
+    with open('login.json', 'r', encoding='utf-8')as f:
         data22 = json.load(f)
 
         name1 = data22['cache']['replaced']['userGame'][0]['name']
@@ -76,13 +77,13 @@ def shop(item: str, quantity: str) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Automatic Shopping System - " + main.fate_region,
-                "description": f"Purchase Successful.",
+                "title": "FGO Blue Fruit Exchange - " + main.fate_region,
+                "description": f"Received Blue Fruit.",
                 "color": 5814783,
                 "fields": [
                     {
                         "name": f"Shop",
-                        "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item}",
+                        "value": f"Spent {40 * quantity} AP to buy {quantity}x {item}",
                         "inline": False
                     }
                 ],
@@ -107,7 +108,7 @@ def drawFP(servants, missions) -> None:
     message_mission = ""
     message_servant = ""
 
-    if len(servants) > 0:
+    if (len(servants) > 0):
         servants_atlas = requests.get(
             f"https://api.atlasacademy.io/export/NA/basic_svt.json").json()
 
@@ -117,7 +118,7 @@ def drawFP(servants, missions) -> None:
             svt = svt_dict[servant.objectId]
             message_servant += f"`{svt['name']}` "
 
-    if len(missions) > 0:
+    if(len(missions) > 0):
         for mission in missions:
             message_mission += f"__{mission.message}__\n{mission.progressTo}/{mission.condition}\n"
 
@@ -125,13 +126,13 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Automatic Shopping System - " + main.fate_region,
-                "description": f"Purchase Successful.",
-                "color": 5814783,
+                "title": "FGO Automatic Summoning System - " + main.fate_region,
+                "description": f"Daily Free FP Summon.\n\n{message_mission}",
+                "color": 5750876,
                 "fields": [
                     {
-                        "name": f"Shop",
-                        "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item}",
+                        "name": "Gacha Results",
+                        "value": f"{message_servant}",
                         "inline": False
                     }
                 ],
