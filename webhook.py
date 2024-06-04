@@ -47,7 +47,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Summon Tickets",
+                        "name": "Summon Ticket",
                         "value": f"{rewards.ticket}",
                         "inline": True
                     },
@@ -57,7 +57,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Saint Quartz Fragments",
+                        "name": "Saint Quartz Fragment",
                         "value": f"{rewards.sqf01}",
                         "inline": True
                     },
@@ -77,12 +77,12 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Blue Bronzed Fruit",
+                        "name": "Bronzed Cobalt Fruit",
                         "value": f"{rewards.bluebronzefruit}",
                         "inline": True
                     },
                     {
-                        "name": "Blue Bronzed Saplings",
+                        "name": "Bronze Sapling",
                         "value": f"{rewards.bluebronzesapling}",
                         "inline": True
                     },
@@ -108,7 +108,7 @@ def topLogin(data: list) -> None:
                     },
                     {
                         "name": "Current Maximum AP",
-                        "value": f"{login.act_max}",
+                        "value": f"{login.remaining_max}",
                         "inline": True
                     },
                     {
