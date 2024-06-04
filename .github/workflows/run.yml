@@ -22,11 +22,11 @@ jobs:
         python-version: [3.11]
 
     steps:
-      - name: Install dependencies
-        run: pip install -r https://raw.githubusercontent.com/xdeadboy666x/FGODLBNA/main/requirements.txt
-        
-      - name: Fetch repository files
+      - name: Checkout repo
         uses: actions/checkout@v4
+        
+      - name: Install requirements
+        run: pip install -r https://raw.githubusercontent.com/xdeadboy666x/FGODLBNA/main/requirements.txt
 
       - name: Execute script 1
         run: |
