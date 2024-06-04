@@ -107,11 +107,6 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Current Maximum AP",
-                        "value": f"{login.remaining_max}",
-                        "inline": True
-                    },
-                    {
                         "name": "Holy Grail",
                         "value": f"{rewards.holygrail}",
                         "inline": True
