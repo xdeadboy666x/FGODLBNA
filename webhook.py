@@ -10,8 +10,8 @@ def topLogin(data: list) -> None:
     rewards: user.Rewards = data[0]
     login: user.Login = data[1]
     bonus: user.Bonus or str = data[2]
-
-    with open('login.json', 'r', encoding='utf-8') as f:
+    
+    with open('login.json', 'r', encoding='utf-8')as f:
         data22 = json.load(f)
 
         name1 = data22['cache']['replaced']['userGame'][0]['name']
@@ -36,26 +36,89 @@ def topLogin(data: list) -> None:
                 "description": f"Scheduled Login to Fate/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
-                    {"name": "Master Name", "value": f"{name1}", "inline": True},
-                    {"name": "Friend ID", "value": f"{fpids1}", "inline": True},
-                    {"name": "Level", "value": f"{rewards.level}", "inline": True},
-                    {"name": "Summon Ticket", "value": f"{rewards.ticket}", "inline": True},
-                    {"name": "Saint Quartz", "value": f"{rewards.stone}", "inline": True},
-                    {"name": "Saint Quartz Fragment", "value": f"{rewards.sqf01}", "inline": True},
-                    {"name": "Golden Fruit", "value": f"{rewards.goldenfruit}", "inline": True},
-                    {"name": "Silver Fruit", "value": f"{rewards.silverfruit}", "inline": True},
-                    {"name": "Bronze Fruit", "value": f"{rewards.bronzefruit}", "inline": True},
-                    {"name": "Bronzed Cobalt Fruit", "value": f"{rewards.bluebronzefruit}", "inline": True},
-                    {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
-                    {"name": "Total Login Days", "value": f"{login.login_days}/{login.total_days}", "inline": True},
-                    {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
-                    {"name": "Friend Points", "value": f"{login.total_fp}", "inline": True},
-                    {"name": "Friend Points Gained Today", "value": f"+{login.add_fp}", "inline": True},
-                    {"name": "Current AP", "value": f"{login.remaining_ap}", "inline": True},
-                    {"name": "Holy Grail", "value": f"{rewards.holygrail}", "inline": True},
+                    {
+                        "name": "ID",
+                        "value": f"{fpids1}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Master Level",
+                        "value": f"{rewards.level}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Summon Tickets",
+                        "value": f"{rewards.ticket}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Saint Quartz",
+                        "value": f"{rewards.stone}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Saint Quartz Fragments",
+                        "value": f"{rewards.sqf01}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Gold Fruit",
+                        "value": f"{rewards.goldenfruit}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Silver Fruit",
+                        "value": f"{rewards.silverfruit}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Bronze Fruit",
+                        "value": f"{rewards.bronzefruit}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Bronzed Cobalt Fruit",
+                        "value": f"{rewards.bluebronzefruit}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Bronze Sapling",
+                        "value": f"{rewards.bluebronzesapling}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Total Login Days",
+                        "value": f"{login.login_days}/{login.total_days}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Pure Prism",
+                        "value": f"{rewards.pureprism}",
+                        "inline": True
+                    },
+                    {
+                        "name": "FP",
+                        "value": f"{login.total_fp}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Gained FP",
+                        "value": f"+{login.add_fp}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Current Maximum AP",
+                        "value": f"{login.act_max}",
+                        "inline": True
+                    },
+                    {
+                        "name": "Holy Grail",
+                        "value": f"{rewards.holygrail}",
+                        "inline": True
+                    },
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara02.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/295.png"
                 }
             }
         ],
@@ -76,13 +139,13 @@ def shop(item: str, quantity: str) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Automatic Shopping System - " + main.fate_region,
-                "description": f"Purchase Successful.",
+                "title": "FGO Blue Fruit Exchange - " + main.fate_region,
+                "description": f"Received Blue Fruit.",
                 "color": 5814783,
                 "fields": [
                     {
                         "name": f"Shop",
-                        "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item}",
+                        "value": f"Spent {40 * quantity} AP to buy {quantity}x {item}",
                         "inline": False
                     }
                 ],
@@ -107,9 +170,9 @@ def drawFP(servants, missions) -> None:
     message_mission = ""
     message_servant = ""
 
-    if len(servants) > 0:
+    if (len(servants) > 0):
         servants_atlas = requests.get(
-            f"https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
+            f"https://api.atlasacademy.io/export/NA/basic_svt.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
@@ -117,7 +180,7 @@ def drawFP(servants, missions) -> None:
             svt = svt_dict[servant.objectId]
             message_servant += f"`{svt['name']}` "
 
-    if len(missions) > 0:
+    if(len(missions) > 0):
         for mission in missions:
             message_mission += f"__{mission.message}__\n{mission.progressTo}/{mission.condition}\n"
 
@@ -125,13 +188,13 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Automatic Shopping System - " + main.fate_region,
-                "description": f"Purchase Successful.",
-                "color": 5814783,
+                "title": "FGO Automatic Summoning System - " + main.fate_region,
+                "description": f"Daily Free FP Summon.\n\n{message_mission}",
+                "color": 5750876,
                 "fields": [
                     {
-                        "name": f"Shop",
-                        "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item}",
+                        "name": "Gacha Results",
+                        "value": f"{message_servant}",
                         "inline": False
                     }
                 ],
