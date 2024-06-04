@@ -22,7 +22,7 @@ jobs:
         python-version: [3.11]
 
     steps:
-      - name: Checkout repo
+      - name: Fetch repository files
         uses: actions/checkout@v4
         
       - name: Install requirements
