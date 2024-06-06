@@ -118,7 +118,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/295.png"
                 }
             }
         ],
@@ -140,11 +140,11 @@ def shop(item: str, quantity: str) -> None:
         "embeds": [
             {
                 "title": "FGO Blue Fruit Exchange - " + main.fate_region,
-                "description": f"Received Blue Fruit.",
+                "description": f"Received {purchaseName}",
                 "color": 5814783,
                 "fields": [
                     {
-                        "name": f"Shop",
+                        "name": f"{purchaseName} {purchase}",
                         "value": f"Spent {40 * quantity} AP to buy {quantity}x {item}",
                         "inline": False
                     }
