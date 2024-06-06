@@ -22,11 +22,11 @@ jobs:
         python-version: ["3.11"]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Fetch repository files
+        uses: actions/checkout@v4
       
       - name: Install dependencies
-        run: |
-          pip install requirements.txt
+        run: pip install -r requirements.txt
       
       - name: Run main.py
         run: |
@@ -38,7 +38,6 @@ jobs:
           UserAgent: ${{ secrets.GAME_USERAGENT }}
           fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
-      
       - name: Run main02.py
         run: |
           python3 main02.py
