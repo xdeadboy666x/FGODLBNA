@@ -118,7 +118,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/295.png"
+                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara16.png"
                 }
             }
         ],
