@@ -140,11 +140,11 @@ def shop(item: str, quantity: str) -> None:
         "embeds": [
             {
                 "title": "FGO Blue Fruit Exchange - " + main.fate_region,
-                "description": f"Received {purchaseName}",
+                "description": f"Received {item}",
                 "color": 5814783,
                 "fields": [
                     {
-                        "name": f"{purchaseName} {purchase}",
+                        "name": f"{shop}",
                         "value": f"Spent {40 * quantity} AP to buy {quantity}x {item}",
                         "inline": False
                     }
