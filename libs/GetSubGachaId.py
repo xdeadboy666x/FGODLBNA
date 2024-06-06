@@ -1,6 +1,9 @@
 from typing import List
+
 import requests
+
 from mytime import GetTimeStamp
+
 
 def isMatchedQuestCondition(region: str, userQuest: List, commonReleaseId: int):
     api = f"https://api.atlasacademy.io/nice/NA/common-release/{commonReleaseId}"
