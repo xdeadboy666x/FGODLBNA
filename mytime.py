@@ -1,28 +1,27 @@
 from datetime import datetime, timedelta, timezone
 
-# Create a timezone object for UTC-6 (Central Standard Time)
-tz_utc_minus_6 = timezone(timedelta(hours=-6))
+tz_utc_8 = timezone(timedelta(hours=8))
 
 
 def GetNowTimeHour():
-    return datetime.now(tz=tz_utc_minus_6).hour
+    return datetime.now(tz=tz_utc_8).hour
 
 
 def GetNowTime():
-    return datetime.now(tz=tz_utc_minus_6)
+    return datetime.now(tz=tz_utc_8)
 
 
 def GetFormattedNowTime():
-    return datetime.now(tz=tz_utc_minus_6).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.now(tz=tz_utc_8).strftime('%Y-%m-%d %H:%M:%S')
 
 
 def GetTimeStamp():
-    return int(datetime.now(tz=tz_utc_minus_6).timestamp())
+    return (int)(datetime.now(tz=tz_utc_8).timestamp())
 
 
 def TimeStampToString(timestamp):
-    return datetime.fromtimestamp(timestamp, tz=tz_utc_minus_6)
+    return datetime.fromtimestamp(timestamp)
 
 
 def GetNowTimeFileName():
-    return datetime.now(tz=tz_utc_minus_6).strftime('%Y/%m/%d.log')
+    return datetime.now(tz=tz_utc_8).strftime('%Y/%m/%d.log')
