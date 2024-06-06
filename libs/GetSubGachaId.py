@@ -27,7 +27,7 @@ def isMatchedQuestCondition(region: str, userQuest: List, commonReleaseId: int):
 
 # Get Friend Summon Gacha Sub Id
 def GetGachaSubIdFP(region, userQuest: List = []):
-    api = f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/{region}/master/mstGachaSub.json"
+    api = f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstGachaSub.json"
     response = requests.get(api)
     data = list(response.json())
     data.reverse()
