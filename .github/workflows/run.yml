@@ -23,7 +23,7 @@ jobs:
 
     steps: 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r https://raw.githubusercontent.com/xdeadboy666x/FGODLBNA/main/requirements.txt
         
       - name: Fetch repository files
         uses: actions/checkout@v4
