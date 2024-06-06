@@ -21,12 +21,12 @@ jobs:
       matrix:
         python-version: ["3.11"]
 
-    steps:
-      - name: Fetch repository files
-        uses: actions/checkout@v4
-      
+    steps: 
       - name: Install dependencies
         run: pip install -r requirements.txt
+        
+      - name: Fetch repository files
+        uses: actions/checkout@v4
       
       - name: Run main.py
         run: |
@@ -38,6 +38,7 @@ jobs:
           UserAgent: ${{ secrets.GAME_USERAGENT }}
           fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          
       - name: Run main02.py
         run: |
           python3 main02.py
