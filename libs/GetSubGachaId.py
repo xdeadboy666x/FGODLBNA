@@ -6,7 +6,7 @@ from mytime import GetTimeStamp
 
 
 def isMatchedQuestCondition(region: str, userQuest: List, commonReleaseId: int):
-    api = f"https://api.atlasacademy.io/nice/NA/common-release/{commonReleaseId}"
+    api = f"https://api.atlasacademy.io/nice/{region}/common-release/{commonReleaseId}"
     response = requests.get(api)
     response.raise_for_status()
     condition = response.json()
@@ -27,7 +27,7 @@ def isMatchedQuestCondition(region: str, userQuest: List, commonReleaseId: int):
 
 # Get Friend Summon Gacha Sub Id
 def GetGachaSubIdFP(region, userQuest: List = []):
-    api = f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstGachaSub.json"
+    api = f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/{region}/master/mstGachaSub.json"
     response = requests.get(api)
     data = list(response.json())
     data.reverse()
