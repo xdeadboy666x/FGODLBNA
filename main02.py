@@ -17,6 +17,7 @@ fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
 
+
 UA = os.environ['UserAgent']
 
 if UA:
@@ -32,6 +33,7 @@ coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
 def check_blue_apple_cron(instance):
     if blue_apple_cron:
+
         cron = croniter(blue_apple_cron)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
@@ -44,8 +46,10 @@ def check_blue_apple_cron(instance):
 
 def get_latest_verCode():
     endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
+
     response = requests.get(endpoint).text
     response_data = json.loads(response)
+
     return response_data['verCode']
 
 
@@ -71,6 +75,7 @@ def main():
                         time.sleep(4)
                 except Exception as ex:
                     logger.error(ex)
+                    
             except Exception as ex:
                 logger.error(ex)
 
