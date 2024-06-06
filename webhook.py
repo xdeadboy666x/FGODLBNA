@@ -11,7 +11,7 @@ def topLogin(data: list) -> None:
     login: user.Login = data[1]
     bonus: user.Bonus or str = data[2]
     
-    with open('login.json', 'r', encoding='utf-8') as f:
+    with open('login.json', 'r', encoding='utf-8')as f:
         data22 = json.load(f)
 
         name1 = data22['cache']['replaced']['userGame'][0]['name']
@@ -23,7 +23,7 @@ def topLogin(data: list) -> None:
     if bonus != "No Bonus":
         messageBonus += f"__{bonus.message}__{nl}```{nl.join(bonus.items)}```"
 
-        if bonus.bonus_name is not None:
+        if bonus.bonus_name != None:
             messageBonus += f"{nl}__{bonus.bonus_name}__{nl}{bonus.bonus_detail}{nl}```{nl.join(bonus.bonus_camp_items)}```"
 
         messageBonus += "\n"
@@ -77,12 +77,12 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Blue Bronzed Fruit",
+                        "name": "Cobalt Bronzed Fruit",
                         "value": f"{rewards.bluebronzefruit}",
                         "inline": True
                     },
                     {
-                        "name": "Blue Bronzed Saplings",
+                        "name": "Bronzed Saplings",
                         "value": f"{rewards.bluebronzesapling}",
                         "inline": True
                     },
@@ -172,7 +172,7 @@ def drawFP(servants, missions) -> None:
 
     if (len(servants) > 0):
         servants_atlas = requests.get(
-            f"https://api.atlasacademy.io/export/NA/basic_svt.json").json()
+            f"https://api.atlasacademy.io/export/{region}/basic_svt.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
