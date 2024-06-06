@@ -118,7 +118,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://static.atlasacademy.io/JP/External/FGOPoker/295.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
                 }
             }
         ],
@@ -172,7 +172,7 @@ def drawFP(servants, missions) -> None:
 
     if (len(servants) > 0):
         servants_atlas = requests.get(
-            f"https://api.atlasacademy.io/export/NA/basic_svt.json").json()
+            f"https://api.atlasacademy.io/export/{region}/basic_svt.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
