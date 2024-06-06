@@ -1,6 +1,7 @@
 name: FGO Login System
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main" ]
   pull_request:
@@ -12,23 +13,22 @@ on:
     - cron: "15 01,13 * * *"
     - cron: "15 02,14 * * *"
     - cron: "15 06,18 * * *"
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11"]
+        python-version: [3.11]
 
-    steps: 
+    steps:
       - name: Install dependencies
         run: pip install -r https://raw.githubusercontent.com/xdeadboy666x/FGODLBNA/main/requirements.txt
         
       - name: Fetch repository files
         uses: actions/checkout@v4
-      
-      - name: Run main.py
+
+      - name: Execute script 1
         run: |
           python3 main.py
         env:
@@ -38,8 +38,8 @@ jobs:
           UserAgent: ${{ secrets.GAME_USERAGENT }}
           fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
-          
-      - name: Run main02.py
+
+      - name: Execute script 2
         run: |
           python3 main02.py
         env:
