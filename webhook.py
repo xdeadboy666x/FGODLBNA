@@ -37,7 +37,7 @@ def topLogin(data: list) -> None:
                 "color": 563455,
                 "fields": [
                     {
-                        "name": "Master Name",
+                        "name": "Name",
                         "value": f"{name1}",
                         "inline": True
                     },
@@ -47,12 +47,12 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Level",
+                        "name": "Master Level",
                         "value": f"{rewards.level}",
                         "inline": True
                     },
                     {
-                        "name": "Summon Ticket",
+                        "name": "Summon Tickets",
                         "value": f"{rewards.ticket}",
                         "inline": True
                     },
@@ -62,7 +62,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Saint Quartz Fragment",
+                        "name": "Saint Quartz Fragments",
                         "value": f"{rewards.sqf01}",
                         "inline": True
                     },
@@ -82,12 +82,12 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Bronzed Cobalt Fruit",
+                        "name": "Blue Bronzed Fruit",
                         "value": f"{rewards.bluebronzefruit}",
                         "inline": True
                     },
                     {
-                        "name": "Bronze Saplings",
+                        "name": "Blue Bronzed Saplings",
                         "value": f"{rewards.bluebronzesapling}",
                         "inline": True
                     },
@@ -102,7 +102,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Friend Points",
+                        "name": "FP",
                         "value": f"{login.total_fp}",
                         "inline": True
                     },
@@ -123,7 +123,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara16.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
                 }
             }
         ],
@@ -155,7 +155,7 @@ def shop(item: str, quantity: str) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara10.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara10.png"
                 }
             }
         ],
@@ -204,7 +204,7 @@ def drawFP(servants, missions) -> None:
                     }
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara02_rv.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara02_rv.png"
                 }
             }
         ],
@@ -216,3 +216,4 @@ def drawFP(servants, missions) -> None:
     }
 
     requests.post(endpoint, json=jsonData, headers=headers)
+    
