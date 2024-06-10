@@ -23,7 +23,7 @@ def topLogin(data: list) -> None:
     if bonus != "No Bonus":
         messageBonus += f"__{bonus.message}__{nl}```{nl.join(bonus.items)}```"
 
-        if bonus.bonus_name != None:
+        if bonus.bonus_name is not None:
             messageBonus += f"{nl}__{bonus.bonus_name}__{nl}{bonus.bonus_detail}{nl}```{nl.join(bonus.bonus_camp_items)}```"
 
         messageBonus += "\n"
@@ -37,17 +37,22 @@ def topLogin(data: list) -> None:
                 "color": 563455,
                 "fields": [
                     {
+                        "name": "Master Name",
+                        "value": f"{name1}",
+                        "inline": True
+                    },
+                    {
                         "name": "ID",
                         "value": f"{fpids1}",
                         "inline": True
                     },
                     {
-                        "name": "Master Level",
+                        "name": "Level",
                         "value": f"{rewards.level}",
                         "inline": True
                     },
                     {
-                        "name": "Summon Tickets",
+                        "name": "Summon Ticket",
                         "value": f"{rewards.ticket}",
                         "inline": True
                     },
@@ -57,7 +62,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Saint Quartz Fragments",
+                        "name": "Saint Quartz Fragment",
                         "value": f"{rewards.sqf01}",
                         "inline": True
                     },
@@ -77,12 +82,12 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "Cobalt Bronzed Fruit",
+                        "name": "Bronzed Cobalt Fruit",
                         "value": f"{rewards.bluebronzefruit}",
                         "inline": True
                     },
                     {
-                        "name": "Bronzed Saplings",
+                        "name": "Bronze Saplings",
                         "value": f"{rewards.bluebronzesapling}",
                         "inline": True
                     },
@@ -97,7 +102,7 @@ def topLogin(data: list) -> None:
                         "inline": True
                     },
                     {
-                        "name": "FP",
+                        "name": "Friend Points",
                         "value": f"{login.total_fp}",
                         "inline": True
                     },
@@ -118,7 +123,7 @@ def topLogin(data: list) -> None:
                     },
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
+                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara16.png"
                 }
             }
         ],
@@ -172,7 +177,7 @@ def drawFP(servants, missions) -> None:
 
     if (len(servants) > 0):
         servants_atlas = requests.get(
-            f"https://api.atlasacademy.io/export/{region}/basic_svt.json").json()
+            f"https://api.atlasacademy.io/export/NA/basic_svt.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
