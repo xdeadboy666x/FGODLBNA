@@ -19,28 +19,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.10]
+        python-version: [3.12]
 
     steps:
-      - name: Install dependencies
-        run: pip install -r https://raw.githubusercontent.com/xdeadboy666x/FGODLBNA/main/requirements.txt
-        
-      - name: Fetch repository files
-        uses: actions/checkout@v3
-
-      - name: Execute script 1
+      - uses: actions/checkout@v4
+      - name: Test
         run: |
+          pip install -r requirements
           python3 main.py
-        env:
-          userIds: ${{ secrets.GAME_USERIDS }}
-          authKeys: ${{ secrets.GAME_AUTHKEYS }}
-          secretKeys: ${{ secrets.GAME_SECRETKEYS }}
-          UserAgent: ${{ secrets.GAME_USERAGENT }}
-          fateRegion: ${{ secrets.GAME_REGION }}
-          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
-
-      - name: Execute script 2
-        run: |
           python3 main02.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
