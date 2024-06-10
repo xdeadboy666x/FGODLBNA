@@ -93,7 +93,7 @@ def topLogin(data: list) -> None:
                     },
                     {
                         "name": "Total Login Days",
-                        "value": f"{login.login_days}/{login.total_days}",
+                        "value": f"{login.login_days} / {login.total_days}",
                         "inline": True
                     },
                     {
