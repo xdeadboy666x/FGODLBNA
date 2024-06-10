@@ -1,6 +1,6 @@
 from typing import List
+
 import requests
-import json
 
 from mytime import GetTimeStamp
 
@@ -33,21 +33,21 @@ def GetGachaSubIdFP(region, userQuest: List = []):
     data.reverse()
 
     timeNow = GetTimeStamp()
-    activeGacha = []
+    actiaveGacha = []
     for gacha in data:
         if gacha["closedAt"] > timeNow and gacha["openedAt"] < timeNow:
-            activeGacha.append(gacha)
+            actiaveGacha.append(gacha)
         else:
             break
 
-    if len(activeGacha) == 0:
+    if len(actiaveGacha) == 0:
         # please implement webhook sned error or etc here
         pass
 
     # Start by sorting from highest to lowest priority, then within the same priority, sort by commonReleaseId
-    sortedGachaList = sorted(activeGacha, key=lambda x: (x["priority"], x["commonReleaseId"]), reverse=True)
+    sortedGachaList = sorted(actiaveGacha, key=lambda x: (x["priority"], x["commonReleaseId"]), reverse=True)
     for gacha in sortedGachaList:
         if gacha["commonReleaseId"] != 0 and isMatchedQuestCondition(region, userQuest, gacha["commonReleaseId"]):
             return gacha["id"]
         elif gacha["commonReleaseId"] == 0:
-            return str(goodGacha["id"])
+            return gacha["id"]
