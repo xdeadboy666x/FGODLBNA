@@ -5,7 +5,7 @@ from mytime import GetTimeStamp
 
 # Get Friend Summon Gacha Sub Id
 def GetGachaSubIdFP(region):
-    response = requests.get(f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstGachaSub.json");
+    response = requests.get(f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/JP/master/mstGachaSub.json");
     gachaList = json.loads(response.text)
     timeNow = GetTimeStamp()
     priority = 0
