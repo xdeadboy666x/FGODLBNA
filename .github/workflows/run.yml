@@ -1,37 +1,37 @@
-name: FGO Login System
+name: FGO Login System 
 
 on:
-  schedule:
-    - cron: "00 03 * * *"
-    - cron: "30 03 * * *"
-    - cron: "30 13 * * *"
-    - cron: "30 17 * * *"
   workflow_dispatch:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    - cron: "15 07,19 * * *"
+    - cron: "15 08,20 * * *"
+    - cron: "15 12,00 * * *"
+    - cron: "15 01,13 * * *"
+    - cron: "15 02,14 * * *"
+    - cron: "15 06,18 * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11]
+        python-version: [3.12]
     steps:
-    
-      - name: Gettings files from Repo
-        uses: actions/checkout@v2
-        
-      - name: Install Requeriments
+      - uses: actions/checkout@v4
+      - name: Execute
         run: |
           pip install -r requirements.txt
-
-      - name: Execute main script 1
-        run: |
           python3 main.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
           secretKeys: ${{ secrets.GAME_SECRETKEYS }}
+          fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          IDEMPOTENCY_KEY_SIGNATURE_SECRET: ${{ secrets.IDEMPOTENCY_KEY_SIGNATURE_SECRET }}
           DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
           USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
-
-
