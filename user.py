@@ -33,13 +33,13 @@ class ParameterBuilder:
         self.auth_key_ = auth_key
         self.secret_key_ = secret_key
         self.content_ = ''
-        self.idempotency_key_ = str(uuid.uuid4()) 
+        self.idempotency_key_ = str(uuid.uuid4())
         self.parameter_list_ = [
             ('appVer', fgourl.app_ver_),
             ('authKey', self.auth_key_),
             ('dataVer', str(fgourl.data_ver_)),
             ('dateVer', str(fgourl.date_ver_)),
-            ('idempotencyKey', self.idempotency_key_), 
+            ('idempotencyKey', self.idempotency_key_),
             ('lastAccessTime', str(mytime.GetTimeStamp())),
             ('userId', self.uid_),
             ('verCode', fgourl.ver_code_),
@@ -50,7 +50,7 @@ class ParameterBuilder:
 
     def AddParameter(self, key: str, value: str):
         self.parameter_list_.append((key, value))
-        
+
 
     def Build(self) -> str:
         self.parameter_list_.sort(key=lambda tup: tup[0])
@@ -142,13 +142,13 @@ class user:
         return res
 
     def topLogin_s(self):
-        DataWebhook = []  
+        DataWebhook = []
         device_info = os.environ.get('DEVICE_INFO_SECRET')
-        
-        with open('private_key.pem', 'rb') as f:
+
+        with open('private_key.pem', 'rb')as f:
             loaded_private_key = serialization.load_pem_private_key(
                 f.read(), password=None, backend=default_backend())
-            
+
         def sign(uuid):
             signature = loaded_private_key.sign(
                 bytes(uuid, 'utf-8'),
@@ -156,14 +156,14 @@ class user:
                 hashes.SHA256()
             )
             return base64.b64encode(signature).decode('utf-8')
-            
+
         userid = self.user_id_
         idk = self.builder_.get_idempotency_key()
         input_string = f"{userid}{idk}"
         idempotencyKeySignature = sign(input_string)
-        
+
         lastAccessTime = self.builder_.parameter_list_[5][1]
-        
+
         userState = (-int(lastAccessTime) >>
                      2) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
@@ -178,10 +178,10 @@ class user:
             f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
 
         responses = data['response']
-        
-        with open('login.json', 'w', encoding='utf-8') as file:
+
+        with open('login.json', 'w', encoding='utf-8')as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        
+
         self.name_ = hashlib.md5(
             data['cache']['replaced']['userGame'][0]['name'].encode('utf-8')).hexdigest()
         stone = data['cache']['replaced']['userGame'][0]['stone']
@@ -200,7 +200,7 @@ class user:
             if item['itemId'] == 4001:
                 ticket = item['num']
                 break
-        
+
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 100:
                 goldenfruit = item['num']
@@ -241,7 +241,7 @@ class user:
                 holygrail = item['num']
                 break
 
-        
+
         rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
 
         DataWebhook.append(rewards)
@@ -257,7 +257,7 @@ class user:
         serverTime = data['cache']['serverTime']
         ap_points = act_recover_at - serverTime
         remaining_ap = 0
-        
+
         if ap_points > 0:
             lost_ap_point = (ap_points + 299) // 300
             if act_max >= lost_ap_point:
@@ -265,7 +265,7 @@ class user:
                 remaining_ap = int(remaining_ap_int)
         else:
             remaining_ap = act_max + carryOverActPoint
-        
+
         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
 
         add_fp = data['response'][0]['success']['addFriendPoint']
@@ -312,26 +312,26 @@ class user:
             DataWebhook.append("No Bonus")
 
         webhook.topLogin(DataWebhook)
-        
+
 
     def buyBlueApple(self):
-        with open('login.json', 'r', encoding='utf-8') as file:
+        with open('login.json', 'r', encoding='utf-8')as file:
             data = json.load(file)
 
             actRecoverAt = data['cache']['replaced']['userGame'][0]['actRecoverAt']
             actMax = data['cache']['replaced']['userGame'][0]['actMax']
             carryOverActPoint = data['cache']['replaced']['userGame'][0]['carryOverActPoint']
             serverTime = data['cache']['serverTime']
-        
+
             bluebronzesapling = 0 
             for item in data['cache']['replaced']['userItem']:
                 if item['itemId'] == 103:
                     bluebronzesapling = item['num']
                     break
-                
+
             ap_points = actRecoverAt - serverTime
             remaining_ap = 0
-        
+
             if ap_points > 0:
                lost_ap_point = (ap_points + 299) // 300
                if actMax >= lost_ap_point:
@@ -346,7 +346,7 @@ class user:
                 if quantity == 0:
                     main.logger.info(f"\n ======================================== \n APが40未満の場合は購入できません (´･ω･`)? \n ======================================== ")
                     return
-                
+
                 if bluebronzesapling < quantity:
                     num_to_purchase = bluebronzesapling
                 else:
@@ -382,7 +382,7 @@ class user:
 
         if gachaSubId is None:
                gachaSubId = "0"
-            
+
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
         self.builder_.AddParameter('gachaId', '1')
@@ -429,10 +429,10 @@ class user:
 
     def lq001(self):
          # https://game.fate-go.jp/present/list?
-          
+
         data = self.Post(
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
-        
+
         responses = data['response']
         main.logger.info(f"\n ======================================== \n [+] 读取礼物盒 \n ======================================== " )
 
@@ -446,13 +446,13 @@ class user:
             if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #添加你需要领取的物品 Id 或者 baseSvtId 进入筛选列表
                 present_ids.append(str(item['presentId']))
 
-        with open('JJM.json', 'w') as f:
+        with open('JJM.json', 'w')as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
-            
+
         time.sleep(1)
 
         if os.path.exists('JJM.json'):
-            with open('JJM.json', 'r', encoding='utf-8') as file:
+            with open('JJM.json', 'r', encoding='utf-8')as file:
                 datas = json.load(file)
 
             msgpack_data = msgpack.packb(datas)
@@ -465,7 +465,7 @@ class user:
 
             data = self.Post(
                 f'{fgourl.server_addr_}/present/receive?_userId={self.user_id_}')
-    
+
             responses = data['response']
 
             main.logger.info(f"\n ======================================== \n [+] 领取成功 \n ======================================== " )
@@ -490,7 +490,7 @@ class user:
         if max_base_shop_id is not None:
             shopId = max_base_shop_id
 
-            with open('login.json', 'r', encoding='utf-8') as file:
+            with open('login.json', 'r', encoding='utf-8')as file:
                 gdata = json.load(file)
 
             num_value = None
@@ -521,7 +521,7 @@ class user:
 
                         data = self.Post(
                             f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
-                
+
                         responses = data['response'] 
                         if num is not None:
                            main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （每月）\n ======================================== ")       
@@ -541,8 +541,7 @@ class user:
                     self.builder_.AddParameter('num', str(num))
 
                     data = self.Post(
-                        f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
-                    
+                        f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
                     if num is not None:
                        main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （每月） \n ======================================== ")
 
@@ -564,10 +563,10 @@ class user:
                         current_time = response.json()['unixtime']
 
                         if current_time > closedAt:
-                            main.logger.info(f"\n ======================================== \n 目前没有 绿方块活动(´･ω･`) \n ======================================== ")
+                            main.logger.info(f"\n ======================================== \n No Mana Prism Event(´･ω･`) \n ======================================== ")
                             return
                         else:
-                            with open('login.json', 'r', encoding='utf-8') as file:
+                            with open('login.json', 'r', encoding='utf-8')as file:
                                  gdata = json.load(file)
 
                             mana = gdata['cache']['replaced']['userGame'][0]['mana']
@@ -582,11 +581,11 @@ class user:
                             if num_value is not None:
                                num_ok = 5 - num_value
                                if num_ok == 0:
-                                   main.logger.info(f"\n ======================================== \n 活动呼符 你已经兑换过了(´･ω･`) \n ======================================== ")
+                                   main.logger.info(f"\n ======================================== \n Event Summon Ticket You have already claimed this (´･ω･`).\n ======================================== ")
                                    return
                                else:
                                     if mana_s == 0:
-                                       main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n Insufficient Mana Prism (´･ω･`) \n ======================================== ")
                                     else:
                                         if num_ok > mana_s:
                                            num = mana_s
@@ -599,48 +598,26 @@ class user:
                                     data = self.Post(
                                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                     if num is not None:
-                                       main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （限时活动）\n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n Exchanged {num} Summon Tickets (Limited Time Event) \n ======================================== ")
                             else:
                                  num_ok = 5
                                  mana = gdata['cache']['replaced']['userGame'][0]['mana']
                                  mana_s = mana // 20
                                  if mana_s == 0:
-                                    main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
+                                    main.logger.info(f"\n ======================================== \n Imsufficient Mana Prism (´･ω･`) \n ======================================== ")
                                     return
                                  else:
                                      if num_ok > mana_s:
                                         num = mana_s
                                      else:
                                          num = num_ok
-                 
+
                                      self.builder_.AddParameter('id', str(shopId))
                                      self.builder_.AddParameter('num', str(num))
 
                                      data = self.Post(
                                          f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                      if num is not None:
-                                        main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （限时活动） \n ======================================== ")
+                                        main.logger.info(f"\n ======================================== \n Exchanged {num} Summon Tickets (Limited Time Event) \n ======================================== ")
                     else:
-                        main.logger.info(f"时间服务器连接失败")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        main.logger.info(f"Time server connection failed."")
