@@ -620,4 +620,4 @@ class user:
                                      if num is not None:
                                         main.logger.info(f"\n ======================================== \n Exchanged {num} Summon Tickets (Limited Time Event) \n ======================================== ")
                     else:
-                        main.logger.info(f"Time server connection failed."")
+                        main.logger.info(f"Time server connection failed.")
