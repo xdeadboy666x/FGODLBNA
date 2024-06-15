@@ -438,7 +438,7 @@ class user:
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?
-        with open('login.json', 'r', encoding='utf-8')as f:
+        with open('login.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
 
         present_ids = []
