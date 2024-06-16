@@ -1,15 +1,17 @@
 import main
 import requests
-import user
 import json
-from typing import List, Union
+from typing import List, Union, TYPE_CHECKING
 
-def topLogin(data: List[Union[user.Rewards, user.Login, Union[user.Bonus, str]]]) -> None:
+if TYPE_CHECKING:
+    from user import Rewards, Login, Bonus
+
+def topLogin(data: List[Union['Rewards', 'Login', Union['Bonus', str]]]) -> None:
     endpoint = main.webhook_discord_url
 
-    rewards: user.Rewards = data[0]
-    login: user.Login = data[1]
-    bonus: Union[user.Bonus, str] = data[2]
+    rewards: 'Rewards' = data[0]
+    login: 'Login' = data[1]
+    bonus: Union['Bonus', str] = data[2]
     
     with open('login.json', 'r', encoding='utf-8') as f:
         data22 = json.load(f)
