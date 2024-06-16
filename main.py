@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 from croniter import croniter
 import fgourl
-import user
+from user import User  # Import the User class directly
 import coloredlogs
 import logging
 
@@ -16,6 +16,7 @@ secretKeys = os.environ['secretKeys'].split(',')
 fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
+
 UA = os.environ['UserAgent']
 
 if UA:
@@ -34,7 +35,7 @@ def check_blue_apple_cron(instance):
         cron = croniter(blue_apple_cron)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
-        
+
         if current_date >= next_date:
             logger.info('Exchanging Blue Fruit!')
             instance.buyBlueApple(1)
@@ -62,7 +63,7 @@ def main():
 
         for i in range(userNums):
             try:
-                instance = user.User(userIds[i], authKeys[i], secretKeys[i])
+                instance = User(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 logger.info('Logging in...')
                 instance.topLogin()
