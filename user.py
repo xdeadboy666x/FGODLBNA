@@ -235,7 +235,7 @@ class user:
         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
 
         add_fp = data['response'][0]['success']['addFriendPoint']
-        total_fp = data['cache']['replaced']['tblUserGame'][0]['friendPoint']rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, remaining_ap, holygrail)
+        total_fp = data['cache']['replaced']['UserGame'][0]['friendPoint']rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, remaining_ap, holygrail)
 
         login = Login(
             self.name_,
