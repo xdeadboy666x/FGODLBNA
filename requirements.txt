@@ -1,3 +1,4 @@
+croniter
 json5
 httpx
 lxml
@@ -7,3 +8,4 @@ msgpack
 coloredlogs
 fake-useragent
 cryptography~=42.0.7
+rich
