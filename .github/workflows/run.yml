@@ -19,6 +19,10 @@ jobs:
       matrix:
         python-version: [3.12]
     steps:
+      - name: Set Time Zone
+        run: |
+           sudo timedatectl set-timezone 'America/Mexico_City'
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
