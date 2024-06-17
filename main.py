@@ -51,6 +51,28 @@ def get_latest_verCode():
         logger.error(f"Failed to fetch the latest version code: {e}")
         raise
 
+def GetGachaSubIdFP(region):
+    try:
+        response = requests.get(f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/{region}/master/mstGachaSub.json")
+        response.raise_for_status()
+        gachaList = response.json()
+        timeNow = int(time.time())
+        priority = 0
+        goodGacha = {}
+        for gacha in gachaList:
+            openedAt = gacha["openedAt"]
+            closedAt = gacha["closedAt"]
+
+            if openedAt <= timeNow <= closedAt:
+                p = int(gacha["priority"])
+                if p > priority:
+                    priority = p
+                    goodGacha = gacha
+        return str(goodGacha.get("id", None))  # Return None if no valid Gacha ID is found
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch Gacha Sub ID: {e}")
+        return None
+
 def main():
     if userNums == authKeyNums == secretKeyNums:
         logger.info('Fetching Game Data')
@@ -59,6 +81,9 @@ def main():
         except Exception as ex:
             logger.error(f"Failed to set latest assets: {ex}")
             return
+
+        gachaSubId = GetGachaSubIdFP(fate_region)
+        logger.info(f"Friend Point Gacha Sub Id: {gachaSubId}")
 
         for i in range(userNums):
             try:
@@ -80,7 +105,7 @@ def main():
 
                 check_blue_apple_cron(instance)
 
-                logger.info('Exchanging Bronzed Cobalt Fruit!')
+                logger.info('Exchanging Blue Fruit!')
                 try:
                     instance.buyBlueApple(1)
                     time.sleep(2)
@@ -96,7 +121,7 @@ def main():
                         instance.drawFP()
                         time.sleep(4)
                 except Exception as ex:
-                    logger.error(f"Failed during FP summon: {ex}")
+                    logger.error(f"Failed during FP summon: {ex}, Current Gacha Sub ID: {gachaSubId}")
 
             except Exception as ex:
                 logger.error(f"Error during user operation: {ex}")
