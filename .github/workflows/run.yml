@@ -1,4 +1,4 @@
-name: FGO Login System 
+name: FGO Login System
 
 on:
   workflow_dispatch:
@@ -7,16 +7,14 @@ on:
   pull_request:
     branches: [master]
   schedule:
+    - cron: "15 04,16 * * *"
     - cron: "15 07,19 * * *"
-    - cron: "15 08,20 * * *"
-    - cron: "15 12,00 * * *"
-    - cron: "15 01,13 * * *"
-    - cron: "15 02,14 * * *"
-    - cron: "15 06,18 * * *"
+    - cron: "15 10,22 * * *"
+    - cron: "15 13,01 * * *"
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         python-version: [3.12]
