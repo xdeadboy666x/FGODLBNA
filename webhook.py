@@ -46,9 +46,8 @@ def topLogin(data: list) -> None:
                     {"name": "Bronze Fruit", "value": f"{rewards.bronzefruit}", "inline": True},
                     {"name": "Bronzed Cobalt Fruit", "value": f"{rewards.bluebronzefruit}", "inline": True},
                     {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
-                    {"name": "Consecutive Login Days", "value": f"{login.login_days}", "inline": True},
-                    {"name": "Total Login Days", "value": f"{login.total_days}", "inline": True},
-                    {"name": "Mana Prism", "value": f"{rewards.pureprism}", "inline": True},
+                    {"name": "Total Login Days", "value": f"{login.login_days} / {login.total_days}", "inline": True},
+                    {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
                     {"name": "Friend Points", "value": f"{login.total_fp}", "inline": True},
                     {"name": "Friend Points Earned Today", "value": f"+{login.add_fp}", "inline": True},
                     {"name": "Current AP", "value": f"{login.remaining_ap}", "inline": True},
@@ -99,7 +98,7 @@ def drawFP(servants, missions) -> None:
     
     if len(servants) > 0:
         servants_atlas = requests.get(
-            f"https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
+            f"https://api.atlasacademy.io/export/{region}/basic_svt_lang_en.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
@@ -123,7 +122,7 @@ def drawFP(servants, missions) -> None:
                     {"name": "Friend Point Summon Pool", "value": f"{message_servant}", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara02_rv.png"
+                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara04_rv.png"
                 }
             }
         ],
