@@ -94,7 +94,7 @@ class Rewards:
 
 
 class Login:
-    def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp):
+    def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp, remaining_ap):
         self.name = name
         self.login_days = login_days
         self.total_days = total_days
@@ -103,6 +103,7 @@ class Login:
         self.now_act = now_act
         self.add_fp = add_fp
         self.total_fp = total_fp
+        self.remaining_ap = remaining_ap
 
 
 class Bonus:
@@ -205,21 +206,36 @@ class user:
             if item['itemId'] == 7999:
                 holygrail = item['num']
                 break
-
+                
         
         rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
-
+        
         DataWebhook.append(rewards)
 
         login_days = data['cache']['updated']['userLogin'][0]['seqLoginCount']
         total_days = data['cache']['updated']['userLogin'][0]['totalLoginCount']
+        name1 = data['cache']['replaced']['userGame'][0]['name']
+        fpids1 = data['cache']['replaced']['userGame'][0]['friendCode']
 
         act_max = data['cache']['replaced']['userGame'][0]['actMax']
         act_recover_at = data['cache']['replaced']['userGame'][0]['actRecoverAt']
+        carryOverActPoint = data['cache']['replaced']['userGame'][0]['carryOverActPoint']
+        serverTime = data['cache']['serverTime']
+        ap_points = act_recover_at - serverTime
+        remaining_ap = 0
+        
+        if ap_points > 0:
+            lost_ap_point = (ap_points + 299) // 300
+            if act_max >= lost_ap_point:
+                remaining_ap_int = act_max - lost_ap_point
+                remaining_ap = int(remaining_ap_int)
+        else:
+            remaining_ap = act_max + carryOverActPoint
+        
         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
 
         add_fp = data['response'][0]['success']['addFriendPoint']
-        total_fp = data['cache']['replaced']['tblUserGame'][0]['friendPoint']
+        total_fp = data['cache']['replaced']['tblUserGame'][0]['friendPoint']rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
 
         login = Login(
             self.name_,
@@ -228,7 +244,8 @@ class user:
             act_max, act_recover_at,
             now_act,
             add_fp,
-            total_fp
+            total_fp,
+            remaining_ap
         )
 
         DataWebhook.append(login)
@@ -393,32 +410,68 @@ class user:
             DataWebhook.append("No Bonus")
 
 
-    def buyBlueApple(self, quantity=1):
-        # https://game.fate-go.jp/shop/purchase
+    def buyBlueApple(self):
+        with open('login.json', 'r', encoding='utf-8')as file:
+            data = json.load(file)
+
+            actRecoverAt = data['cache']['replaced']['userGame'][0]['actRecoverAt']
+            actMax = data['cache']['replaced']['userGame'][0]['actMax']
+            carryOverActPoint = data['cache']['replaced']['userGame'][0]['carryOverActPoint']
+            serverTime = data['cache']['serverTime']
         
+            bluebronzesapling = 0 
+            for item in data['cache']['replaced']['userItem']:
+                if item['itemId'] == 103:
+                    bluebronzesapling = item['num']
+                    break
+                
+            ap_points = actRecoverAt - serverTime
+            remaining_ap = 0
         
-        self.builder_.AddParameter('id', '13000000')
-        self.builder_.AddParameter('num', str(quantity))
+            if ap_points > 0:
+               lost_ap_point = (ap_points + 299) // 300
+               if actMax >= lost_ap_point:
+                   remaining_ap = actMax - lost_ap_point
+                   remaining_ap_int = int(remaining_ap)
+            else:
+                remaining_ap = actMax + carryOverActPoint
+                remaining_ap_int = int(remaining_ap)
 
-        data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
-        responses = data['response']
+            if bluebronzesapling > 0:
+                quantity = remaining_ap_int // 40
+                if quantity == 0:
+                    main.logger.info(f"\n ======================================== \n APが40未満の場合は購入できません (´･ω･`)? \n ======================================== ")
+                    return
+                
+                if bluebronzesapling < quantity:
+                    num_to_purchase = bluebronzesapling
+                else:
+                    num_to_purchase = quantity
 
-        for response in responses:
-            resCode = response['resCode']
-            resSuccess = response['success']
-            nid = response["nid"]
+                self.builder_.AddParameter('id', '13000000')
+                self.builder_.AddParameter('num', str(num_to_purchase))
 
-            if (resCode != "00"):
-                continue
+                data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
+                responses = data['response']
 
-            if nid == "purchase":
-                if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
-                    purchaseName = resSuccess['purchaseName']
-                    purchaseNum = resSuccess['purchaseNum']
+                for response in responses:
+                    resCode = response['resCode']
+                    resSuccess = response['success']
+                    nid = response["nid"]
 
-                    main.logger.info(f"{purchaseNum}x {purchaseName} purchased!")
-                    webhook.shop(purchaseName, purchaseNum)
-    
+                    if (resCode != "00"):
+                        continue
+
+                    if nid == "purchase":
+                        if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                            purchaseName = resSuccess['purchaseName']
+                            purchaseNum = resSuccess['purchaseNum']
+
+                            main.logger.info(f"\n========================================\n[+] {purchaseNum}x {purchaseName} 购买成功\n========================================")
+                            webhook.shop(purchaseName, purchaseNum)
+            else:
+                main.logger.info(f"\n ======================================== \n ＞︿＜ 青銅の苗木が足りないヽ (*。>Д<)o゜ \n ======================================== " )
+
 
     def drawFP(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
