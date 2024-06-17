@@ -29,6 +29,12 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
+      - name: Run linting
+        run: pip install flake8 && flake8 .
+
+      - name: Run tests
+        run: python3 -m unittest discover tests
+
       - name: Run script
         run: python3 main.py
         env:
