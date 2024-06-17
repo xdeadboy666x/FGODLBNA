@@ -35,7 +35,7 @@ def topLogin(data: List[Union['Rewards', 'Login', Union['Bonus', str]]]) -> None
         "embeds": [
             {
                 "title": "FGO Login System - " + main.fate_region,
-                "description": f"Scheduled Login to Fate/Grand Order.\n\n{messageBonus}",
+                "description": f"Scheduled Login to Fate\/Grand Order.\n\n{messageBonus}",
                 "color": 563455,
                 "fields": [
                     {"name": "Name", "value": f"{name1}", "inline": True},
