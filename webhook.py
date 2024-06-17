@@ -49,7 +49,7 @@ def topLogin(data: List[Union['Rewards', 'Login', Union['Bonus', str]]]) -> None
                     {"name": "Bronze Fruit", "value": f"{rewards.bronzefruit}", "inline": True},
                     {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
                     {"name": "Bronzed Cobalt Fruit", "value": f"{rewards.bluebronzefruit}", "inline": True},
-                    {"name": "Total Login Days", "value": f"{login.login_days} / {login.total_days}", "inline": True},
+                    {"name": "Total Login Days", "value": f"{login.login_days} \/ {login.total_days}", "inline": True},
                     {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
                     {"name": "FP", "value": f"{login.total_fp}", "inline": True},
                     {"name": "Gained FP", "value": f"+{login.add_fp}", "inline": True},
