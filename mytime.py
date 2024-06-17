@@ -1,21 +1,21 @@
 from datetime import datetime, timedelta, timezone
 
-tz_utc_minus_7 = timezone(timedelta(hours=-7))
+tz_utc_plus_9 = timezone(timedelta(hours=9))
 
 def GetNowTimeHour():
-    return datetime.now(tz=tz_utc_minus_7).hour
+    return datetime.now(tz=tz_utc_plus_9).hour
 
 def GetNowTime():
-    return datetime.now(tz=tz_utc_minus_7)
+    return datetime.now(tz=tz_utc_plus_9)
 
 def GetFormattedNowTime():
-    return datetime.now(tz=tz_utc_minus_7).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.now(tz=tz_utc_plus_9).strftime('%Y-%m-%d %H:%M:%S')
 
 def GetTimeStamp():
-    return int(datetime.now(tz=tz_utc_minus_7).timestamp())
+    return int(datetime.now(tz=tz_utc_plus_9).timestamp())
 
 def TimeStampToString(timestamp):
-    return datetime.fromtimestamp(timestamp, tz=tz_utc_minus_7)
+    return datetime.fromtimestamp(timestamp, tz=tz_utc_plus_9)
 
 def GetNowTimeFileName():
-    return datetime.now(tz=tz_utc_minus_7).strftime('%Y/%m/%d.log')
+    return datetime.now(tz=tz_utc_plus_9).strftime('%Y/%m/%d.log')
