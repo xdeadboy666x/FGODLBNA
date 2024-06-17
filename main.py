@@ -2,87 +2,83 @@ import os
 import requests
 import time
 import json
-from datetime import datetime
-from croniter import croniter
 import fgourl
 import user
 import coloredlogs
 import logging
 
-# Environment Variables
-userIds = os.environ['userIds'].split(',')
-authKeys = os.environ['authKeys'].split(',')
-secretKeys = os.environ['secretKeys'].split(',')
-fate_region = os.environ['fateRegion']
-webhook_discord_url = os.environ['webhookDiscord']
-blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
+# Setup logger
+logger = logging.getLogger("FGO Daily Login")
+coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
-UA = os.environ['UserAgent']
+# Check and retrieve environment variables
+def get_env_var(var_name):
+    value = os.environ.get(var_name)
+    if not value:
+        logger.error(f"Environment variable {var_name} is not set.")
+        raise EnvironmentError(f"Environment variable {var_name} is not set.")
+    return value.split(',')
 
-if UA:
-    fgourl.user_agent_ = UA
+try:
+    userIds = get_env_var('userIds')
+    authKeys = get_env_var('authKeys')
+    secretKeys = get_env_var('secretKeys')
+    webhook_discord_url = os.environ.get('webhookDiscord')
+    #device_info = os.environ.get('DEVICE_INFO_SECRET')
+    #user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
+except EnvironmentError as e:
+    logger.critical(e)
+    exit(1)
+
+fate_region = 'NA'
 
 userNums = len(userIds)
 authKeyNums = len(authKeys)
 secretKeyNums = len(secretKeys)
 
-logger = logging.getLogger("FGO Daily Login")
-coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
-
-
-def check_blue_apple_cron(instance):
-    if blue_apple_cron:
-        cron = croniter(blue_apple_cron)
-        next_date = cron.get_next(datetime)
-        current_date = datetime.now()
-
-        if current_date >= next_date:
-            logger.info('Exchanging Blue Fruit!')
-            instance.buyBlueApple(1)
-            time.sleep(2)
-
-
 def get_latest_verCode():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
-
-    response = requests.get(endpoint).text
-    response_data = json.loads(response)
-
-    return response_data['verCode']
-
+    try:
+        endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/JP/VerCode.json"
+        response = requests.get(endpoint)
+        response.raise_for_status()
+        response_data = response.json()
+        return response_data['verCode']
+    except requests.RequestException as e:
+        logger.error(f"Failed to get the latest verCode: {e}")
+        raise
 
 def main():
-    if userNums == authKeyNums and userNums == secretKeyNums:
-        logger.info('Fetching Game Data')
-        fgourl.set_latest_assets()
+    if userNums == authKeyNums == secretKeyNums:
+        try:
+            fgourl.set_latest_assets()
+        except Exception as ex:
+            logger.error(f"Failed to set latest assets: {ex}")
+            return
 
         for i in range(userNums):
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info('Logging in...')
-                instance.topLogin()
+                logger.info(f"Logging in to account {i+1}/{userNums}")
+
+                time.sleep(1)
+                instance.topLogin_s()
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
                 instance.lq001()
                 instance.lq002()
                 time.sleep(2)
-
-                check_blue_apple_cron(instance)
-                logger.info('Exchanging Bronzed Cobalt Fruit!')
-                try:
-                    instance.buyBlueApple(1)
-                    time.sleep(2)
-                    for _ in range(3):
-                        instance.buyBlueApple(1)
-                        time.sleep(2)
-                except Exception as ex:
-                    logger.error(ex)
-
+                instance.buyBlueApple()
+                time.sleep(1)
+                instance.lq003()
+                time.sleep(1)
+                instance.drawFP()
             except Exception as ex:
-                logger.error(ex)
-
+                logger.error(f"Error with account {i+1}/{userNums}: {ex}")
+    else:
+        logger.error("The number of user IDs, auth keys, and secret keys do not match.")
+        raise ValueError("Mismatched user IDs, auth keys, and secret keys count.")
 
 if __name__ == "__main__":
     main()
