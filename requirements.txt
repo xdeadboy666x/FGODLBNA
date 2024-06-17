@@ -7,3 +7,4 @@ py3rijndael
 msgpack
 coloredlogs
 croniter
+rich
