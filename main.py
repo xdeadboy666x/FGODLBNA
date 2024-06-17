@@ -16,7 +16,7 @@ secretKeys = os.environ['secretKeys'].split(',')
 fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
-UA = os.environ['UserAgent']
+UA = os.environ.get('UserAgent')
 
 if UA:
     fgourl.user_agent_ = UA
