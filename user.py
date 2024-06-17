@@ -135,7 +135,7 @@ class user:
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('deviceInfo', device_info)
+        self.builder_.AddParameter('deviceInfo', 'HUAWEI MAR-LX3Bm / Android OS 10 / API-29 (MAR-L03B 10.0.0.274(C69E7R1P1)/10.0.0.274C69)')
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
@@ -269,7 +269,7 @@ class user:
 
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter('deviceInfo', device_info)
+        self.builder_.AddParameter('deviceInfo', 'HUAWEI MAR-LX3Bm / Android OS 10 / API-29 (MAR-L03B 10.0.0.274(C69E7R1P1)/10.0.0.274C69)')
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
