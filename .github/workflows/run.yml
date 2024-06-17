@@ -21,11 +21,16 @@ jobs:
       matrix:
         python-version: [3.12]
     steps:
-      - uses: actions/checkout@v4
-      - name: Execute
-        run: |
-          pip install -r requirements.txt
-          python3 main.py
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run script
+        run: python3 main.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
