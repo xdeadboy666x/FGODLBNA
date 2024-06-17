@@ -29,7 +29,6 @@ jobs:
         run: |
           pip install -r requirements.txt
           python3 main.py
-          python3 main02.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
