@@ -60,7 +60,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info('Loggin in...')
+                logger.info('Logging in...')
                 instance.topLogin()
                 time.sleep(2)
                 instance.topHome()
