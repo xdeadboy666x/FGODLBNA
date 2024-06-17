@@ -39,7 +39,7 @@ class ParameterBuilder:
             ('authKey', self.auth_key_),
             ('dataVer', str(fgourl.data_ver_)),
             ('dateVer', str(fgourl.date_ver_)),
-            ('idempotencyKey', str(uuid.uuid4())),
+            ('idempotencyKey', self.idempotency_key_), 
             ('lastAccessTime', str(mytime.GetTimeStamp())),
             ('userId', self.uid_),
             ('verCode', fgourl.ver_code_),
