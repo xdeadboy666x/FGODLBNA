@@ -54,7 +54,7 @@ def topLogin(data: list) -> None:
                     {"name": "Holy Grail", "value": f"{rewards.holygrail}", "inline": True},
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara16.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
                 }
             }
         ],
@@ -79,7 +79,7 @@ def shop(item: str, quantity: str) -> None:
                     {"name": f"Shop", "value": f"Spent {40 * quantity} AP to buy {quantity}x {item}", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara10.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara10.png"
                 }
             }
         ],
@@ -122,7 +122,7 @@ def drawFP(servants, missions) -> None:
                     {"name": "Friend Point Summon Pool", "value": f"{message_servant}", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara04_rv.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara04_rv.png"
                 }
             }
         ],
