@@ -113,7 +113,7 @@ def main():
                         instance.buyBlueApple(1)
                         time.sleep(2)
                 except Exception as ex:
-                    logger.error(ex)
+                    logger.error(f"Failed during Blue Apple exchange: {ex}")
 
                 try:
                     logger.info('Pulling FP Summon!')
