@@ -98,7 +98,7 @@ def drawFP(servants, missions) -> None:
     
     if len(servants) > 0:
         servants_atlas = requests.get(
-            f"https://api.atlasacademy.io/export/{region}/basic_svt_lang_en.json").json()
+            f"https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
