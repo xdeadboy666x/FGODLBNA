@@ -145,7 +145,7 @@ class user:
         DataWebhook = []  
         device_info = os.environ.get('DEVICE_INFO_SECRET')
         
-        with open('private_key.pem', 'rb')as f:
+        with open('private_key.pem', 'rb') as f:
             loaded_private_key = serialization.load_pem_private_key(
                 f.read(), password=None, backend=default_backend())
             
@@ -179,7 +179,7 @@ class user:
 
         responses = data['response']
         
-        with open('login.json', 'w', encoding='utf-8')as file:
+        with open('login.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
         
         self.name_ = hashlib.md5(
@@ -315,7 +315,7 @@ class user:
         
 
     def buyBlueApple(self):
-        with open('login.json', 'r', encoding='utf-8')as file:
+        with open('login.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
             actRecoverAt = data['cache']['replaced']['userGame'][0]['actRecoverAt']
@@ -438,7 +438,7 @@ class user:
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?
-        with open('login.json', 'r', encoding='utf-8') as f:
+        with open('login.json', 'r', encoding='utf-8')as f:
             data = json.load(f)
 
         present_ids = []
@@ -446,13 +446,13 @@ class user:
             if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #添加你需要领取的物品 Id 或者 baseSvtId 进入筛选列表
                 present_ids.append(str(item['presentId']))
 
-        with open('JJM.json', 'w')as f:
+        with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
             
         time.sleep(1)
 
         if os.path.exists('JJM.json'):
-            with open('JJM.json', 'r', encoding='utf-8')as file:
+            with open('JJM.json', 'r', encoding='utf-8') as file:
                 datas = json.load(file)
 
             msgpack_data = msgpack.packb(datas)
@@ -490,7 +490,7 @@ class user:
         if max_base_shop_id is not None:
             shopId = max_base_shop_id
 
-            with open('login.json', 'r', encoding='utf-8')as file:
+            with open('login.json', 'r', encoding='utf-8') as file:
                 gdata = json.load(file)
 
             num_value = None
@@ -567,7 +567,7 @@ class user:
                             main.logger.info(f"\n ======================================== \n 目前没有 绿方块活动(´･ω･`) \n ======================================== ")
                             return
                         else:
-                            with open('login.json', 'r', encoding='utf-8')as file:
+                            with open('login.json', 'r', encoding='utf-8') as file:
                                  gdata = json.load(file)
 
                             mana = gdata['cache']['replaced']['userGame'][0]['mana']
@@ -622,3 +622,25 @@ class user:
                                         main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （限时活动） \n ======================================== ")
                     else:
                         main.logger.info(f"时间服务器连接失败")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
