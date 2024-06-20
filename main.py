@@ -40,7 +40,7 @@ secretKeyNums = len(secretKeys)
 
 def get_latest_verCode():
     try:
-        endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/JP/VerCode.json"
+        endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor-JP/JP/VerCode.json"
         response = requests.get(endpoint)
         response.raise_for_status()
         response_data = response.json()
