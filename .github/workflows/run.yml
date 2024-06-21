@@ -7,10 +7,11 @@ on:
   pull_request:
     branches: [master]
   schedule:
-    - cron: "15 04,16 * * *"
-    - cron: "15 07,19 * * *"
-    - cron: "15 10,22 * * *"
-    - cron: "15 13,01 * * *"
+    - cron: "15 19,07 * * *"
+    - cron: "55 20,08 * * *"
+    - cron: "15 12,00 * * *"
+    - cron: "35 03,06 * * *"
+    - cron: "15 05,10 * * *" 
 
 jobs:
   build:
@@ -20,18 +21,12 @@ jobs:
         python-version: [3.12]
     steps:
       - name: Set Time Zone
-        run: |
-           sudo timedatectl set-timezone 'America/Mexico_City'
+        run: sudo timedatectl set-timezone 'America/Mexico_City'
 
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install requirements
+      - name: Install dependencies
         run: pip install -r requirements.txt
 
       - name: Run script
