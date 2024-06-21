@@ -19,6 +19,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.12]
+
     steps:
       - name: Set Time Zone
         run: sudo timedatectl set-timezone 'America/Mexico_City'
@@ -26,8 +27,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip3 install -r requirements.txt
 
       - name: Run script
         run: python3 main.py
