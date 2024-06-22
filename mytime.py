@@ -1,18 +1,16 @@
 import math
 from datetime import datetime, timedelta, timezone
 
-# Set timezone to UTC+9
-tz_utc_9 = timezone(timedelta(hours=9))
 
 class MyTime:
     @classmethod
     def get_timestamp(cls):
-        return int(datetime.now().timestamp())  # FGO uses UTC time
+        return int(datetime.now().timestamp())  # FGO use UTC time
 
     @classmethod
     def is_Free_FP_draw_available(cls, last_free_draw_timestamp_utc: int):
         JST = timezone(timedelta(hours=+9))
-        # get last free draw time in GMT+0 and convert to GMT+9 to the next day
+        # get last free draw time in GTM+0 and convert to GTM+9 to the next day
         dt_utc = datetime.fromtimestamp(last_free_draw_timestamp_utc, timezone.utc)
         dt_japan = dt_utc.astimezone(JST)
         next_midnight = datetime(dt_japan.year, dt_japan.month, dt_japan.day, tzinfo=JST) + timedelta(days=1)
@@ -26,23 +24,4 @@ class MyTime:
 
     @classmethod
     def get_used_act_ammount(cls, full_recover_at: int):
-        return max(0, math.ceil((full_recover_at - cls.get_timestamp()) / 300))
-
-# Existing functions with timezone set to UTC+9
-def GetNowTimeHour():
-    return datetime.now(tz=tz_utc_9).hour
-
-def GetNowTime():
-    return datetime.now(tz=tz_utc_9)
-
-def GetFormattedNowTime():
-    return datetime.now(tz=tz_utc_9).strftime('%Y-%m-%d %H:%M:%S')
-
-def GetTimeStamp():
-    return int(datetime.now(tz=tz_utc_9).timestamp())
-
-def TimeStampToString(timestamp):
-    return datetime.fromtimestamp(timestamp, tz=tz_utc_9).strftime('%Y-%m-%d %H:%M:%S')
-
-def GetNowTimeFileName():
-    return datetime.now(tz=tz_utc_9).strftime('%Y/%m/%d.log')
+        return max(0, math.ceil((full_recover_at - cls.get_timestamp() / 300)))
