@@ -1,5 +1,6 @@
 # utf-8
 croniter
+fgo-api-types
 json5
 httpx
 lxml
@@ -7,3 +8,4 @@ requests
 py3rijndael
 msgpack
 coloredlogs
+pytz
