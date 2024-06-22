@@ -340,13 +340,17 @@ class user:
             else:
                 remaining_ap = actMax + carryOverActPoint
                 remaining_ap_int = int(remaining_ap)
-
+                act_now = act_now  - MyTime.get_used_act_ammount(player_info.act_full_recover_time)
+                buy_count = int(act_now / 40)
+                actual_count = 0
             if bluebronzesapling > 0:
                 quantity = remaining_ap_int // 40
                 if quantity == 0:
                     main.logger.info(f"\n ======================================== \n Cannot purchase if AP is less than 40 (´･ω･`)? \n ======================================== ")
                     return
-                
+                elif blue_apple_sapling < buy_count:
+    # Set actual_count to blue_apple_sapling 
+                    else:
                 if bluebronzesapling < quantity:
                     num_to_purchase = bluebronzesapling
                 else:
@@ -378,6 +382,9 @@ class user:
 
 
     def drawFP(self):
+        is_available = MyTime.is_Free_FP_draw_available(self.last_free_friend_point_draw)
+        if is_available:
+    # Get subId and draw
         gachaSubId = GetGachaSubIdFP("JP")
 
         if gachaSubId is None:
@@ -422,6 +429,7 @@ class user:
                     )
 
         webhook.drawFP(servantArray, missionArray)
+else:
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
