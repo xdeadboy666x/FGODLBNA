@@ -350,7 +350,6 @@ class user:
                     return
                 elif blue_apple_sapling < buy_count:
     # Set actual_count to blue_apple_sapling 
-                    else:
                 if bluebronzesapling < quantity:
                     num_to_purchase = bluebronzesapling
                 else:
