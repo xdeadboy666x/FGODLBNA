@@ -7,12 +7,9 @@ on:
   pull_request:
     branches: [master]
   schedule:
-    - cron: "15 19,07 * * *"
-    - cron: "55 20,08 * * *"
-    - cron: "15 12,00 * * *"
-    - cron: "35 03,06 * * *"
-    - cron: "15 05,10 * * *" 
-
+  - cron: "15 19,00,05,07,10,12 * * *"
+  - cron: "55 20,08 * * *"
+  - cron: "35 03,15 * * *"
 jobs:
   build:
     runs-on: ubuntu-latest
