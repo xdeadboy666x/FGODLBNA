@@ -371,7 +371,7 @@ class user:
                             purchaseName = resSuccess['purchaseName']
                             purchaseNum = resSuccess['purchaseNum']
 
-                            main.logger.info(f"\n========================================\n[+] {purchaseNum}x {purchaseName} 购买成功\n========================================")
+                            main.logger.info(f"\n========================================\n[+] {purchaseNum}x {purchaseName} success! \n========================================")
                             webhook.shop(purchaseName, purchaseNum)
             else:
                 main.logger.info(f"\n ======================================== \n ＞︿＜ Bronze seedlings are not enough. (*。>Д<)o゜ \n ======================================== " )
@@ -599,7 +599,7 @@ class user:
                                     data = self.Post(
                                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                     if num is not None:
-                                       main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （限时活动) \n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n Redeemed {num} Call Sign (Limited Time Event) \n ======================================== ")
                             else:
                                  num_ok = 5
                                  mana = gdata['cache']['replaced']['userGame'][0]['mana']
