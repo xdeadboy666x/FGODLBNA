@@ -33,7 +33,7 @@ def topLogin(data: list) -> None:
             {
                 "title": f"Fate/Grand Order Login System - {main.fate_region}",
                 "description": f"Login success.\n\n{messageBonus}",
-                "color": 0xFFB86C,  # Dracula background color
+                "color": 0xBD93F9,  # Dracula background color
                 "fields": [
                     {"name": "Master Name", "value": f"{name1}", "inline": True},
                     {"name": "Friend Code", "value": f"{fpids1}", "inline": True},
@@ -74,7 +74,7 @@ def shop(item: str, quantity: int) -> None:
             {
                 "title": f"Bronze Cobalt Fruit Shop - {main.fate_region}",
                 "description": "Successful exchange.",
-                "color": 0xF1FA8C,  # Dracula orange color
+                "color": 0x6272A4,  # Dracula orange color
                 "fields": [
                     {"name": "Shop", "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item} (40 AP each)", "inline": False}
                 ],
