@@ -15,7 +15,7 @@ def topLogin(data: list) -> None:
 
         name1 = data22['cache']['replaced']['userGame'][0]['name']
         fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
-    
+
     messageBonus = ''
     nl = '\n'
 
@@ -31,9 +31,9 @@ def topLogin(data: list) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Login System - " + main.fate_region,
-                "description": f"Login successful. Displaying Master details.\n\n{messageBonus}",
-                "color": 563455,
+                "title": f"Fate/Grand Order Login System - {main.fate_region}",
+                "description": f"Login success.\n\n{messageBonus}",
+                "color": 0x282a36,  # Dracula background color
                 "fields": [
                     {"name": "Master Name", "value": f"{name1}", "inline": True},
                     {"name": "Friend Code", "value": f"{fpids1}", "inline": True},
@@ -44,7 +44,7 @@ def topLogin(data: list) -> None:
                     {"name": "Golden Fruit", "value": f"{rewards.goldenfruit}", "inline": True},
                     {"name": "Silver Fruit", "value": f"{rewards.silverfruit}", "inline": True},
                     {"name": "Bronze Fruit", "value": f"{rewards.bronzefruit}", "inline": True},
-                    {"name": "Bronzed Cobalt Fruit", "value": f"{rewards.bluebronzefruit}", "inline": True},
+                    {"name": "Bronze Cobalt Fruit", "value": f"{rewards.bluebronzefruit}", "inline": True},
                     {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
                     {"name": "Total Login Days", "value": f"{login.login_days} / {login.total_days}", "inline": True},
                     {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
@@ -65,18 +65,18 @@ def topLogin(data: list) -> None:
     response = requests.post(endpoint, json=jsonData, headers=headers)
     print("topLogin response:", response.status_code, response.text)
 
-def shop(item: str, quantity: str) -> None:
+def shop(item: str, quantity: int) -> None:
     endpoint = main.webhook_discord_url
-    
+
     jsonData = {
         "content": None,
         "embeds": [
             {
-                "title": "FGO Auto Shop System - " + main.fate_region,
-                "description": f"Purchase successful.",
-                "color": 5814783,
+                "title": f"Bronze Cobalt Fruit Shop - {main.fate_region}",
+                "description": "Successful exchange.",
+                "color": 0xffb86c,  # Dracula orange color
                 "fields": [
-                    {"name": f"Shop", "value": f"Spent {40 * quantity} AP to buy {quantity}x {item}", "inline": False}
+                    {"name": "Shop", "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item} (40 AP each)", "inline": False}
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara10.png"
@@ -95,10 +95,10 @@ def drawFP(servants, missions) -> None:
 
     message_mission = ""
     message_servant = ""
-    
+
     if len(servants) > 0:
         servants_atlas = requests.get(
-            f"https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
+            "https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
@@ -115,11 +115,11 @@ def drawFP(servants, missions) -> None:
         "content": None,
         "embeds": [
             {
-                "title": "FGO Auto Summoning System - " + main.fate_region,
+                "title": f"Fate/Grand Order FP Summon System - {main.fate_region}",
                 "description": f"Completed daily free Friend Point summon. Displaying summon results.\n\n{message_mission}",
-                "color": 5750876,
+                "color": 0x8be9fd,  # Dracula cyan color
                 "fields": [
-                    {"name": "Friend Point Summon Pool", "value": f"{message_servant}", "inline": False}
+                    {"name": "FP Gacha Results", "value": f"{message_servant}", "inline": False}
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara04_rv.png"
