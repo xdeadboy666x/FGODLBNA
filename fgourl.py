@@ -65,7 +65,7 @@ httpheader = {
     'User-Agent': user_agent_2,
     'Accept-Encoding': "deflate, gzip",
     'Content-Type': "application/x-www-form-urlencoded",
-    'X-Unity-Version': "2020.3.34f1"
+    'X-Unity-Version': "2022.3.28f1"
 
 }
 
