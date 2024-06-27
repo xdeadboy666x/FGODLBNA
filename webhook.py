@@ -64,7 +64,7 @@ def topLogin(data: List[Union["user.Rewards", "user.Login", Union["user.Bonus", 
                     {"name": "Holy Grail", "value": f"{rewards.holygrail}", "inline": True},
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara02.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara02.png"
                 }
             }
         ],
@@ -108,7 +108,7 @@ def drawFP(servants: list, missions: list) -> None:
 
     if len(servants) > 0:
         servants_atlas = requests.get(
-            "https://api.atlasacademy.io/export/JP/nice_servant_lang_en.json").json()
+            "https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
