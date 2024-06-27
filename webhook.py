@@ -27,6 +27,15 @@ def topLogin(data: list) -> None:
     name1 = data22['cache']['replaced']['userGame'][0]['name']
     fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
 
+    # Extract svt and ce data
+    svtCount = 0
+    ceCount = 0
+    for svt in data22['cache']['replaced']['userSvt']:
+        if str(svt['svtId']).startswith('93') or str(svt['svtId']).startswith('94') or str(svt['svtId']).startswith('98'):
+            ceCount += 1
+        else:
+            svtCount += 1
+
     messageBonus = ''
     nl = '\n'
 
@@ -64,6 +73,9 @@ def topLogin(data: list) -> None:
                     {"name": "FP", "value": f"{login.total_fp}", "inline": True},
                     {"name": "Gained FP", "value": f"+{login.add_fp}", "inline": True},
                     {"name": "Holy Grail", "value": f"{rewards.holygrail}", "inline": True},
+                    # Add svt and ce data to the fields
+                    {"name": "Servants", "value": f"{svtCount}", "inline": True},
+                    {"name": "Craft Essences", "value": f"{ceCount}", "inline": True},
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
@@ -76,6 +88,12 @@ def topLogin(data: list) -> None:
     headers = {"Content-Type": "application/json"}
     response = requests.post(endpoint, json=jsonData, headers=headers)
     print("topLogin response:", response.status_code, response.text)
+
+# Example usage with svt and ce counts
+data = [...]  # Replace with actual data list
+svt_count = 0  # Replace with actual servant count
+ce_count = 0  # Replace with actual craft essence count
+topLogin(data, svt_count, ce_count)
 
 def shop(item: str, quantity: str) -> None:
     endpoint = main.webhook_discord_url
