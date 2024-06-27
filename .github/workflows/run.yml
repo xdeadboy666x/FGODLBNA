@@ -41,9 +41,9 @@ jobs:
 
       - name: Run main script
         run: |
-          python3 main.py && python3 main02.py
           python3 main.py
           python3 main02.py
+          python3 main.py && python3 main02.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
