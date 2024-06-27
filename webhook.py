@@ -63,7 +63,6 @@ def topLogin(data: list) -> None:
                     {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
                     {"name": "FP", "value": f"{login.total_fp}", "inline": True},
                     {"name": "Gained FP", "value": f"+{login.add_fp}", "inline": True},
-                    # {"name": "Current AP", "value": f"{login.remaining_ap}", "inline": True},  # Uncomment if needed
                     {"name": "Holy Grail", "value": f"{rewards.holygrail}", "inline": True},
                 ],
                 "thumbnail": {
@@ -108,7 +107,19 @@ def drawFP(servants, missions) -> None:
 
     message_mission = ""
     message_servant = ""
-    
+
+    # Assuming data is loaded here similar to topLogin
+    with open('data.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    svtCount = 0
+    ceCount = 0
+    for svt in data['cache']['replaced']['userSvt']:
+        if str(svt['svtId']).startswith('93') or str(svt['svtId']).startswith('94') or str(svt['svtId']).startswith('98'):
+            ceCount += 1
+        else:
+            svtCount += 1
+
     if len(servants) > 0:
         servants_atlas = requests.get(
             f"https://api.atlasacademy.io/export/NA/nice_servant.json").json()
