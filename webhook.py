@@ -22,7 +22,7 @@ def topLogin(data: list) -> None:
     if bonus != "No Bonus":
         messageBonus += f"__{bonus.message}__{nl}```{nl.join(bonus.items)}```"
 
-        if bonus.bonus_name is not None:
+        if bonus.bonus_name != None:
             messageBonus += f"{nl}__{bonus.bonus_name}__{nl}{bonus.bonus_detail}{nl}```{nl.join(bonus.bonus_camp_items)}```"
 
         messageBonus += "\n"
@@ -74,12 +74,12 @@ def shop(item: str, quantity: int) -> None:
             {
                 "title": f"Bronze Cobalt Fruit Shop - {main.fate_region}",
                 "description": "Successful exchange.",
-                "color": 0x6272A4,  # Dracula orange color
+                "color": 0x6272a4,  # Dracula orange color
                 "fields": [
                     {"name": "Shop", "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item} (40 AP each)", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo2/images/commnet_chara10.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara10.png"
                 }
             }
         ],
@@ -98,7 +98,7 @@ def drawFP(servants, missions) -> None:
 
     if len(servants) > 0:
         servants_atlas = requests.get(
-            "https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
+            "https://api.atlasacademy.io/export/JP/nice_servant_lang_en.json").json()
 
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
