@@ -2,17 +2,27 @@ import main
 import requests
 import user
 import json
+from typing import List, Union
 
-def topLogin(data: list) -> None:
+# Define Dracula color palette
+dracula_colors = {
+    "purple": 0xBD93F9,
+    "pink": 0xFF79C6,
+    "cyan": 0x8BE9FD,
+    "green": 0x50FA7B,
+    "yellow": 0xF1FA8C,
+    "orange": 0xFFB86C,
+}
+
+def topLogin(data: List[Union[user.Rewards, user.Login, Union[user.Bonus, str]]]) -> None:
     endpoint = main.webhook_discord_url
 
     rewards: user.Rewards = data[0]
     login: user.Login = data[1]
-    bonus: user.Bonus or str = data[2]
+    bonus: Union[user.Bonus, str] = data[2]
 
     with open('login.json', 'r', encoding='utf-8') as f:
         data22 = json.load(f)
-
         name1 = data22['cache']['replaced']['userGame'][0]['name']
         fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
 
@@ -33,7 +43,7 @@ def topLogin(data: list) -> None:
             {
                 "title": f"Fate/Grand Order Login System - {main.fate_region}",
                 "description": f"Login success.\n\n{messageBonus}",
-                "color": 0xBD93F9,  # Dracula background color
+                "color": dracula_colors["pink"],
                 "fields": [
                     {"name": "Master Name", "value": f"{name1}", "inline": True},
                     {"name": "Friend Code", "value": f"{fpids1}", "inline": True},
@@ -74,7 +84,7 @@ def shop(item: str, quantity: int) -> None:
             {
                 "title": f"Bronze Cobalt Fruit Shop - {main.fate_region}",
                 "description": "Successful exchange.",
-                "color": 0x6272a4,  # Dracula orange color
+                "color": dracula_colors["cyan"],  # Dracula cyan color
                 "fields": [
                     {"name": "Shop", "value": f"Spent {40 * quantity} AP to purchase {quantity}x {item} (40 AP each)", "inline": False}
                 ],
@@ -90,7 +100,7 @@ def shop(item: str, quantity: int) -> None:
     response = requests.post(endpoint, json=jsonData, headers=headers)
     print("shop response:", response.status_code, response.text)
 
-def drawFP(servants, missions) -> None:
+def drawFP(servants: list, missions: list) -> None:
     endpoint = main.webhook_discord_url
 
     message_mission = ""
@@ -116,13 +126,13 @@ def drawFP(servants, missions) -> None:
         "embeds": [
             {
                 "title": f"Fate/Grand Order FP Summon System - {main.fate_region}",
-                "description": f"Completed daily free Friend Point summon. Displaying summon results.\n\n{message_mission}",
-                "color": 0x50FA7B,  # Dracula cyan color
+                "description": f"Gacha results.\n\n{message_mission}",
+                "color": dracula_colors["green"],  # Dracula green color
                 "fields": [
                     {"name": "FP Gacha Results", "value": f"{message_servant}", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara04_rv.png"
+                    "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara04.png"
                 }
             }
         ],
