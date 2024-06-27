@@ -8,7 +8,7 @@ from typing import Union
 dracula_colors = {
     "purple": 0xBD93F9,
     "pink": 0xFF79C6,
-    "blue": 0x6272A4,
+    "cyan": 0x8BE9FD,
     "green": 0x50FA7B,
     "yellow": 0xF1FA8C,
     "orange": 0xFFB86C,
@@ -46,7 +46,7 @@ def topLogin(data: list) -> None:
             {
                 "title": f"Fate/Grand Order Login System - {main.fate_region}",
                 "description": f"Login success.\n\n{messageBonus}",
-                "color": dracula_colors["purple"],  # Dracula purple color
+                "color": dracula_colors["pink"],  # Dracula pink color
                 "fields": [
                     {"name": "Master Name", "value": f"{name1}", "inline": True},
                     {"name": "Friend Code", "value": f"{fpids1}", "inline": True},
@@ -87,7 +87,7 @@ def shop(item: str, quantity: str) -> None:
             {
                 "title": f"Bronze Cobalt Fruit Shop - {main.fate_region}",
                 "description": f"Successful exchange.",
-                "color": dracula_colors["blue"],  # Dracula pink color
+                "color": dracula_colors["cyan"],  # Dracula cyan color
                 "fields": [
                     {"name": f"Shop", "value": f"Spent {40 * int(quantity)} AP to purchase {quantity}x {item} (40 AP each)", "inline": False}
                 ],
@@ -129,13 +129,13 @@ def drawFP(servants, missions) -> None:
         "embeds": [
             {
                 "title": f"Fate/Grand Order FP Summon System - {main.fate_region}",
-                "description": f"Completed daily free Friend Point summon. Displaying summon results.\n\n{message_mission}",
-                "color": dracula_colors["green"],  # Dracula blue color
+                "description": f"Gacha results.\n\n{message_mission}",
+                "color": dracula_colors["green"],  # Dracula green color
                 "fields": [
                     {"name": "FP Gacha results", "value": f"{message_servant}", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara04_rv.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara04.png"
                 }
             }
         ],
