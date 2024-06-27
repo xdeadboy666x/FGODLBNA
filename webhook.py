@@ -15,23 +15,6 @@ dracula_colors = {
 }
 
 def topLogin(data: list) -> None:
-    eimport main
-import requests
-import user
-import json
-from typing import Union
-
-# Define Dracula color palette
-dracula_colors = {
-    "purple": 0xBD93F9,
-    "pink": 0xFF79C6,
-    "cyan": 0x8BE9FD,
-    "green": 0x50FA7B,
-    "yellow": 0xF1FA8C,
-    "orange": 0xFFB86C,
-}
-
-def topLogin(data: list) -> None:
     endpoint = main.webhook_discord_url
 
     rewards: user.Rewards = data[0]
@@ -43,7 +26,7 @@ def topLogin(data: list) -> None:
 
     name1 = data22['cache']['replaced']['userGame'][0]['name']
     fpids1 = data22['cache']['replaced']['userGame'][0]['friendCode']
-
+    
     # Extract svt and ce data
     svtCount = 0
     ceCount = 0
@@ -52,7 +35,6 @@ def topLogin(data: list) -> None:
             ceCount += 1
         else:
             svtCount += 1
-
     messageBonus = ''
     nl = '\n'
 
@@ -114,7 +96,7 @@ topLogin(data, svt_count, ce_count)
 
 def shop(item: str, quantity: str) -> None:
     endpoint = main.webhook_discord_url
-    
+
     jsonData = {
         "content": None,
         "embeds": [
@@ -191,7 +173,6 @@ def drawFP(servants, missions) -> None:
     headers = {"Content-Type": "application/json"}
     response = requests.post(endpoint, json=jsonData, headers=headers)
     print("drawFP response:", response.status_code, response.text)
-
 def shop(item: str, quantity: str) -> None:
     endpoint = main.webhook_discord_url
     
