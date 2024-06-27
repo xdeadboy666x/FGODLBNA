@@ -1,7 +1,7 @@
 import main
 import requests
-import user
 import json
+import user
 from typing import List, Union
 
 # Define Dracula color palette
@@ -14,12 +14,12 @@ dracula_colors = {
     "orange": 0xFFB86C,
 }
 
-def topLogin(data: List[Union[user.Rewards, user.Login, Union[user.Bonus, str]]]) -> None:
+def topLogin(data: List[Union["user.Rewards", "user.Login", Union["user.Bonus", str]]]) -> None:
     endpoint = main.webhook_discord_url
 
-    rewards: user.Rewards = data[0]
-    login: user.Login = data[1]
-    bonus: Union[user.Bonus, str] = data[2]
+    rewards: "user.Rewards" = data[0]
+    login: "user.Login" = data[1]
+    bonus: Union["user.Bonus", str] = data[2]
 
     with open('login.json', 'r', encoding='utf-8') as f:
         data22 = json.load(f)
