@@ -38,9 +38,9 @@ jobs:
       - name: Install dependencies
         run: pip3 install -r requirements.txt
 
-      - name: Run script
-        run: python3 main.py
-        env:
+						 - name: Run main script
+        run: |
+          python3 main.py && python3 main.py
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
           secretKeys: ${{ secrets.GAME_SECRETKEYS }}
