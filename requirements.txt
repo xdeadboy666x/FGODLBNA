@@ -1,11 +1,11 @@
-# utf-8
+# encoding: utf-8
+coloredlogs
 croniter
 fgo-api-types
-json5
 httpx
+json5
 lxml
-requests
-py3rijndael
 msgpack
-coloredlogs
+py3rijndael
 pytz
+requests
