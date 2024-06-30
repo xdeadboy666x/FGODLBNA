@@ -242,8 +242,8 @@ class user:
             act_max, act_recover_at,
             now_act,
             add_fp,
-            total_fp
-            remaining_ap,
+            total_fp,
+            remaining_ap
         )
 
         DataWebhook.append(login)
