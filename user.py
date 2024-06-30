@@ -94,7 +94,7 @@ class Rewards:
 
 
 class Login:
-    def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp, remaining_ap):
+    def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp):
         self.name = name
         self.login_days = login_days
         self.total_days = total_days
@@ -103,7 +103,6 @@ class Login:
         self.now_act = now_act
         self.add_fp = add_fp
         self.total_fp = total_fp
-        self.remaining_ap = remaining_ap
 
 
 class Bonus:
@@ -216,19 +215,6 @@ class user:
         total_days = data['cache']['updated']['userLogin'][0]['totalLoginCount']
 
         act_max = data['cache']['replaced']['userGame'][0]['actMax']
-        carryOverActPoint = data['cache']['replaced']['userGame'][0]['carryOverActPoint']
-        serverTime = data['cache']['serverTime']
-        ap_points = act_recover_at - serverTime
-        remaining_ap = 0
-
-        if ap_points > 0:
-            lost_ap_point = (ap_points + 299) // 300
-            if act_max >= lost_ap_point:
-                remaining_ap_int = act_max - lost_ap_point
-                remaining_ap = int(remaining_ap_int)
-        else:
-            remaining_ap = act_max + carryOverActPoint
-
         act_recover_at = data['cache']['replaced']['userGame'][0]['actRecoverAt']
         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
 
@@ -242,8 +228,7 @@ class user:
             act_max, act_recover_at,
             now_act,
             add_fp,
-            total_fp,
-            remaining_ap
+            total_fp
         )
 
         DataWebhook.append(login)
@@ -308,7 +293,6 @@ class user:
         bluebronzefruit = 0
         pureprism = 0
         sqf01 = 0
-        remaining_ap = 0
         holygrail = 0
 
         for item in data['cache']['replaced']['userItem']:
@@ -378,8 +362,7 @@ class user:
             act_max, act_recover_at,
             now_act,
             add_fp,
-            total_fp,
-            remaining_ap
+            total_fp
         )
 
         DataWebhook.append(login)
