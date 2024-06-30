@@ -229,8 +229,6 @@ class user:
         else:
             remaining_ap = act_max + carryOverActPoint
 
-         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
-        
         act_recover_at = data['cache']['replaced']['userGame'][0]['actRecoverAt']
         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
 
