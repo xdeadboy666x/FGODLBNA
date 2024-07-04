@@ -41,7 +41,7 @@ def check_blue_apple_cron(instance):
             time.sleep(2)
 
 def get_latest_verCode():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-VerCode-extractor/NA/VerCode.json"
+    endpoint = "https://raw.githubusercontent.com/DNNDHH/FGO-VerCode-extractor/JP/VerCode.json"
     try:
         response = requests.get(endpoint)
         response.raise_for_status()
