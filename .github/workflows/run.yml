@@ -2,9 +2,9 @@ name: FGO Login System
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
     - cron: "00 19,05,15 * * *"
     - cron: "20 22,08 * * *"
@@ -40,7 +40,10 @@ jobs:
         run: pip3 install -r requirements.txt
 
       - name: Run main script
-        run: python3 main.py
+        run: |
+          python3 main.py
+          python3 main02.py
+          python3 main.py && python3 main02.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
@@ -48,14 +51,3 @@ jobs:
           UserAgent: ${{ secrets.GAME_USERAGENT }}
           fateRegion: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
-      
-      - name: Run main script 02
-        run: python3 main02.py
-        env:
-          userIds: ${{ secrets.GAME_USERIDS }}
-          authKeys: ${{ secrets.GAME_AUTHKEYS }}
-          secretKeys: ${{ secrets.GAME_SECRETKEYS }}
-          UserAgent: ${{ secrets.GAME_USERAGENT }}
-          fateRegion: ${{ secrets.GAME_REGION }}
-          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
-
