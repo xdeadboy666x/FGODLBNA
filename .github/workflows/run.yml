@@ -9,37 +9,35 @@ on:
     - cron: "00 19,05,15 * * *"
     - cron: "20 22,08 * * *"
     - cron: "40 01,11 * * *"
-#    - cron: "15 19,00,05,07,10,12 * * *"
-#    - cron: "55 20,08 * * *"
-#    - cron: "35 03,15 * * *"
   workflow_dispatch:
+  
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
-        python-version: [3.12]
+        python-version: ["3.12"]
 
     steps:
       - name: Set Time Zone
-        run: sudo timedatectl set-timezone 'America/Mexico_City'
+        run: sudo systemsetup -settimezone America/Mexico_City
 
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@master
 
       - name: Cache pip
-        uses: actions/cache@v3
+        uses: actions/cache@master
         with:
-          path: ~/.cache/pip
+          path: ~/.pip-cache
           key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
       - name: Install dependencies
-        run: pip3 install -r requirements.txt
+        run: pip3 install -r requirements.txt --user
 
-      - name: Run main script
-        run: python3 main.py && python3 main.py
+      - name: Run main scripts
+        run: python3 main.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
