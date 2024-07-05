@@ -14,9 +14,6 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    strategy:
-      matrix:
-        python-version: ["3.12"]
 
     steps:
       - name: Set Time Zone
@@ -34,11 +31,11 @@ jobs:
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
       - name: Install dependencies
-        run: |
-         pip3 install -r requirements.txt --user
+        run: pip install -r requirements.txt --user
 
       - name: Run main scripts
-        run: python3 main.py
+        run: |
+          python3 main.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
