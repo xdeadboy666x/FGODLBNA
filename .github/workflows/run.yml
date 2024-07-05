@@ -34,7 +34,8 @@ jobs:
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
       - name: Install dependencies
-        run: pip3 install -r requirements.txt --user
+        run: |
+         pip3 install -r requirements.txt --user
 
       - name: Run main scripts
         run: python3 main.py
