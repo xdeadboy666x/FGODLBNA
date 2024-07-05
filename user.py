@@ -52,7 +52,7 @@ class ParameterBuilder:
                 self.content_ += f'{escaped_key}={escaped_value}'
 
         temp += f':{self.secret_key_}'
-        self.content_ += f'&authCode={quote_plus(base64.b64encode(hashlib.sha1(temp.encode('utf-8')).digest()))}'
+        self.content_ += f'&authCode={quote_plus(base64.b64encode(hashlib.sha1(temp.encode("utf-8")).digest()))}'
 
         return self.content_
 
