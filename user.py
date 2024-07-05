@@ -11,11 +11,11 @@ import main
 import logging
 import json
 import os
-#import subprocess
-#import re
-#import sys
-#import binascii
-#import random
+import subprocess
+import re
+import sys
+import binascii
+import random
 import time
 
 from urllib.parse import quote_plus
