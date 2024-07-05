@@ -31,8 +31,7 @@ jobs:
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt --break-system-packages
+        run: pip install -r requirements.txt --user
 
       - name: Run main scripts
         run: |
