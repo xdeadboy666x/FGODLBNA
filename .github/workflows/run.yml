@@ -32,7 +32,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip3 install -r requirements.txt
+          pip install -r requirements.txt --break-system-packages
 
       - name: Run main scripts
         run: |
