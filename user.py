@@ -115,6 +115,7 @@ class Bonus:
 
 
 class user:
+
     def __init__(self, user_id: str, auth_key: str, secret_key: str):
         self.name_ = ''
         self.user_id_ = (int)(user_id)
@@ -393,32 +394,40 @@ class user:
             DataWebhook.append("No Bonus")
 
 
+class user:
+
+
     def buyBlueApple(self, quantity=1):
-        # https://game.fate-go.jp/shop/purchase
-        
-        
+        # Add necessary parameters for the request
         self.builder_.AddParameter('id', '13000000')
         self.builder_.AddParameter('num', str(quantity))
 
+        # Post the request to the server
         data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
-        responses = data['response']
-
-        for response in responses:
-            resCode = response['resCode']
-            resSuccess = response['success']
-            nid = response["nid"]
-
-            if (resCode != "00"):
-                continue
-
-            if nid == "purchase":
-                if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
-                    purchaseName = resSuccess['purchaseName']
-                    purchaseNum = resSuccess['purchaseNum']
-
+        
+        # Check if the response contains the expected 'response' key
+        if 'response' in data:
+            responses = data['response']
+            
+            # Iterate through responses to process each response
+            for response in responses:
+                resCode = response.get('resCode', 'Unknown')
+                resSuccess = response.get('success', None)
+                
+                # Log the response code
+                print(f'Response Code: {resCode}')
+                
+                if resSuccess:
+                    print('Purchase successful')
+                    # You can add more processing here if needed
+                else:
+                    print('Purchase failed')
+                    # You can add error handling here if needed
+        else:
+            print('Unexpected response format')
                     main.logger.info(f"{purchaseNum}x {purchaseName} purchased!")
                     webhook.shop(purchaseName, purchaseNum)
-    
+
 
     def drawFP(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
