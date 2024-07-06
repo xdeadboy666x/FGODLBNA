@@ -433,12 +433,6 @@ class user:
                 gachaSubId = "0"
             self.builder_.AddParameter('gachaSubId', gachaSubId)
             main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
-        else:
-            gachaSubId = GetGachaSubIdFP("JP")
-            if gachaSubId is None:
-                gachaSubId = "0"  # or any other default value as a string
-            self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
