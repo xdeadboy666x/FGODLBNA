@@ -31,12 +31,11 @@ jobs:
             ${{ runner.os }}-pip-${{ matrix.python-version }}-
 
       - name: Install dependencies
-        run: pip install -r requirements.txt --user
+        run: pip install -r requirements.txt --user --no-warn-script-location
 
       - name: Run main scripts
         run: |
-          python3 main.py
-          python3 main02.py
+          python3 main.py && python3 main02.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
