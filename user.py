@@ -421,40 +421,56 @@ class user:
     
 
     def drawFP(self):
-        try:
-            self.builder_.AddParameter('storyAdjustIds', '[]')
-            self.builder_.AddParameter('gachaId', '1')
-            self.builder_.AddParameter('num', '10')
-            self.builder_.AddParameter('ticketItemId', '0')
-            self.builder_.AddParameter('shopIdIndex', '1')
+        self.builder_.AddParameter('storyAdjustIds', '[]')
+        self.builder_.AddParameter('gachaId', '1')
+        self.builder_.AddParameter('num', '10')
+        self.builder_.AddParameter('ticketItemId', '0')
+        self.builder_.AddParameter('shopIdIndex', '1')
 
-            if main.fate_region == "NA":
-                gachaSubId = GetGachaSubIdFP("NA")
-                if gachaSubId is None:
-                    gachaSubId = "0"
-                self.builder_.AddParameter('gachaSubId', gachaSubId)
-                main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
-            else:
-                gachaSubId = GetGachaSubIdFP("JP")
-                if gachaSubId is None:
-                    gachaSubId = "0"
-                self.builder_.AddParameter('gachaSubId', gachaSubId)
-                main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
+        if main.fate_region == "NA":
+            gachaSubId = GetGachaSubIdFP("NA")
+            if gachaSubId is None:
+                gachaSubId = "0"
+            self.builder_.AddParameter('gachaSubId', gachaSubId)
+            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
+        else:
+            gachaSubId = GetGachaSubIdFP("JP")
+            if gachaSubId is None:
+                gachaSubId = "0"  # or any other default value as a string
+            self.builder_.AddParameter('gachaSubId', gachaSubId)
+            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
-            data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
-            responses = data['response']
+        data = self.Post(
+            f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
 
-            servantArray = []
-            missionArray = []
+        responses = data['response']
 
-            for response in responses:
-                resCode = response['resCode']
-                # Procesa las respuestas aquí...
-        except Exception as ex:
-            main.logger.error(f"Failed during FP summon: {ex}")
-            
-      
-    
+        servantArray = []
+        missionArray = []
+
+        for response in responses:
+            resCode = response['resCode']
+            resSuccess = response['success']
+
+            if (resCode != "00"):
+                continue
+
+            if "gachaInfos" in resSuccess:
+                for info in resSuccess['gachaInfos']:
+                    servantArray.append(
+                        gacha.gachaInfoServant(
+                            info['isNew'], info['objectId'], info['sellMana'], info['sellQp']
+                        )
+                    )
+
+            if "eventMissionAnnounce" in resSuccess:
+                for mission in resSuccess["eventMissionAnnounce"]:
+                    missionArray.append(
+                        gacha.EventMission(
+                            mission['message'], mission['progressFrom'], mission['progressTo'], mission['condition']
+                        )
+                    )
+
         webhook.drawFP(servantArray, missionArray)
 
     def topHome(self):
