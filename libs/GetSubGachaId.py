@@ -12,7 +12,7 @@ def get_gacha_sub_id_fp(region):
     Returns:
     - str: The ID of the currently open gacha or None if no gacha is open.
     """
-    url = f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstGachaSub.json"
+    url = f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/{region}/master/mstGachaSub.json"
     response = requests.get(url)
     response.raise_for_status()  # Ensure we raise an error for bad responses
     gacha_list = response.json()  # Directly parse JSON response
