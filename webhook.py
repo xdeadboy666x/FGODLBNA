@@ -86,13 +86,11 @@ def topLogin(data: list) -> None:
     }
 
     headers = {"Content-Type": "application/json"}
-    try:
-        response = requests.post(endpoint, json=json_data, headers=headers)
-        print("topLogin response:", response.status_code, response.text)
-    except requests.RequestException as e:
-        print(f"Error: {e}")
+    response = requests.post(endpoint, json=jsonData, headers=headers)
+    print("topLogin response:", response.status_code, response.text)
 
-def shop(item: str, total_ap_spent: str, total_items: str) -> None:
+def shop(item: str, quantity: str) -> None:
+    endpoint = main.webhook_discord_url
     """
     Sends a shop exchange message to the Discord webhook.
     
