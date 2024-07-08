@@ -1,8 +1,8 @@
+import main
 import requests
 import json
-from typing import Union, List
-import main
 import user
+from typing import Union, List
 
 # Define Dracula color palette
 dracula_colors = {
