@@ -45,7 +45,7 @@ def topLogin(data: list) -> None:
         "embeds": [
             {
                 "title": f"Fate/Grand Order Daily Login Manager - {main.fate_region}",
-                "description": f"Login success.\n\n{message_bonus}",
+                "description": f"Login success.\n\n{messageBonus}",
                 #"color": dracula_colors["purple"],  # Dracula purple color
                 "color": dracula_colors["pink"],  # Dracula pink color
                 "fields": [
