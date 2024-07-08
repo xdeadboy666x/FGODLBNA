@@ -14,7 +14,7 @@ dracula_colors = {
     "orange": 0xFFB86C,
 }
 
-def top_login(data: List[Union[user.Rewards, user.Login, Union[user.Bonus, str]]]) -> None:
+def topLogin(data: list) -> None:
     """
     Sends a login success message to the Discord webhook.
     
