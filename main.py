@@ -1,7 +1,6 @@
 import os
 import requests
 import time
-import json
 from datetime import datetime
 from croniter import croniter
 import fgourl
@@ -10,16 +9,16 @@ import coloredlogs
 import logging
 
 # Environment Variables
-USER_IDS = os.environ['userIds'].split(',')
-AUTH_KEYS = os.environ['authKeys'].split(',')
-SECRET_KEYS = os.environ['secretKeys'].split(',')
-FATE_REGION = os.environ['fateRegion']
-WEBHOOK_DISCORD_URL = os.environ['webhookDiscord']
-BLUE_APPLE_CRON = os.environ.get("MAKE_BLUE_APPLE")
-USER_AGENT = os.environ['UserAgent']
+userIds = os.environ['userIds'].split(',')
+authKeys = os.environ['authKeys'].split(',')
+secretKeys = os.environ['secretKeys'].split(',')
+fate_region = os.environ['fateRegion']
+webhook_discord_url = os.environ['webhookDiscord']
+blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
+UA = os.environ['UserAgent']
 
-if USER_AGENT:
-    fgourl.user_agent_ = USER_AGENT
+if UA:
+    fgourl.user_agent_ = UA
 
 # Logger setup
 logger = logging.getLogger("FGO Daily Login")
@@ -27,8 +26,8 @@ coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s', logger
 
 def check_blue_apple_cron(instance):
     """Check if the blue apple cron schedule has reached and perform the exchange if necessary."""
-    if BLUE_APPLE_CRON:
-        cron = croniter(BLUE_APPLE_CRON)
+    if blue_apple_cron:
+        cron = croniter(blue_apple_cron)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
         
@@ -51,7 +50,7 @@ def get_latest_verCode():
 
 def main():
     """Main function to handle the daily login process for FGO."""
-    if len(USER_IDS) == len(AUTH_KEYS) == len(SECRET_KEYS):
+    if len(userIds) == len(authKeys) == len(secretKeys):
         logger.info('Fetching Game Data')
         try:
             fgourl.set_latest_assets()
@@ -59,9 +58,9 @@ def main():
             logger.error(f"Failed to set latest assets: {ex}")
             return
 
-        for i in range(len(USER_IDS)):
+        for i in range(len(userIds)):
             try:
-                instance = user.user(USER_IDS[i], AUTH_KEYS[i], SECRET_KEYS[i])
+                instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 
                 logger.info('Logging in...')
@@ -98,7 +97,7 @@ def main():
                     logger.error(f"Failed during blue apple exchange: {ex}")
                 
             except Exception as ex:
-                logger.error(f"Error during user operation for user {USER_IDS[i]}: {ex}")
+                logger.error(f"Error during user operation for user {userIds[i]}: {ex}")
     else:
         logger.error("Mismatch in the number of userIds, authKeys, and secretKeys")
 
