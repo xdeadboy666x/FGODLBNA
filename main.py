@@ -78,7 +78,7 @@ def main():
 
             logger.info('Pulling FP Summon!')
             for _ in range(1):
-                instance.drawFP()
+                instance.drawFP()  # Assuming drawFP is in user.py for FP gacha pull
                 time.sleep(4)
 
             check_blue_apple_cron(instance)
