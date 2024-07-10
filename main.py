@@ -16,7 +16,6 @@ secretKeys = os.environ['secretKeys'].split(',')
 fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
-
 UA = os.environ['UserAgent']
 
 if UA:
@@ -26,8 +25,9 @@ userNums = len(userIds)
 authKeyNums = len(authKeys)
 secretKeyNums = len(secretKeys)
 
+# Logger setup
 logger = logging.getLogger("FGO Daily Login")
-coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
+coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s', logger=logger)
 
 
 def check_blue_apple_cron(instance):
@@ -35,7 +35,6 @@ def check_blue_apple_cron(instance):
         cron = croniter(blue_apple_cron)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
-
         if current_date >= next_date:
             logger.info('Exchanging Blue Fruit!')
             instance.buyBlueApple(1)
@@ -44,44 +43,48 @@ def check_blue_apple_cron(instance):
 
 def get_latest_verCode():
     endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
-
-    response = requests.get(endpoint).text
-    response_data = json.loads(response)
-
-    return response_data['verCode']
+    try:
+        response = requests.get(endpoint)
+        response.raise_for_status()
+        response_data = response.json()
+        return response_data['verCode']
+    except requests.RequestException as e:
+        logger.error(f"Failed to fetch the latest version code: {e}")
+        raise
 
 
 def main():
-    if userNums == authKeyNums and userNums == secretKeyNums:
-        logger.info('Fetching Game Data')
+    if userNums != authKeyNums or userNums != secretKeyNums:
+        logger.error("Mismatch in the number of userIds, authKeys, and secretKeys")
+        return
+
+    logger.info('Fetching Game Data')
+    try:
         fgourl.set_latest_assets()
+    except Exception as ex:
+        logger.error(f"Failed to set latest assets: {ex}")
+        return
 
-        for i in range(userNums):
-            try:
-                instance = user.user(userIds[i], authKeys[i], secretKeys[i])
-                time.sleep(3)
-                logger.info('Logging in...')
-                instance.topLogin()
-                time.sleep(2)
-                instance.topHome()
-                time.sleep(2)
-                instance.lq001()
-                instance.lq002()
-                time.sleep(2)
+    for i in range(userNums):
+        try:
+            instance = user.user(userIds[i], authKeys[i], secretKeys[i])
+            time.sleep(3)
+            logger.info('Logging in...')
+            instance.topLogin2()  # Assuming topLogin2 is the login function
 
-                check_blue_apple_cron(instance)
-                logger.info('Exchanging Blue Fruit!')
-                try:
-                    instance.buyBlueApple(1)
-                    time.sleep(2)
-                    for _ in range(3):
-                        instance.buyBlueApple(1)
-                        time.sleep(2)
-                except Exception as ex:
-                    logger.error(ex)
+            time.sleep(2)
+            instance.topHome()
+            time.sleep(2)
 
-            except Exception as ex:
-                logger.error(ex)
+            logger.info('Pulling FP Summon!')
+            for _ in range(1):
+                instance.drawFP()
+                time.sleep(4)
+
+            check_blue_apple_cron(instance)
+
+        except Exception as ex:
+            logger.error(f"Error during user operation: {ex}")
 
 
 if __name__ == "__main__":
