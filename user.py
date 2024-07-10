@@ -77,7 +77,6 @@ class ParameterBuilder:
             ('verCode', fgourl.ver_code_),
         ]
 
-
 class Rewards:
     def __init__(self, stone, level, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail):
         self.stone = stone
@@ -92,7 +91,6 @@ class Rewards:
         self.sqf01 = sqf01
         self.holygrail = holygrail
 
-
 class Login:
     def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp):
         self.name = name
@@ -104,7 +102,6 @@ class Login:
         self.add_fp = add_fp
         self.total_fp = total_fp
 
-
 class Bonus:
     def __init__(self, message, items, bonus_name, bonus_detail, bonus_camp_items):
         self.message = message
@@ -112,7 +109,6 @@ class Bonus:
         self.bonus_name = bonus_name
         self.bonus_detail = bonus_detail
         self.bonus_camp_items = bonus_camp_items
-
 
 class user:
     def __init__(self, user_id: str, auth_key: str, secret_key: str):
@@ -127,7 +123,7 @@ class user:
         return res
 
     def topLogin(self):
-        DataWebhook = []  # This data will be use in discord webhook!
+        DataWebhook = []  # This data will be used in the discord webhook!
 
         lastAccessTime = self.builder_.parameter_list_[5][1]
         userState = (-int(lastAccessTime) >>
