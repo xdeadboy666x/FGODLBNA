@@ -81,13 +81,6 @@ def main():
                 except Exception as ex:
                     logger.error(f"Failed during FP summon: {ex}")
 
-                logger.info('Collecting rewards...')
-                try:
-                    instance.getRewards()
-                    time.sleep(2)
-                except Exception as ex:
-                    logger.error(f"Failed to collect rewards: {ex}")
-                
                 logger.info('Exchanging Blue Fruit!')
                 try:
                     for _ in range(4):  # Exchanging once in check_blue_apple_cron and three times here
