@@ -10,7 +10,7 @@ on:
     - cron: "20 22,08 * * *"
     - cron: "40 01,11 * * *"
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: macos-latest
@@ -20,10 +20,18 @@ jobs:
         run: sudo systemsetup -settimezone America/Mexico_City
 
       - name: Checkout Repository
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.pip-cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: pip install -r requirements.txt --user
+        run: pip install --cache-dir ~/.pip-cache -r requirements.txt --user
 
       - name: Run main script
         run: |
