@@ -10,38 +10,35 @@ import coloredlogs
 import logging
 
 # Environment Variables
-userIds = os.environ['userIds'].split(',')
-authKeys = os.environ['authKeys'].split(',')
-secretKeys = os.environ['secretKeys'].split(',')
-fate_region = os.environ['fateRegion']
-webhook_discord_url = os.environ['webhookDiscord']
-blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
-UA = os.environ['UserAgent']
+USER_IDS = os.environ['userIds'].split(',')
+AUTH_KEYS = os.environ['authKeys'].split(',')
+SECRET_KEYS = os.environ['secretKeys'].split(',')
+FATE_REGION = os.environ['fateRegion']
+WEBHOOK_DISCORD_URL = os.environ['webhookDiscord']
+BLUE_APPLE_CRON = os.environ.get("MAKE_BLUE_APPLE")
+USER_AGENT = os.environ['UserAgent']
 
-if UA:
-    fgourl.user_agent_ = UA
-
-userNums = len(userIds)
-authKeyNums = len(authKeys)
-secretKeyNums = len(secretKeys)
+if USER_AGENT:
+    fgourl.user_agent_ = USER_AGENT
 
 # Logger setup
 logger = logging.getLogger("FGO Daily Login")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s', logger=logger)
 
-
 def check_blue_apple_cron(instance):
-    if blue_apple_cron:
-        cron = croniter(blue_apple_cron)
+    """Check if the blue apple cron schedule has reached and perform the exchange if necessary."""
+    if BLUE_APPLE_CRON:
+        cron = croniter(BLUE_APPLE_CRON)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
+        
         if current_date >= next_date:
             logger.info('Exchanging Blue Fruit!')
             instance.buyBlueApple(1)
             time.sleep(2)
 
-
 def get_latest_verCode():
+    """Fetch the latest version code from the given endpoint."""
     endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
     try:
         response = requests.get(endpoint)
@@ -52,40 +49,58 @@ def get_latest_verCode():
         logger.error(f"Failed to fetch the latest version code: {e}")
         raise
 
-
 def main():
-    if userNums != authKeyNums or userNums != secretKeyNums:
-        logger.error("Mismatch in the number of userIds, authKeys, and secretKeys")
-        return
-
-    logger.info('Fetching Game Data')
-    try:
-        fgourl.set_latest_assets()
-    except Exception as ex:
-        logger.error(f"Failed to set latest assets: {ex}")
-        return
-
-    for i in range(userNums):
+    """Main function to handle the daily login process for FGO."""
+    if len(USER_IDS) == len(AUTH_KEYS) == len(SECRET_KEYS):
+        logger.info('Fetching Game Data')
         try:
-            instance = user.user(userIds[i], authKeys[i], secretKeys[i])
-            time.sleep(3)
-            logger.info('Logging in...')
-            instance.topLogin2()  # Assuming topLogin2 is the login function
-
-            time.sleep(2)
-            instance.topHome()
-            time.sleep(2)
-
-            logger.info('Pulling FP Summon!')
-            for _ in range(1):
-                instance.drawFP()  # Assuming drawFP is in user.py for FP gacha pull
-                time.sleep(4)
-
-            check_blue_apple_cron(instance)
-
+            fgourl.set_latest_assets()
         except Exception as ex:
-            logger.error(f"Error during user operation: {ex}")
+            logger.error(f"Failed to set latest assets: {ex}")
+            return
 
+        for i in range(len(USER_IDS)):
+            try:
+                instance = user.user(USER_IDS[i], AUTH_KEYS[i], SECRET_KEYS[i])
+                time.sleep(3)
+                
+                logger.info('Logging in...')
+                instance.topLogin()
+                time.sleep(2)
+                instance.topHome()
+                time.sleep(2)
+                instance.lq001()
+                instance.lq002()
+                time.sleep(2)
+                
+                check_blue_apple_cron(instance)
+                
+                logger.info('Pulling FP Summon!')
+                try:
+                    instance.drawFP()
+                    time.sleep(4)
+                except Exception as ex:
+                    logger.error(f"Failed during FP summon: {ex}")
+
+                logger.info('Collecting rewards...')
+                try:
+                    instance.getRewards()
+                    time.sleep(2)
+                except Exception as ex:
+                    logger.error(f"Failed to collect rewards: {ex}")
+                
+                logger.info('Exchanging Blue Fruit!')
+                try:
+                    for _ in range(4):  # Exchanging once in check_blue_apple_cron and three times here
+                        instance.buyBlueApple(1)
+                        time.sleep(2)
+                except Exception as ex:
+                    logger.error(f"Failed during blue apple exchange: {ex}")
+                
+            except Exception as ex:
+                logger.error(f"Error during user operation for user {USER_IDS[i]}: {ex}")
+    else:
+        logger.error("Mismatch in the number of userIds, authKeys, and secretKeys")
 
 if __name__ == "__main__":
     main()
