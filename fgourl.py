@@ -64,18 +64,3 @@ class FateGoClient:
             raise Exception(message)
 
         return res
-
-
-# Example usage
-client = FateGoClient(server_addr='https://game.fate-go.jp', user_agent=get_user_agent())
-client.set_latest_assets(region="US")
-response = client.post_request(url='https://example.com/api', data={'key': 'value'})
-print(response)
-
-This improved script addresses the suggestions:
- * Reduced Global Variables: Encapsulates data in the FateGoClient class.
- * Error Handling: Provides more context in error messages.
- * Function Reusability: Creates a reusable FateGoClient class.
- * Type Hints: Adds type hints for better readability.
- * Dependency Injection: Can be implemented by injecting dependencies like get_version and get_assetbundle.
- * https://github.com/O-Isaac/FGO-Daily-Login
