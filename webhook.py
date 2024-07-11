@@ -55,9 +55,9 @@ def topLogin(data: list) -> None:
                     {"name": "Summon Ticket", "value": f"{rewards.ticket}", "inline": True},
                     {"name": "Saint Quartz", "value": f"{rewards.stone}", "inline": True},
                     {"name": "Saint Quartz Fragment", "value": f"{rewards.sqf01}", "inline": True},
-                    {"name": "Fruit", "value": f"x{rewards.goldenfruit} Golden\nx{rewards.silverfruit} Silver\nx{rewards.bronzefruit} Bronze\nx{rewards.bluebronzefruit} Blue", "inline": True},
+                    {"name": "Fruit", "value": f"x{rewards.goldenfruit} Golden\nx{rewards.silverfruit} Silver\nx{rewards.bronzefruit} Bronze\nx{rewards.bluebronzefruit} Bronzed Cobalt", "inline": True},
                     {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
-                    {"name": "Total Login Days", "value": f"{login.login_days} / {login.total_days}", "inline": True},
+                    {"name": "Consecutive/Total Logins", "value": f"{login.login_days} days/ {login.total_days} days", "inline": True},
                     {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
                     {"name": "FP", "value": f"{login.total_fp}", "inline": True},
                     {"name": "Gained FP", "value": f"+{login.add_fp}", "inline": True},
@@ -87,7 +87,7 @@ def shop(item: str, quantity: str) -> None:
                 "description": "",
                 "color": dracula_colors["cyan"],  # Dracula cyan color
                 "fields": [
-                    {"name": f"Da Vinci's Shop", "value": f"Used{40 * int(quantity)} AP to get x{quantity} {item} (40 AP each)", "inline": False}
+                    {"name": f"Da Vinci's Workshop", "value": f"Used {40 * int(quantity)} AP points to get x{quantity} {item}", "inline": False}
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara10.png"
@@ -130,7 +130,7 @@ def drawFP(servants, missions) -> None:
                 "description": f"{message_mission}",
                 "color": dracula_colors["green"],  # Dracula green color
                 "fields": [
-                    {"name": "FP Gacha results", "value": f"{message_servant}", "inline": False}
+                    {"name": "FP Gacha results", "value": f"{message_servant}\n", "inline": False}
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara04.png"
