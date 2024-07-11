@@ -46,7 +46,6 @@ def topLogin(data: list) -> None:
             {
                 "title": f"Fate/Grand Order Daily Login Manager - {main.fate_region}",
                 "description": f"Login success.\n\n{messageBonus}",
-                #"color": dracula_colors["purple"],  # Dracula purple color
                 "color": dracula_colors["pink"],  # Dracula pink color
                 "fields": [
                     {"name": "Master", "value": f"{name1}", "inline": True},
@@ -55,9 +54,9 @@ def topLogin(data: list) -> None:
                     {"name": "Summon Ticket", "value": f"{rewards.ticket}", "inline": True},
                     {"name": "Saint Quartz", "value": f"{rewards.stone}", "inline": True},
                     {"name": "Saint Quartz Fragment", "value": f"{rewards.sqf01}", "inline": True},
-                    {"name": "Fruit", "value": f"x{rewards.goldenfruit} Golden\nx{rewards.silverfruit} Silver\nx{rewards.bronzefruit} Bronze\nx{rewards.bluebronzefruit} Bronzed Cobalt", "inline": True},
+                    {"name": "Fruit", "value": f"{rewards.goldenfruit} Golden\n{rewards.silverfruit} Silver\n{rewards.bronzefruit} Bronze\n{rewards.bluebronzefruit} Bronzed Cobalt", "inline": True},
                     {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
-                    {"name": "Consecutive/Total Logins", "value": f"{login.login_days} days/ {login.total_days} days", "inline": True},
+                    {"name": "Consecutive / Total Logins", "value": f"{login.login_days} days / {login.total_days} days", "inline": True},
                     {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
                     {"name": "FP", "value": f"{login.total_fp}", "inline": True},
                     {"name": "Gained FP", "value": f"+{login.add_fp}", "inline": True},
@@ -87,7 +86,7 @@ def shop(item: str, quantity: str) -> None:
                 "description": "",
                 "color": dracula_colors["cyan"],  # Dracula cyan color
                 "fields": [
-                    {"name": f"Da Vinci's Workshop", "value": f"Used {40 * int(quantity)} AP points to get x{quantity} {item}", "inline": False}
+                    {"name": f"Da Vinci's Workshop", "value": f"Used {40 * int(quantity)} AP points to get {quantity} {item}", "inline": False}
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara10.png"
@@ -101,7 +100,7 @@ def shop(item: str, quantity: str) -> None:
     response = requests.post(endpoint, json=jsonData, headers=headers)
     print("shop response:", response.status_code, response.text)
 
-def drawFP(servants, missions) -> None:
+def FPsummon(servants, missions) -> None:
     endpoint = main.webhook_discord_url
 
     message_mission = ""
@@ -130,7 +129,7 @@ def drawFP(servants, missions) -> None:
                 "description": f"{message_mission}",
                 "color": dracula_colors["green"],  # Dracula green color
                 "fields": [
-                    {"name": "FP Gacha results", "value": f"{message_servant}\n", "inline": False}
+                    {"name": "FP Summoning results", "value": f"{message_servant}\n\n", "inline": False}
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara04.png"
@@ -142,4 +141,4 @@ def drawFP(servants, missions) -> None:
 
     headers = {"Content-Type": "application/json"}
     response = requests.post(endpoint, json=jsonData, headers=headers)
-    print("drawFP response:", response.status_code, response.text)
+    print("FPsummon response:", response.status_code, response.text)
