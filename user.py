@@ -355,8 +355,7 @@ class user:
             self.name_,
             login_days,
             total_days,
-            act_max, 
-            act_recover_at,
+            act_max, act_recover_at,
             now_act,
             add_fp,
             total_fp
@@ -414,7 +413,7 @@ class user:
                     purchaseNum = resSuccess['purchaseNum']
 
                     main.logger.info(f"Acquired {purchaseNum} {purchaseName}.")
-                    webhook.shop(purchaseNum,purchaseName)
+                    webhook.shop(purchaseNum, purchaseName)
     
 
     def FPsummon(self):
@@ -429,7 +428,7 @@ class user:
             if gachaSubId is None:
                 gachaSubId = "0"
             self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"FP Summoning Sub ID" + gachaSubId)
+            main.logger.info(f"FP Summoning Sub ID " + gachaSubId)
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
