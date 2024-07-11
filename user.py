@@ -391,18 +391,31 @@ class user:
 
 
     def buyBlueApple(self, quantity=1):
-        # ... existing code ...
+        # https://game.fate-go.jp/shop/purchase
+        
+        
+        self.builder_.AddParameter('id', '13000000')
+        self.builder_.AddParameter('num', str(quantity))
 
-        if (resCode != "00"):
+        data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
+        responses = data['response']
 
-        if nid == "purchase":
-            if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
-                purchaseName = resSuccess['purchaseName']
-                purchaseNum = resSuccess['purchaseNum']
+        for response in responses:
+            resCode = response['resCode']
+            resSuccess = response['success']
+            nid = response["nid"]
 
-                main.logger.info(f"Acquired {purchaseNum} {purchaseName}.")
-                webhook.shop(purchaseNum, purchaseName)
+            if (resCode != "00"):
+                continue
 
+            if nid == "purchase":
+                if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                    purchaseName = resSuccess['purchaseName']
+                    purchaseNum = resSuccess['purchaseNum']
+
+                    main.logger.info(f"Acquired {purchaseNum} {purchaseName}.")
+                    webhook.shop(purchaseNum,purchaseName)
+    
 
     def FPsummon(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
@@ -416,7 +429,7 @@ class user:
             if gachaSubId is None:
                 gachaSubId = "0"
             self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"Friend Point Gacha Summon Sub ID" + gachaSubId)
+            main.logger.info(f"FP Summoning Sub ID" + gachaSubId)
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
@@ -478,7 +491,7 @@ class user:
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
 
-        main.logger.info(f"Receive rewards.")
+        main.logger.info(f"Received rewards.")
 
         time.sleep(1)
 
