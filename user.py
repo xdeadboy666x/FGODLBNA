@@ -391,31 +391,19 @@ class user:
 
 
     def buyBlueApple(self, quantity=1):
-        # https://game.fate-go.jp/shop/purchase
-        
-        
-        self.builder_.AddParameter('id', '13000000')
-        self.builder_.AddParameter('num', str(quantity))
+        # ... existing code ...
 
-        data = self.Post(f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}')
-        responses = data['response']
+        if (resCode != "00"):
+            continue
 
-        for response in responses:
-            resCode = response['resCode']
-            resSuccess = response['success']
-            nid = response["nid"]
+        if nid == "purchase":
+            if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                purchaseName = resSuccess['purchaseName']
+                purchaseNum = resSuccess['purchaseNum']
 
-            if (resCode != "00"):
-                continue
+                main.logger.info(f"Acquired {purchaseNum} {purchaseName}.")
+                webhook.shop(purchaseNum, purchaseName)
 
-            if nid == "purchase":
-                if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
-                    purchaseName = resSuccess['purchaseName']
-                    purchaseNum = resSuccess['purchaseNum']
-
-                    main.logger.info(f"Received {purchaseNum} {purchaseName}.")
-                    webhook.shop(purchaseNum,purchaseName)
-    
 
     def FPsummon(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
