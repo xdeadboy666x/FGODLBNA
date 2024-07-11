@@ -21,7 +21,7 @@ if UA:
     fgourl.user_agent_ = UA
 
 # Logger setup
-logger = logging.getLogger("FGO Daily Login")
+logger = logging.getLogger("Fate/Grand Order Login Manager")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s', logger=logger)
 
 def check_blue_apple_cron(instance):
@@ -32,7 +32,7 @@ def check_blue_apple_cron(instance):
         current_date = datetime.now()
         
         if current_date >= next_date:
-            logger.info('Exchanging Blue Fruit!')
+            logger.info('AP Available')
             instance.buyBlueApple(1)
             time.sleep(2)
 
@@ -45,13 +45,13 @@ def get_latest_verCode():
         response_data = response.json()
         return response_data['verCode']
     except requests.RequestException as e:
-        logger.error(f"Failed to fetch the latest version code: {e}")
+        logger.error(f"Failed to fetch the latest vercode: {e}")
         raise
 
 def main():
     """Main function to handle the daily login process for FGO."""
     if len(userIds) == len(authKeys) == len(secretKeys):
-        logger.info('Fetching Game Data')
+        logger.info('Fetch gamedata assets')
         try:
             fgourl.set_latest_assets()
         except Exception as ex:
@@ -63,7 +63,7 @@ def main():
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 
-                logger.info('Logging in...')
+                logger.info('Logging in....')
                 instance.topLogin()
                 time.sleep(2)
                 instance.topHome()
@@ -74,20 +74,20 @@ def main():
                 
                 check_blue_apple_cron(instance)
                 
-                logger.info('Pulling FP Summon!')
+                logger.info('Summoning with FP!')
                 try:
-                    instance.drawFP()
+                    instance.FPsummon()
                     time.sleep(4)
                 except Exception as ex:
-                    logger.error(f"Failed during FP summon: {ex}")
+                    logger.error(f"FP summoning failed: {ex}")
 
-                logger.info('Exchanging Blue Fruit!')
+                logger.info('AP and Bronze Sapling available!')
                 try:
                     for _ in range(4):  # Exchanging once in check_blue_apple_cron and three times here
                         instance.buyBlueApple(1)
                         time.sleep(2)
                 except Exception as ex:
-                    logger.error(f"Failed during blue apple exchange: {ex}")
+                    logger.error(f"No AP: {ex}")
                 
             except Exception as ex:
                 logger.error(f"Error during user operation for user {userIds[i]}: {ex}")
