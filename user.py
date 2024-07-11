@@ -394,7 +394,6 @@ class user:
         # ... existing code ...
 
         if (resCode != "00"):
-            continue
 
         if nid == "purchase":
             if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
