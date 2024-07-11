@@ -355,7 +355,8 @@ class user:
             self.name_,
             login_days,
             total_days,
-            act_max, act_recover_at,
+            act_max, 
+            act_recover_at,
             now_act,
             add_fp,
             total_fp
@@ -412,11 +413,11 @@ class user:
                     purchaseName = resSuccess['purchaseName']
                     purchaseNum = resSuccess['purchaseNum']
 
-                    main.logger.info(f"{purchaseNum}x {purchaseName} purchased!")
-                    webhook.shop(purchaseName, purchaseNum)
+                    main.logger.info(f"Received {purchaseNum} {purchaseName}.")
+                    webhook.shop(purchaseNum,purchaseName)
     
 
-    def drawFP(self):
+    def FPsummon(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
@@ -428,7 +429,7 @@ class user:
             if gachaSubId is None:
                 gachaSubId = "0"
             self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
+            main.logger.info(f"Friend Point Gacha Summon Sub ID" + gachaSubId)
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
@@ -461,7 +462,7 @@ class user:
                         )
                     )
 
-        webhook.drawFP(servantArray, missionArray)
+        webhook.FPsummon(servantArray, missionArray)
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
@@ -474,7 +475,7 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"Getting rewards!")
+        main.logger.info(f"Fetch user present box")
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
@@ -490,7 +491,7 @@ class user:
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
 
-        main.logger.info(f"Parsing!")
+        main.logger.info(f"Receive rewards.")
 
         time.sleep(1)
 
@@ -513,6 +514,6 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"Claimed rewards!")
+            main.logger.info(f"Done.")
         else:
             main.logger.info(f"No rewards at the moment!")
