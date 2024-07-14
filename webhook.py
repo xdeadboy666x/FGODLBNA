@@ -55,7 +55,7 @@ def topLogin(data: list) -> None:
                         {"name": "Summon Ticket", "value": f"{rewards.ticket}", "inline": True},
                         {"name": "Saint Quartz", "value": f"{rewards.stone}", "inline": True},
                         {"name": "Saint Quartz Fragment", "value": f"{rewards.sqf01}", "inline": True},
-                        {"name": "Fruit", "value": f"Golden {rewards.goldenfruit}\nSilver {rewards.silverfruit}\nBronze {rewards.bronzefruit}\nBronzed Cobalt {rewards.bluebronzefruit}", "inline": True},
+                        {"name": "Fruit", "value": f"Golden: {rewards.goldenfruit}\nSilver: {rewards.silverfruit}\nBronze {rewards.bronzefruit}\nBronzed Cobalt: {rewards.bluebronzefruit}", "inline": True},
                         {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
                         {"name": "Consecutive / Total Logins", "value": f"{login.login_days} days / {login.total_days} days", "inline": True},
                         {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
