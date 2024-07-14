@@ -119,7 +119,7 @@ def FPsummon(servants, missions) -> None:
 
         if servants:
             servants_atlas = requests.get(
-                f"https://api.atlasacademy.io/export/NA/basic_svt.json").json()
+                f"https://api.atlasacademy.io/export/JP/basic_svt_lang_en.json").json()
 
             svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
