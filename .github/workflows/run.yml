@@ -2,9 +2,9 @@ name: FGO Login System
 
 on:
   push:
-    branches: ["main"]
+    branches: ["JP"]
   pull_request:
-    branches: ["main"]
+    branches: ["JP"]
   schedule:
     - cron: "00 19,05,15 * * *"
     - cron: "20 22,08 * * *"
