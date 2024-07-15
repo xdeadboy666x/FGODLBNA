@@ -10,14 +10,17 @@ import coloredlogs
 import logging
 
 # Environment Variables
-userIds = os.environ['userIds'].split(',')
-authKeys = os.environ['authKeys'].split(',')
-secretKeys = os.environ['secretKeys'].split(',')
-fate_region = os.environ['fateRegion']
-webhook_discord_url = os.environ['webhookDiscord']
-blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
-
-UA = os.environ['UserAgent']
+try:
+    userIds = os.environ['userIds'].split(',')
+    authKeys = os.environ['authKeys'].split(',')
+    secretKeys = os.environ['secretKeys'].split(',')
+    fate_region = os.environ['fateRegion']
+    webhook_discord_url = os.environ['webhookDiscord']
+    blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
+    UA = os.environ['UserAgent']
+except KeyError as e:
+    logger.error(f"Missing environment variable: {e}")
+    raise
 
 if UA:
     fgourl.user_agent_ = UA
@@ -44,11 +47,14 @@ def check_blue_apple_cron(instance):
 
 def get_latest_verCode():
     endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
-
-    response = requests.get(endpoint).text
-    response_data = json.loads(response)
-
-    return response_data['verCode']
+    try:
+        response = requests.get(endpoint)
+        response.raise_for_status()
+        response_data = response.json()
+        return response_data['verCode']
+    except requests.RequestException as e:
+        logger.error(f"Error fetching latest verCode: {e}")
+        return None
 
 
 def main():
@@ -68,7 +74,7 @@ def main():
                 instance.lq001()
                 instance.lq002()
                 time.sleep(2)
-                
+
                 check_blue_apple_cron(instance)
 
                 logger.info('Summoning with FP!')
@@ -78,13 +84,9 @@ def main():
                 except Exception as ex:
                     logger.error(f"FP summoning failed: {ex}")
 
-                check_blue_apple_cron(instance)
                 logger.info('Exchanging Blue Fruit!')
                 try:
-                    for _ in range(4):  # Exchanging once in check_blue_apple_cron and three times here
-                    instance.buyBlueApple(1)
-                    time.sleep(2)
-                    for _ in range(3):
+                    for _ in range(4):
                         instance.buyBlueApple(1)
                         time.sleep(2)
                 except Exception as ex:
