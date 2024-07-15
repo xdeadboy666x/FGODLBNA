@@ -16,7 +16,6 @@ fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
 UA = os.environ['UserAgent']
-username = os.environ.get('username', 'default_username')  # Example: Fetching the username from environment variables
 
 if UA:
     fgourl.user_agent_ = UA
@@ -31,14 +30,11 @@ def check_blue_apple_cron(instance):
         cron = croniter(blue_apple_cron)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
-
+        
         if current_date >= next_date:
-            logger.info('Checking current AP...')
-            try:
-                instance.buyBlueApple(1)
-                time.sleep(2)
-            except Exception as ex:
-                logger.error(f"Failed during blue apple exchange in cron check: {ex}")
+            logger.info('Exchanging Blue Fruit!')
+            instance.buyBlueApple(1)
+            time.sleep(2)
 
 def get_latest_verCode():
     """Fetch the latest version code from the given endpoint."""
@@ -51,17 +47,6 @@ def get_latest_verCode():
     except requests.RequestException as e:
         logger.error(f"Failed to fetch the latest version code: {e}")
         raise
-
-def FPsummon(instance):
-    """Perform FP summon."""
-    try:
-        logger.info('Rolling FP Summoning!')
-        instance.drawFP()
-        time.sleep(4)
-        return True
-    except Exception as ex:
-        logger.error(f"Failed during FP summon: {ex}")
-        return False
 
 def main():
     """Main function to handle the daily login process for FGO."""
@@ -77,8 +62,8 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-
-                logger.info('Signing to game server...')
+                
+                logger.info('Signing in...')
                 instance.topLogin()
                 time.sleep(2)
                 instance.topHome()
@@ -86,20 +71,24 @@ def main():
                 instance.lq001()
                 instance.lq002()
                 time.sleep(2)
-
+                
                 check_blue_apple_cron(instance)
-
-                if not FPsummon(instance):
-                    logger.info("Skipping further operations due to insufficient Friend Points.")
-
-                logger.info('Checking current AP...')
+                
+                logger.info('Pulling FP Summon!')
                 try:
-                    for _ in range(3):  # Exchanging once in check_blue_apple_cron and three times here
+                    instance.FPsummon()
+                    time.sleep(4)
+                except Exception as ex:
+                    logger.error(f"Failed during FP summon: {ex}")
+
+                logger.info('Exchanging Blue Fruit!')
+                try:
+                    for _ in range(4):  # Exchanging once in check_blue_apple_cron and three times here
                         instance.buyBlueApple(1)
                         time.sleep(2)
                 except Exception as ex:
                     logger.error(f"Failed during blue apple exchange: {ex}")
-
+                
             except Exception as ex:
                 logger.error(f"Error during user operation for user {userIds[i]}: {ex}")
     else:
