@@ -31,7 +31,7 @@ def check_blue_apple_cron(instance):
         cron = croniter(blue_apple_cron)
         next_date = cron.get_next(datetime)
         current_date = datetime.now()
-        
+
         if current_date >= next_date:
             logger.info('Checking current AP...')
             try:
@@ -52,19 +52,13 @@ def get_latest_verCode():
         logger.error(f"Failed to fetch the latest version code: {e}")
         raise
 
-def check_friend_points_and_summon(instance):
-    """Check Friend Points and perform FP summon if sufficient."""
+def FPsummon(instance):
+    """Perform FP summon."""
     try:
-        current_fp = instance.get_friend_points()  # Fetch current Friend Points
-        required_fp = 2000  # Define the required Friend Points for summoning
-        if current_fp < required_fp:
-            logger.error(f"Insufficient Friend Points. Current: {current_fp}, Required: {required_fp}")
-            return False
-        else:
-            logger.info('Rolling FP Summoning!')
-            instance.drawFP()
-            time.sleep(4)
-            return True
+        logger.info('Rolling FP Summoning!')
+        instance.drawFP()
+        time.sleep(4)
+        return True
     except Exception as ex:
         logger.error(f"Failed during FP summon: {ex}")
         return False
@@ -83,7 +77,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                
+
                 logger.info('Signing to game server...')
                 instance.topLogin()
                 time.sleep(2)
@@ -92,10 +86,10 @@ def main():
                 instance.lq001()
                 instance.lq002()
                 time.sleep(2)
-                
+
                 check_blue_apple_cron(instance)
-                
-                if not check_friend_points_and_summon(instance):
+
+                if not FPsummon(instance):
                     logger.info("Skipping further operations due to insufficient Friend Points.")
 
                 logger.info('Checking current AP...')
@@ -105,7 +99,7 @@ def main():
                         time.sleep(2)
                 except Exception as ex:
                     logger.error(f"Failed during blue apple exchange: {ex}")
-                
+
             except Exception as ex:
                 logger.error(f"Error during user operation for user {userIds[i]}: {ex}")
     else:
