@@ -416,7 +416,7 @@ class user:
                     webhook.shop(purchaseName, purchaseNum)
     
 
-    def drawFP(self):
+    def FPsummon(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
@@ -461,7 +461,7 @@ class user:
                         )
                     )
 
-        webhook.drawFP(servantArray, missionArray)
+        webhook.FPsummon(servantArray, missionArray)
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
