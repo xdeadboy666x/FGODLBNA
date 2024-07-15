@@ -62,6 +62,7 @@ def topLogin(data: list) -> None:
                         {"name": "FP", "value": f"{login.total_fp}", "inline": True},
                         {"name": "Gained FP", "value": f"+{login.add_fp}", "inline": True},
                         # {"name": "Current AP", "value": f"{login.remaining_ap}", "inline": True},  # Uncomment if needed
+                        {"name": "Bronze Sapling", "value": f"{rewards.crystal}", "inline": True},
                         {"name": "Holy Grail", "value": f"{rewards.holygrail}", "inline": True},
                     ],
                     "thumbnail": {
