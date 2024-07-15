@@ -16,12 +16,13 @@ fate_region = os.environ['fateRegion']
 webhook_discord_url = os.environ['webhookDiscord']
 blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
 UA = os.environ['UserAgent']
+username = os.environ.get('username', 'default_username')  # Example: Fetching the username from environment variables
 
 if UA:
     fgourl.user_agent_ = UA
 
 # Logger setup
-logger = logging.getLogger("FGO Daily Login")
+logger = logging.getLogger("Fate/Grand Order Login Manager")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s', logger=logger)
 
 def check_blue_apple_cron(instance):
@@ -41,7 +42,7 @@ def check_blue_apple_cron(instance):
 
 def get_latest_verCode():
     """Fetch the latest version code from the given endpoint."""
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
+    endpoint = f"https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/{region}/VerCode.json"
     try:
         response = requests.get(endpoint)
         response.raise_for_status()
