@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: ["main"]
   schedule:
-    # Schedule the workflow to run at specific times (UTC)
     - cron: "00 19 * * *"
     - cron: "00 05 * * *"
     - cron: "00 15 * * *"
@@ -18,11 +17,10 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
 
     strategy:
       matrix:
-        os: [macos-latest]
         python-version: [3.11]
 
     steps:
@@ -33,7 +31,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -49,7 +47,9 @@ jobs:
         run: pip install --cache-dir ~/.pip-cache --upgrade -r requirements.txt
 
       - name: Run main script
-        run: python3 main.py
+        run: |
+          python3 main.py
+          python3 main02.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
