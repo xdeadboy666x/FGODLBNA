@@ -474,7 +474,7 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"Getting rewards!")
+        main.logger.info(f"Opening present box...")
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
@@ -490,7 +490,7 @@ class user:
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
 
-        main.logger.info(f"Parsing!")
+        main.logger.info(f"Getting rewards..")
 
         time.sleep(1)
 
@@ -513,6 +513,6 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"Claimed rewards!")
+            main.logger.info(f"Done.")
         else:
             main.logger.info(f"No rewards at the moment!")
