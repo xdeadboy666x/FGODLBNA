@@ -412,11 +412,11 @@ class user:
                     purchaseName = resSuccess['purchaseName']
                     purchaseNum = resSuccess['purchaseNum']
 
-                    main.logger.info(f"Acquired {purchaseNum} {purchaseName}.")
-                    webhook.shop(purchaseNum, purchaseName)
+                    main.logger.info(f"{purchaseNum}x {purchaseName} purchased!")
+                    webhook.shop(purchaseName, purchaseNum)
     
 
-    def FPsummon(self):
+    def drawFP(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
@@ -428,7 +428,7 @@ class user:
             if gachaSubId is None:
                 gachaSubId = "0"
             self.builder_.AddParameter('gachaSubId', gachaSubId)
-            main.logger.info(f"FP Summoning Sub ID " + gachaSubId)
+            main.logger.info(f"Friend Point Gacha Sub Id " + gachaSubId)
 
         data = self.Post(
             f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
@@ -461,7 +461,7 @@ class user:
                         )
                     )
 
-        webhook.FPsummon(servantArray, missionArray)
+        webhook.drawFP(servantArray, missionArray)
 
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
@@ -474,7 +474,7 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"Fetch user present box")
+        main.logger.info(f"Getting rewards!")
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
@@ -490,7 +490,7 @@ class user:
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
 
-        main.logger.info(f"Received rewards.")
+        main.logger.info(f"Parsing!")
 
         time.sleep(1)
 
@@ -513,6 +513,6 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"Done.")
+            main.logger.info(f"Claimed rewards!")
         else:
             main.logger.info(f"No rewards at the moment!")
