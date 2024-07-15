@@ -33,12 +33,12 @@ def check_blue_apple_cron(instance):
         
         if current_date >= next_date:
             logger.info('Exchanging Blue Fruit!')
-            instance.buyBlueApple(1)
+            instance.buyBlueApple()
             time.sleep(2)
 
 def get_latest_verCode():
     """Fetch the latest version code from the given endpoint."""
-    endpoint = f"https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/{region}/VerCode.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
     try:
         response = requests.get(endpoint)
         response.raise_for_status()
