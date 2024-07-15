@@ -78,7 +78,7 @@ class ParameterBuilder:
         ]
 
 class Rewards:
-    def __init__(self, stone, level, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail):
+    def __init__(self, stone, level, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail, qp, crystal):
         self.stone = stone
         self.level = level
         self.ticket = ticket
@@ -90,7 +90,9 @@ class Rewards:
         self.pureprism = pureprism
         self.sqf01 = sqf01
         self.holygrail = holygrail
-
+        self.qp = qp
+        self.crystal = crystal
+        
 class Login:
     def __init__(self, name, login_days, total_days, act_max, act_recover_at, now_act, add_fp, total_fp):
         self.name = name
@@ -156,6 +158,8 @@ class user:
         pureprism = 0
         sqf01 = 0
         holygrail = 0
+        qp = 0
+        crystal = 0
 
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 4001:
@@ -202,8 +206,13 @@ class user:
                 holygrail = item['num']
                 break
 
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 6999:
+                qp = item['num']
+                break
+
         
-        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
+        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail, crystal)
 
         DataWebhook.append(rewards)
 
@@ -290,6 +299,7 @@ class user:
         pureprism = 0
         sqf01 = 0
         holygrail = 0
+        crystal = 0
 
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 4001:
@@ -299,6 +309,11 @@ class user:
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 100:
                 goldenfruit = item['num']
+                break
+
+        for item in data['cache']['replaced']['userItem']:
+            if item['itemId'] == 6999:
+                crystal = item['num']
                 break
 
         for item in data['cache']['replaced']['userItem']:
@@ -337,7 +352,7 @@ class user:
                 break
 
         
-        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
+        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, crystal, holygrail)
 
         DataWebhook.append(rewards)
 
@@ -484,7 +499,7 @@ class user:
 
         present_ids = []
         for item in data['cache']['replaced']['userPresentBox']:
-            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000]:
+            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 6999, 7998, 7999, 1000, 2000]:
                 present_ids.append(str(item['presentId']))
 
         with open('JJM.json', 'w') as f:
