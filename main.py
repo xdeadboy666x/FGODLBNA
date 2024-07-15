@@ -32,7 +32,7 @@ def check_blue_apple_cron(instance):
         current_date = datetime.now()
         
         if current_date >= next_date:
-            logger.info('Exchanging Blue Fruit!')
+            logger.info('Checking current AP...')
             try:
                 instance.buyBlueApple(1)
                 time.sleep(2)
@@ -60,7 +60,7 @@ def check_friend_points_and_summon(instance):
             logger.error(f"Insufficient Friend Points. Current: {current_fp}, Required: {required_fp}")
             return False
         else:
-            logger.info('Pulling FP Summon!')
+            logger.info('Rolling FP Summoning!')
             instance.drawFP()
             time.sleep(4)
             return True
@@ -83,7 +83,7 @@ def main():
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 
-                logger.info('Logging in...')
+                logger.info('Signing to game server...')
                 instance.topLogin()
                 time.sleep(2)
                 instance.topHome()
@@ -97,7 +97,7 @@ def main():
                 if not check_friend_points_and_summon(instance):
                     logger.info("Skipping further operations due to insufficient Friend Points.")
 
-                logger.info('Exchanging Blue Fruit!')
+                logger.info('Checking current AP...')
                 try:
                     for _ in range(3):  # Exchanging once in check_blue_apple_cron and three times here
                         instance.buyBlueApple(1)
