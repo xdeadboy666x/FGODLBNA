@@ -116,6 +116,14 @@ class user:
         self.user_id_ = (int)(user_id)
         self.s_ = fgourl.NewSession()
         self.builder_ = ParameterBuilder(user_id, auth_key, secret_key)
+       self.friend_points = 0  # or however you initialize friend points
+    
+    def get_friend_points(self):
+        return self.friend_points
+
+# Usage in your script
+user = User()
+friend_points = user.get_friend_points()
 
     def Post(self, url):
         res = fgourl.PostReq(self.s_, url, self.builder_.Build())
