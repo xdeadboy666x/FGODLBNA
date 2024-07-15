@@ -64,15 +64,15 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info('Logging in...')
+                logger.info('Signing in...')
                 instance.topLogin2()
                 time.sleep(2)
                 instance.topHome()
                 time.sleep(2)
                 try:
-                    logger.info('Pulling FP Summon!')
+                    logger.info('FP Summon!')
                     for _ in range(1):
-                        instance.drawFP()
+                        instance.FPsummon()
                         time.sleep(4)
                 except Exception as ex:
                     logger.error(f"Failed during FP summon: {ex}")
