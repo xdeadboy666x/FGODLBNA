@@ -19,7 +19,7 @@ try:
     blue_apple_cron = os.environ.get("MAKE_BLUE_APPLE")
     UA = os.environ['UserAgent']
 except KeyError as e:
-    logger.error(f"Missing environment variable: {e}")
+    logging.error(f"Missing environment variable: {e}")
     raise
 
 if UA:
@@ -49,11 +49,17 @@ def get_latest_verCode():
     endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
     try:
         response = requests.get(endpoint)
-        response.raise_for_status()
-        response_data = response.json()
-        return response_data['verCode']
+        if response.status_code == 200:
+            response_data = response.json()
+            return response_data['verCode']
+        else:
+            logger.error(f"Unexpected response code: {response.status_code}")
+            return None
     except requests.RequestException as e:
         logger.error(f"Error fetching latest verCode: {e}")
+        return None
+    except json.JSONDecodeError as e:
+        logger.error(f"Error parsing JSON response: {e}")
         return None
 
 
@@ -67,30 +73,34 @@ def main():
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 logger.info('Logging in...')
-                instance.topLogin()
-                time.sleep(2)
-                instance.topHome()
-                time.sleep(2)
-                instance.lq001()
-                instance.lq002()
-                time.sleep(2)
+                response = instance.topLogin()
+                logger.debug(f"topLogin response: {response.status_code} - {response.text}")
+                if response.status_code == 204:
+                    logger.info('No content returned from topLogin')
+                else:
+                    time.sleep(2)
+                    instance.topHome()
+                    time.sleep(2)
+                    instance.lq001()
+                    instance.lq002()
+                    time.sleep(2)
 
-                check_blue_apple_cron(instance)
+                    check_blue_apple_cron(instance)
 
-                logger.info('Summoning with FP!')
-                try:
-                    instance.FPsummon()
-                    time.sleep(4)
-                except Exception as ex:
-                    logger.error(f"FP summoning failed: {ex}")
+                    logger.info('Summoning with FP!')
+                    try:
+                        instance.FPsummon()
+                        time.sleep(4)
+                    except Exception as ex:
+                        logger.error(f"FP summoning failed: {ex}")
 
-                logger.info('Exchanging Blue Fruit!')
-                try:
-                    for _ in range(4):
-                        instance.buyBlueApple(1)
-                        time.sleep(2)
-                except Exception as ex:
-                    logger.error(ex)
+                    logger.info('Exchanging Blue Fruit!')
+                    try:
+                        for _ in range(4):
+                            instance.buyBlueApple(1)
+                            time.sleep(2)
+                    except Exception as ex:
+                        logger.error(ex)
 
             except Exception as ex:
                 logger.error(ex)
