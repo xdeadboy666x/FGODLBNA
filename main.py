@@ -79,13 +79,7 @@ def main():
                 
                 logger.info('Pulling FP Summon!')
                 try:
-                    # Fetch and log current Friend Points before attempting summon
-                    friend_points = instance.getFriendPoints()  # Assuming there's a method to fetch Friend Points
-                    logger.info(f"Current Friend Points: {friend_points}")
-                    if friend_points >= 200:  # Assuming 200 FP is required for a summon
-                        instance.FPsummon()
-                    else:
-                        logger.error(f"Insufficient Friend Points. Current Friend Points: {friend_points}")
+                    instance.FPsummon()
                     time.sleep(4)
                 except Exception as ex:
                     logger.error(f"Failed during FP summon: {ex}")
