@@ -33,8 +33,11 @@ def check_blue_apple_cron(instance):
         
         if current_date >= next_date:
             logger.info('Exchanging Blue Fruit!')
-            instance.buyBlueApple(1)
-            time.sleep(2)
+            try:
+                instance.buyBlueApple(1)
+                time.sleep(2)
+            except Exception as ex:
+                logger.error(f"Failed during blue apple exchange in cron check: {ex}")
 
 def get_latest_verCode():
     """Fetch the latest version code from the given endpoint."""
@@ -47,6 +50,23 @@ def get_latest_verCode():
     except requests.RequestException as e:
         logger.error(f"Failed to fetch the latest version code: {e}")
         raise
+
+def check_friend_points_and_summon(instance):
+    """Check Friend Points and perform FP summon if sufficient."""
+    try:
+        current_fp = instance.get_friend_points()  # Fetch current Friend Points
+        required_fp = 2000  # Define the required Friend Points for summoning
+        if current_fp < required_fp:
+            logger.error(f"Insufficient Friend Points. Current: {current_fp}, Required: {required_fp}")
+            return False
+        else:
+            logger.info('Pulling FP Summon!')
+            instance.drawFP()
+            time.sleep(4)
+            return True
+    except Exception as ex:
+        logger.error(f"Failed during FP summon: {ex}")
+        return False
 
 def main():
     """Main function to handle the daily login process for FGO."""
@@ -74,16 +94,12 @@ def main():
                 
                 check_blue_apple_cron(instance)
                 
-                logger.info('Pulling FP Summon!')
-                try:
-                    instance.drawFP()
-                    time.sleep(4)
-                except Exception as ex:
-                    logger.error(f"Failed during FP summon: {ex}")
+                if not check_friend_points_and_summon(instance):
+                    logger.info("Skipping further operations due to insufficient Friend Points.")
 
                 logger.info('Exchanging Blue Fruit!')
                 try:
-                    for _ in range(4):  # Exchanging once in check_blue_apple_cron and three times here
+                    for _ in range(3):  # Exchanging once in check_blue_apple_cron and three times here
                         instance.buyBlueApple(1)
                         time.sleep(2)
                 except Exception as ex:
