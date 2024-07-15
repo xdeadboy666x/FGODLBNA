@@ -34,7 +34,11 @@ def check_blue_apple_cron(instance):
         if current_date >= next_date:
             logger.info('Exchanging Blue Fruit!')
             try:
-                instance.buyBlueApple(1)
+                response = instance.buyBlueApple(1)
+                if response:
+                    logger.info('1x Bronzed Cobalt Fruit purchased!')
+                else:
+                    logger.error('Failed during blue apple exchange: Empty response')
             except Exception as ex:
                 logger.error(f"Failed during blue apple exchange in cron check: {ex}")
             time.sleep(2)
@@ -87,7 +91,11 @@ def main():
                 logger.info('Exchanging Blue Fruit!')
                 try:
                     for _ in range(4):  # Exchanging once in check_blue_apple_cron and three times here
-                        instance.buyBlueApple(1)
+                        response = instance.buyBlueApple(1)
+                        if response:
+                            logger.info('1x Bronzed Cobalt Fruit purchased!')
+                        else:
+                            logger.error('Failed during blue apple exchange: Empty response')
                         time.sleep(2)
                 except Exception as ex:
                     logger.error(f"Failed during blue apple exchange: {ex}")
