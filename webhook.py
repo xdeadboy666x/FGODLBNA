@@ -57,7 +57,7 @@ def topLogin(data: list) -> None:
                     {"name": "Saint Quartz Fragment", "value": f"{rewards.sqf01}", "inline": True},
                     {"name": "Fruit", "value": f"Golden: {rewards.goldenfruit} \nSilver: {rewards.silverfruit} \nBronze: {rewards.bronzefruit} \nBronzed Cobalt: {rewards.bluebronzefruit}", "inline": True},
                     {"name": "Bronze Sapling", "value": f"{rewards.bluebronzesapling}", "inline": True},
-                    {"name": "Consecutive / Total Logins", "value": f"{login.login_days} days /  {login.total_days} days", "inline": True},
+                    {"name": "Consecutive / Total Logins", "value": f"{login.login_days} days / {login.total_days} days", "inline": True},
                     {"name": "Pure Prism", "value": f"{rewards.pureprism}", "inline": True},
                     {"name": "FP", "value": f"{login.total_fp}", "inline": True},
                     {"name": "Gained FP", "value": f"+{login.add_fp}", "inline": True},
@@ -101,7 +101,7 @@ def shop(item: str, quantity: str) -> None:
     response = requests.post(endpoint, json=jsonData, headers=headers)
     print("shop response:", response.status_code, response.text)
 
-def drawFP(servants, missions) -> None:
+def FPsummon(servants, missions) -> None:
     endpoint = main.webhook_discord_url
 
     message_mission = ""
@@ -142,4 +142,4 @@ def drawFP(servants, missions) -> None:
 
     headers = {"Content-Type": "application/json"}
     response = requests.post(endpoint, json=jsonData, headers=headers)
-    print("drawFP response:", response.status_code, response.text)
+    print("FPsummon response:", response.status_code, response.text)
