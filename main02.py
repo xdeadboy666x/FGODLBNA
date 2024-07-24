@@ -70,7 +70,7 @@ def main():
                 instance.topHome()
                 time.sleep(2)
                 try:
-                    logger.info('FP Summon!')
+                    logger.info('Pulling FP Summon!')
                     for _ in range(1):
                         instance.FPsummon()
                         time.sleep(4)
