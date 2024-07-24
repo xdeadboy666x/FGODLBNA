@@ -47,9 +47,7 @@ jobs:
         run: pip install --cache-dir ~/.pip-cache --upgrade -r requirements.txt
 
       - name: Run main script
-        run: |
-          python3 main.py
-          python3 main02.py
+        run: python3 main.py && python3 main02.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
