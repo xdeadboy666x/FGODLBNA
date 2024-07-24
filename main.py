@@ -2,8 +2,6 @@ import os
 import requests
 import time
 import json
-from datetime import datetime
-from croniter import croniter
 import fgourl
 import user
 import coloredlogs
@@ -25,7 +23,7 @@ logger = logging.getLogger("FGO Daily Login")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
 def get_latest_verCode():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
+    endpoint = f"https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/{region}/VerCode.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
@@ -40,7 +38,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info(f"\n ======================================== \n [+] Signing in \n ======================================== " )
+                logger.info(f"\n ======================================== \n [+] 登录账号 \n ======================================== " )
 
                 time.sleep(1)
                 instance.topLogin_s()
