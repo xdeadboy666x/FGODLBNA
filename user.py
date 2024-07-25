@@ -42,7 +42,7 @@ class ParameterBuilder:
             ('dateVer', str(fgourl.date_ver_)),
             ('idempotencyKey', self.idempotency_key_), 
             ('lastAccessTime', str(mytime.GetTimeStamp())),
-            ('userId', self.uid_),
+            ('userIds', self.uid_),
             ('verCode', fgourl.ver_code_),
         ]
 
@@ -85,7 +85,7 @@ class ParameterBuilder:
             ('dateVer', str(fgourl.date_ver_)),
             ('idempotencyKey', str(uuid.uuid4())),
             ('lastAccessTime', str(mytime.GetTimeStamp())),
-            ('userId', self.uid_),
+            ('userIds', self.uid_),
             ('verCode', fgourl.ver_code_),
         ]
 
@@ -158,9 +158,9 @@ class user:
             )
             return base64.b64encode(signature).decode('utf-8')
 
-        userid = self.user_id_
+        userids = self.user_id_
         idk = self.builder_.get_idempotency_key()
-        input_string = f"{userid}{idk}"
+        input_string = f"{userids}{idk}"
         idempotencyKeySignature = sign(input_string)
 
         lastAccessTime = self.builder_.parameter_list_[5][1]
