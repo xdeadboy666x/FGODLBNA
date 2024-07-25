@@ -13,7 +13,7 @@ secretKeys = os.environ['secretKeys'].split(',')
 webhook_discord_url = os.environ['webhookDiscord']
 device_info = os.environ.get('DEVICE_INFO_SECRET')
 user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
-fate_region = os.environ['fateRegion']
+fate_region = 'NA'
 
 userNums = len(userIds)
 authKeyNums = len(authKeys)
@@ -52,7 +52,7 @@ def main():
                 time.sleep(1)
                 instance.lq003()
                 time.sleep(1)
-                instance.FPsummon()
+                instance.drawFP()
 
 
             except Exception as ex:
@@ -60,3 +60,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
