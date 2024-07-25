@@ -64,7 +64,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info('Signing in...')
+                logger.info('Logging in...')
                 instance.topLogin2()
                 time.sleep(2)
                 instance.topHome()
@@ -72,7 +72,7 @@ def main():
                 try:
                     logger.info('Pulling FP Summon!')
                     for _ in range(1):
-                        instance.FPsummon()
+                        instance.drawFP()
                         time.sleep(4)
                 except Exception as ex:
                     logger.error(f"Failed during FP summon: {ex}")
