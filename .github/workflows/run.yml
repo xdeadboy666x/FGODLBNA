@@ -30,22 +30,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Cache Python dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.pip-cache
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
-
-      - name: Install dependencies
-        run: pip install --cache-dir ~/.pip-cache --upgrade -r requirements.txt
-
       - name: Run main script
         run: python3 main.py
         env:
