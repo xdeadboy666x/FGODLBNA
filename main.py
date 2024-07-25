@@ -14,7 +14,7 @@ secretKeys = os.environ.get('secretKeys', '').split(',')
 webhook_discord_url = os.environ.get('webhookDiscord')
 device_info = os.environ.get('DEVICE_INFO_SECRET')
 user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
-fate_region = 'NA'
+fate_region = os.environ['fateRegion']
 
 # Logger setup
 logger = logging.getLogger("FGO Daily Login")
