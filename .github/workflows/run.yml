@@ -30,6 +30,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
       - name: Run main script
         run: python3 main.py
         env:
