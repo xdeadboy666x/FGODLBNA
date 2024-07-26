@@ -1,5 +1,4 @@
 import os
-import requests
 import time
 from datetime import datetime
 from croniter import croniter
