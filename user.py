@@ -135,12 +135,13 @@ class user:
         self.builder_.AddParameter('deviceInfo', 'HUAWEI MAR-LX3Bm / Android OS 10 / API-29 (MAR-L03B 10.0.0.274(C69E7R1P1)/10.0.0.274C69)')
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
+        self.builder_.AddParameter('country', '484')
 
         data = self.Post(
             f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
 
         responses = data['response']
-        
+
         with open('login.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
@@ -162,7 +163,7 @@ class user:
             if item['itemId'] == 4001:
                 ticket = item['num']
                 break
-        
+
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 100:
                 goldenfruit = item['num']
@@ -203,7 +204,7 @@ class user:
                 holygrail = item['num']
                 break
 
-        
+
         rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
 
         DataWebhook.append(rewards)
@@ -269,12 +270,13 @@ class user:
         self.builder_.AddParameter('deviceInfo', 'HUAWEI MAR-LX3Bm / Android OS 10 / API-29 (MAR-L03B 10.0.0.274(C69E7R1P1)/10.0.0.274C69)')
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
+        self.builder_.AddParameter('country', '484')
 
         data = self.Post(
             f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
 
         responses = data['response']
-        
+
         with open('login.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
@@ -296,7 +298,7 @@ class user:
             if item['itemId'] == 4001:
                 ticket = item['num']
                 break
-        
+
         for item in data['cache']['replaced']['userItem']:
             if item['itemId'] == 100:
                 goldenfruit = item['num']
@@ -337,7 +339,7 @@ class user:
                 holygrail = item['num']
                 break
 
-        
+
         rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
 
         DataWebhook.append(rewards)
@@ -392,8 +394,8 @@ class user:
 
     def buyBlueApple(self, quantity=1):
         # https://game.fate-go.jp/shop/purchase
-        
-        
+
+
         self.builder_.AddParameter('id', '13000000')
         self.builder_.AddParameter('num', str(quantity))
 
@@ -415,7 +417,7 @@ class user:
 
                     main.logger.info(f"{purchaseNum}x {purchaseName} purchased!")
                     webhook.shop(purchaseName, purchaseNum)
-    
+
 
     def drawFP(self):
         self.builder_.AddParameter('storyAdjustIds', '[]')
@@ -470,16 +472,16 @@ class user:
 
     def lq001(self):
          # https://game.fate-go.jp/present/list?_userId=
-          
+
         data = self.Post(
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
-        
+
         responses = data['response']
         main.logger.info(f"Getting rewards!")
 
     def lq002(self):
          # https://game.fate-go.jp/present/receive?_userId=
-        
+
         with open('login.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
 
@@ -511,7 +513,7 @@ class user:
 
             data = self.Post(
                 f'{fgourl.server_addr_}/present/receive?_userId={self.user_id_}')
-    
+
             responses = data['response']
 
             main.logger.info(f"Claimed rewards!")
