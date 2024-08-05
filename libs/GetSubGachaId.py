@@ -26,6 +26,6 @@ def GetGachaSubIdFP(region):
         return None  # Return None if no valid Gacha ID is found
 
 # Example usage
-region = "JP"
+region = "NA"
 gachaSubId = GetGachaSubIdFP(region)
 print(f"Current Gacha Sub ID: {gachaSubId}")
