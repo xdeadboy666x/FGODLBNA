@@ -1,0 +1,48 @@
+stages:
+  - build
+
+variables:
+  PIP_CACHE_DIR: $CI_PROJECT_DIR/.pip-cache
+
+default:
+  before_script:
+    - apt-get update && apt-get install -y sudo
+    - sudo ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
+    - sudo dpkg-reconfigure -f noninteractive tzdata
+
+build:
+  stage: build
+  image: python:3.8  # Adjust the image to match your needs
+
+  script:
+    - python --version
+    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --user
+    - python3 main.py
+
+  cache:
+    key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .pip-cache
+
+  only:
+    refs:
+      - master
+    variables:
+      - $CI_PIPELINE_SOURCE == "push"
+      - $CI_PIPELINE_SOURCE == "merge_request_event"
+      - $CI_PIPELINE_SOURCE == "schedule"
+
+  environment:
+    name: production
+    url: https://gitlab.com/alienchristxv3/FGODLBJP
+
+  variables:
+    userIds: $GAME_USERIDS
+    authKeys: $GAME_AUTHKEYS
+    secretKeys: $GAME_SECRETKEYS
+    fateRegion: $GAME_REGION
+    DEVICE_INFO_SECRET: $DEVICE_INFO_SECRET
+    USER_AGENT_SECRET_2: $USER_AGENT_SECRET_2
+    webhookDiscord: $DISCORD_WEBHOOK
+
+# Define the schedule in the GitLab UI
