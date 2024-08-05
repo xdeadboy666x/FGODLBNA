@@ -12,7 +12,7 @@ default:
 
 build:
   stage: build
-  image: python:3.8  # Adjust the image to match your needs
+  image: python:3.11  # Adjust the image to match your needs
 
   script:
     - python --version
