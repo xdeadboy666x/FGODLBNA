@@ -4,7 +4,6 @@ import requests
 import version
 import main
 import CatAndMouseGame
-import os
 
 requests.urllib3.disable_warnings()
 session = requests.Session()
@@ -18,7 +17,9 @@ ver_code_ = ''
 asset_bundle_folder_ = ''
 data_server_folder_crc_ = 0
 server_addr_ = 'https://game.fate-go.us'
-
+github_token_ = ''
+github_name_ = ''
+user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
 
 # ==== User Info ====
 def set_latest_assets():
@@ -28,8 +29,8 @@ def set_latest_assets():
 
     # Set Game Server Depends of region
 
-    if region == "NA":
-        server_addr_ = "https://game.fate-go.us"
+    if region == "JP":
+        server_addr_ = "https://game.fate-go.jp"
 
     # Get Latest Version of the data!
     version_str = version.get_version(region)
@@ -57,14 +58,13 @@ def get_folder_data(assetbundle):
 
 # ===== End =====
 
-user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
 
 httpheader = {
     'User-Agent': user_agent_2,
-    'Accept-Encoding': "deflate, gzip",
-    'Content-Type': "application/x-www-form-urlencoded",
-    'X-Unity-Version': "2020.3.34f1"
-
+    'Accept-Encoding': 'gzip, identity',
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Connection': 'Keep-Alive, TE',
+    'TE': 'identity',
 }
 
 
