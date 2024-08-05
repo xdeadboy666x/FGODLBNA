@@ -12,7 +12,7 @@ default:
 
 build:
   stage: build
-  image: python:3.11  # Adjust the image to match your needs
+  image: python:3.11
 
   script:
     - python --version
@@ -26,7 +26,7 @@ build:
 
   only:
     refs:
-      - master
+      - main
     variables:
       - $CI_PIPELINE_SOURCE == "push"
       - $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -34,7 +34,7 @@ build:
 
   environment:
     name: production
-    url: https://gitlab.com/alienchristxv3/FGODLBJP.git
+    url: https://gitlab.com/alienchristxv3/FGODLBJP
 
   variables:
     userIds: $GAME_USERIDS
@@ -44,5 +44,3 @@ build:
     DEVICE_INFO_SECRET: $DEVICE_INFO_SECRET
     USER_AGENT_SECRET_2: $USER_AGENT_SECRET_2
     webhookDiscord: $DISCORD_WEBHOOK
-
-# Define the schedule in the GitLab UI
