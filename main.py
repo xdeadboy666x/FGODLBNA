@@ -32,7 +32,7 @@ except EnvironmentError as e:
     logger.critical(e)
     exit(1)
 
-fate_region = 'JP'
+fate_region = 'NA'
 
 userNums = len(userIds)
 authKeyNums = len(authKeys)
