@@ -32,3 +32,13 @@ def get_asset_bundle(asset_bundle_base64):
         decrypted_data = cipher.decrypt(encrypted_data)
         
         # Decompress the decrypted data
+        decompressed_data = gzip.decompress(decrypted_data)
+        
+        # Unpack the decompressed data
+        unpacked_data = msgpack.unpackb(decompressed_data)
+
+        return unpacked_data
+
+    except (base64.binascii.Error, py3rijndael.DecryptionError, gzip.BadGzipFile, msgpack.ExtraData) as e:
+        print(f"An error occurred: {e}")
+        return None
