@@ -379,7 +379,7 @@ class user:
 
 
     def drawFP(self):
-        gachaSubId = GetGachaSubIdFP("JP")
+        gachaSubId = GetGachaSubIdFP("NA")
 
         if gachaSubId is None:
                gachaSubId = "0"
@@ -429,7 +429,7 @@ class user:
 
 
     def lq001(self):
-         # https://game.fate-go.jp/present/list?
+         # https://game.fate-go.us/present/list?
           
         data = self.Post(
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
@@ -438,7 +438,7 @@ class user:
         main.logger.info(f"\n ======================================== \n [+] Sync the rewards box \n ======================================== " )
 
     def lq002(self):
-         # https://game.fate-go.jp/present/receive?
+         # https://game.fate-go.us/present/receive?
         with open('login.json', 'r', encoding='utf-8') as f:
             data = json.load(f)
 
@@ -469,12 +469,12 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"\n ======================================== \n [+] Claim Successful \n ======================================== " )
+            main.logger.info(f"\n ======================================== \n [+] Received rewards \n ======================================== " )
 
     def lq003(self):
-        # https://game.fate-go.jp/shop/purchase?
+        # https://game.fate-go.us/shop/purchase?
 
-        url = 'https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/JP/master/mstShop.json'
+        url = 'https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstShop.json'
         response = requests.get(url)
 
         fdata = response.json()
