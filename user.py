@@ -173,6 +173,7 @@ class user:
         self.builder_.AddParameter('deviceInfo', device_info)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
+        self.builder_.AddParameter('country', '484')
 
         data = self.Post(
             f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
