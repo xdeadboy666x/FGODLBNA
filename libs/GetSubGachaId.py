@@ -31,5 +31,6 @@ def get_gacha_sub_id_fp(region):
 GetGachaSubIdFP = get_gacha_sub_id_fp
 
 # Example usage
+region = "NA"
 gacha_sub_id = get_gacha_sub_id_fp(region)
 print(f"Current Gacha Sub ID: {gacha_sub_id}")
