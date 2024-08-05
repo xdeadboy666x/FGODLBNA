@@ -7,7 +7,7 @@ import main
 
 def getAssetBundle(assetbundle):
     data = base64.b64decode(assetbundle)
-    key = b'nn33CYId2J1ggv0bYDMbYuZ60m4GZt5P'
+    key = b'nn33CYId2J1ggv0bYDMbYuZ60m4GZt5P'  # By default is NA
     iv = data[:32]
     array = data[32:]
 
