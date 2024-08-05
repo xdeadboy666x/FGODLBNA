@@ -34,7 +34,7 @@ build:
 
   environment:
     name: production
-    url: https://gitlab.com/alienchristxv3/FGODLBJP
+    url: https://gitlab.com/alienchristxv3/FGODLBJP.git
 
   variables:
     userIds: $GAME_USERIDS
