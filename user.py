@@ -25,7 +25,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from urllib.parse import quote_plus
-from libs.GetSubGachaId import GetGachaSubIdFP(region)
+from libs.GetSubGachaId import GetGachaSubIdFP
 
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
