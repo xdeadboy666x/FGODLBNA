@@ -25,7 +25,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from urllib.parse import quote_plus
-from libs.GetSubGachaId import GetGachaSubIdFP
+from libs.GetSubGachaId import GetGachaSubIdFP(region)
 
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
@@ -383,7 +383,8 @@ class user:
 
         if gachaSubId is None:
                gachaSubId = "0"
-            
+
+        self.builder_.AddParameter('country', '484')    
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
         self.builder_.AddParameter('gachaId', '1')
@@ -435,7 +436,7 @@ class user:
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"\n ======================================== \n [+] Sync the rewards box \n ======================================== " )
+        main.logger.info(f"\n ======================================== \n [+] Checking Present Box \n ======================================== " )
 
     def lq002(self):
          # https://game.fate-go.us/present/receive?
