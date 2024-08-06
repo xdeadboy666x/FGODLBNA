@@ -6,17 +6,20 @@ variables:
 
 default:
   before_script:
-    - apt-get update && apt-get install -y sudo
+    - apt-get update && apt-get install -y sudo python3-venv
     - sudo ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
     - sudo dpkg-reconfigure -f noninteractive tzdata
+    - python3 -m venv venv  # Create virtual environment
+    - source venv/bin/activate  # Activate virtual environment
 
 build:
   stage: build
   image: python:3.11
 
   script:
+    - source venv/bin/activate  # Ensure virtual environment is activated
     - python --version
-    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --user --no-warn-script-location
+    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --no-warn-script-location
     - python3 main.py
 
   cache:
@@ -34,7 +37,7 @@ build:
 
   environment:
     name: production
-    url: https://gitlab.com/alienchristxv3/FGODLBNA
+    url: https://gitlab.com/alienchristxv3/FGODLBNA/
 
   variables:
     userIds: $GAME_USERIDS
