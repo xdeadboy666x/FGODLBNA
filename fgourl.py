@@ -1,3 +1,4 @@
+# encodng_mode: utf-8
 import json
 import binascii
 import requests
