@@ -6,18 +6,24 @@ variables:
 
 default:
   before_script:
-    - apt-get update && apt-get install -y sudo python3-venv
+    - apt-get update && apt-get install -y sudo
     - sudo ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
     - sudo dpkg-reconfigure -f noninteractive tzdata
-    - python3 -m venv venv  # Create virtual environment
-    - source venv/bin/activate  # Activate virtual environment
+    - sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+    - curl https://pyenv.run | bash
+    - export PATH="$HOME/.pyenv/bin:$PATH"
+    - eval "$(pyenv init --path)"
+    - eval "$(pyenv init -)"
+    - eval "$(pyenv virtualenv-init -)"
+    - pyenv install 3.11.0
+    - pyenv global 3.11.0
 
 build:
   stage: build
   image: python:3.11
 
   script:
-    - source venv/bin/activate  # Ensure virtual environment is activated
+    - export PATH="$HOME/.pyenv/shims:$PATH"
     - python --version
     - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --no-warn-script-location
     - python3 main.py
