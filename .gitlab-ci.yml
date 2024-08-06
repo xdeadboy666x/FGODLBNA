@@ -16,7 +16,7 @@ build:
 
   script:
     - python --version
-    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --no-warn-script-location
+    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --user --no-warn-script-location
     - python3 main.py
 
   cache:
