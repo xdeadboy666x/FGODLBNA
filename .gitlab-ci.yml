@@ -12,11 +12,11 @@ default:
 
 build:
   stage: build
-  image: python:3.11  # Adjust the image to match your needs
+  image: python:3.11
 
   script:
     - python --version
-    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --user
+    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --no-warn-script-location
     - python3 main.py
 
   cache:
@@ -34,7 +34,7 @@ build:
 
   environment:
     name: production
-    url: https://gitlab.com/alienchristxv3/FGODLBJP
+    url: https://gitlab.com/alienchristxv3/FGODLBNA
 
   variables:
     userIds: $GAME_USERIDS
@@ -44,5 +44,3 @@ build:
     DEVICE_INFO_SECRET: $DEVICE_INFO_SECRET
     USER_AGENT_SECRET_2: $USER_AGENT_SECRET_2
     webhookDiscord: $DISCORD_WEBHOOK
-
-# Define the schedule in the GitLab UI
