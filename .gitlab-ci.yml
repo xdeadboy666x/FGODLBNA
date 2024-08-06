@@ -17,16 +17,16 @@ default:
     - eval "$(pyenv virtualenv-init -)"
     - pyenv install 3.11.0
     - pyenv global 3.11.0
+    - export PATH="$HOME/.pyenv/shims:$PATH"
 
 build:
   stage: build
   image: python:3.11
 
   script:
-    - export PATH="$HOME/.pyenv/shims:$PATH"
     - python --version
     - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt --no-warn-script-location
-    - python3 main.py
+    - python main.py
 
   cache:
     key: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
