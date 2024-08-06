@@ -16,9 +16,7 @@ date_ver_ = 0
 ver_code_ = ''
 asset_bundle_folder_ = ''
 data_server_folder_crc_ = 0
-server_addr_ = 'https://game.fate-go.jp'
-github_token_ = ''
-github_name_ = ''
+server_addr_ = 'https://game.fate-go.us'
 
 
 # ==== User Info ====
@@ -29,8 +27,8 @@ def set_latest_assets():
 
     # Set Game Server Depends of region
 
-    if region == "NA":
-        server_addr_ = "https://game.fate-go.us"
+    if region == "JP":
+        server_addr_ = "https://game.fate-go.jp"
 
     # Get Latest Version of the data!
     version_str = main.get_latest_appver()
@@ -67,8 +65,7 @@ user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
 httpheader = {
     'User-Agent': user_agent_2,
     'Accept-Encoding': "deflate, gzip",
-    'Content-Type': "application/x-www-form-urlencoded",
-    'X-Unity-Version': "2022.3.28f1"
+    'Content-Type': "application/x-www-form-urlencoded"
 
 }
 
