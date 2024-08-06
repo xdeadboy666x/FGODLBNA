@@ -9,7 +9,7 @@ default:
     - apt-get update && apt-get install -y sudo
     - sudo ln -sf /usr/share/zoneinfo/America/Mexico_City /etc/localtime
     - sudo dpkg-reconfigure -f noninteractive tzdata
-    - sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+    - sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev git
     - curl https://pyenv.run | bash
     - export PATH="$HOME/.pyenv/bin:$PATH"
     - eval "$(pyenv init --path)"
