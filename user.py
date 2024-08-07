@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 import msgpack
 import uuid
 import hashlib
@@ -345,7 +345,7 @@ class user:
             if bluebronzesapling > 0:
                 quantity = remaining_ap_int // 40
                 if quantity == 0:
-                    main.logger.info(f"\n ======================================== \n Cannot purchase if AP is less than 40 (´･ω･`)? \n ======================================== ")
+                    main.logger.info(f"\n ======================================== \n Not enough AP for Bronzed Cobalt Fruit (´･ω･`) \n ======================================== ")
                     return
                 
                 if bluebronzesapling < quantity:
@@ -372,14 +372,14 @@ class user:
                             purchaseName = resSuccess['purchaseName']
                             purchaseNum = resSuccess['purchaseNum']
 
-                            main.logger.info(f"\n========================================\n[+] {purchaseNum}x {purchaseName} success! \n========================================")
+                            main.logger.info(f"\n========================================\n[+] Exchanged x{purchaseNum} {purchaseName} \n========================================")
                             webhook.shop(purchaseName, purchaseNum)
             else:
-                main.logger.info(f"\n ======================================== \n ＞︿＜ Bronze seedlings are not enough. (*。>Д<)o゜ \n ======================================== " )
+                main.logger.info(f"\n ======================================== \n ＞︿＜ Insufficient Bronze sapling. (*。>Д<)o゜_ \n ======================================== " )
 
 
     def drawFP(self):
-        gachaSubId = GetGachaSubIdFP("NA")
+        gachaSubId = GetGachaSubIdFP
 
         if gachaSubId is None:
                gachaSubId = "0"
@@ -393,7 +393,7 @@ class user:
         self.builder_.AddParameter('shopIdIndex', '1')
         self.builder_.AddParameter('gachaSubId', gachaSubId)
 
-        main.logger.info(f"\n ======================================== \n [+] FP Card Pool ID : {gachaSubId}\n ======================================== " )
+        main.logger.info(f"\n ======================================== \n [+] FP Summoning current gachaSubId : {gachaSubId}\n ======================================== " )
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
@@ -445,7 +445,7 @@ class user:
 
         present_ids = []
         for item in data['cache']['replaced']['userPresentBox']:
-            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #添加你需要领取的物品 Id 或者 baseSvtId 进入筛选列表
+            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #Add the Id or baseSvtId of the item you want to pick up to filter the list.
                 present_ids.append(str(item['presentId']))
 
         with open('JJM.json', 'w') as f:
@@ -506,12 +506,12 @@ class user:
                 shopId = max_base_shop_id
                 num_ok = 5 - num_value
                 if num_ok == 0:
-                   main.logger.info(f"\n ======================================== \n Monthly call sign. It has already been exchanged.了(´･ω･`) \n ======================================== ")
+                   main.logger.info(f"\n ======================================== \n You previously got the monthly Summom Tickets.了(´･ω･`) \n ======================================== ")
                 else:
                     mana = gdata['cache']['replaced']['userGame'][0]['mana']
                     mana_s = mana // 20
                     if mana_s == 0:
-                       main.logger.info(f"\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== ")
+                       main.logger.info(f"\n ======================================== \n Insufficient Mana Prism(´･ω･`) \n ======================================== ")
                     else:
                         if num_ok > mana_s:
                            num = mana_s
@@ -526,13 +526,13 @@ class user:
                 
                         responses = data['response'] 
                         if num is not None:
-                           main.logger.info(f"\n ======================================== \n Exchanged {num} call sign (per month)\n ======================================== ")       
+                           main.logger.info(f"\n ======================================== \n Received x{num} summom tickets (monthly)\n ======================================== ")       
             else:
                 num_ok = 5
                 mana = gdata['cache']['replaced']['userGame'][0]['mana']
                 mana_s = mana // 20
                 if mana_s == 0:
-                   main.logger.info(f"\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== ")
+                   main.logger.info(f"\n ======================================== \n Insufficient Mana Prism(´･ω･`) \n ======================================== ")
                 else:
                     if num_ok > mana_s:
                        num = mana_s
@@ -546,7 +546,7 @@ class user:
                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                     
                     if num is not None:
-                       main.logger.info(f"\n ======================================== \n Exchanged {num} call sign (per month) \n ======================================== ")
+                       main.logger.info(f"\n ======================================== \n Received x{num} Summon Tickets (monthly) \n ======================================== ")
 
         for item in fdata:
             if 4001 in item.get('targetIds', []) and item.get('flag') == 2048:
@@ -566,7 +566,7 @@ class user:
                         current_time = response.json()['unixtime']
 
                         if current_time > closedAt:
-                            main.logger.info(f"\n ======================================== \n No Mana Prism activity at this time.(´･ω･`) \n ======================================== ")
+                            main.logger.info(f"\n ======================================== \n No Mana Prism activity.(´･ω･`) \n ======================================== ")
                             return
                         else:
                             with open('login.json', 'r', encoding='utf-8') as file:
@@ -584,11 +584,11 @@ class user:
                             if num_value is not None:
                                num_ok = 5 - num_value
                                if num_ok == 0:
-                                   main.logger.info(f"\n ======================================== \n Event call sign You have already exchanged it.\n ======================================== ")
+                                   main.logger.info(f"\n ======================================== \n Event Summon Tickets are already exchanged.\n ======================================== ")
                                    return
                                else:
                                     if mana_s == 0:
-                                       main.logger.info(f"\n ======================================== \n Insufficient mana prisms(´･ω･`) \n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n Insufficient mana prism(´･ω･`) \n ======================================== ")
                                     else:
                                         if num_ok > mana_s:
                                            num = mana_s
@@ -601,13 +601,13 @@ class user:
                                     data = self.Post(
                                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                     if num is not None:
-                                       main.logger.info(f"\n ======================================== \n Redeemed {num} Call Sign (Limited Time Event) \n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n Received x{num} Summon Tickets (Limited or Special Event) \n ======================================== ")
                             else:
                                  num_ok = 5
                                  mana = gdata['cache']['replaced']['userGame'][0]['mana']
                                  mana_s = mana // 20
                                  if mana_s == 0:
-                                    main.logger.info(f"\n ======================================== \n Insufficient mana prisms(´･ω･`)\n ======================================== ")
+                                    main.logger.info(f"\n ======================================== \n Insufficient mana prism(´･ω･`)\n ======================================== ")
                                     return
                                  else:
                                      if num_ok > mana_s:
@@ -621,6 +621,6 @@ class user:
                                      data = self.Post(
                                          f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                      if num is not None:
-                                        main.logger.info(f"\n ======================================== \n Exchanged {num} call sign (limited time event) \n ======================================== ")
+                                        main.logger.info(f"\n ======================================== \n Received x{num}  limited time or special event Summon Tickets \n ======================================== ")
                     else:
                         main.logger.info(f"Time Server Connection Failure")
