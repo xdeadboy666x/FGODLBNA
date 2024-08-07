@@ -379,7 +379,7 @@ class user:
 
 
     def drawFP(self):
-        gachaSubId = GetGachaSubIdFP
+        gachaSubId = GetGachaSubIdFP("NA")
 
         if gachaSubId is None:
                gachaSubId = "0"
