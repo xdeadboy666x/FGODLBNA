@@ -6,9 +6,13 @@ on:
   pull_request:
     branches: [master]
   schedule:
-    - cron: "00 19,05,15 * * *"
-    - cron: "20 22,08 * * *"
-    - cron: "40 01,11 * * *"
+    - cron: "00 19 * * *"
+    - cron: "00 05 * * *"
+    - cron: "00 15 * * *"
+    - cron: "20 22 * * *"
+    - cron: "20 08 * * *"
+    - cron: "40 01 * * *"
+    - cron: "40 11 * * *"
   workflow_dispatch:
 
 jobs:
@@ -20,10 +24,10 @@ jobs:
         run: sudo systemsetup -settimezone America/Mexico_City
 
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ~/.pip-cache
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
