@@ -62,7 +62,7 @@ def topLogin(data: List[Union["user.Rewards", "user.Login", Union["user.Bonus", 
                     {"name": "Holy Grail", "value": f"{rewards.holygrail}", "inline": True},
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara16.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FDS/Figure/figure_351.png"
                 }
             }
         ],
@@ -130,7 +130,7 @@ def drawFP(servants: list, missions: list) -> None:
                     {"name": "FP Gacha results", "value": f"{message_servant}\n", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://static.atlasacademy.io/JP/External/FDS/Figure/figure_351.png"
+                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara10.png"
                 }
             }
         ],
