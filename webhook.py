@@ -130,7 +130,7 @@ def drawFP(servants: list, missions: list) -> None:
                     {"name": "FP Gacha results", "value": f"{message_servant}\n", "inline": False}
                 ],
                 "thumbnail": {
-                    "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara04.png"
+                    "url": "https://static.atlasacademy.io/JP/External/FDS/Figure/figure_351.png"
                 }
             }
         ],
