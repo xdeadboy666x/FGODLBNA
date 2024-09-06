@@ -42,7 +42,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sed -i requirements.txt && pip install --cache-dir ~/.pip-cache -r requirements.txt --user
+          pip install --cache-dir ~/.pip-cache -r requirements.txt --user
           
       - name: Run main scripts
         run: |
