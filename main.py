@@ -57,8 +57,9 @@ def main():
                 instance.buyBlueApple()
                 time.sleep(1)
                 instance.lq003()
-                time.sleep(1)
+                time.sleep(2)
                 instance.drawFP()
+                time.sleep(2)
 
 
             except Exception as ex:
