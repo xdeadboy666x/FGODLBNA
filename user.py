@@ -1,4 +1,4 @@
-# encoding: utf-8
+# coding: utf-8
 import msgpack
 import uuid
 import hashlib
@@ -345,7 +345,7 @@ class user:
             if bluebronzesapling > 0:
                 quantity = remaining_ap_int // 40
                 if quantity == 0:
-                    main.logger.info(f"\n ======================================== \n Not enough AP for Bronzed Cobalt Fruit (´･ω･`) \n ======================================== ")
+                    main.logger.info(f"\n ======================================== \n APが40未満の場合は購入できません (´･ω･`)? \n ======================================== ")
                     return
                 
                 if bluebronzesapling < quantity:
@@ -372,10 +372,10 @@ class user:
                             purchaseName = resSuccess['purchaseName']
                             purchaseNum = resSuccess['purchaseNum']
 
-                            main.logger.info(f"\n========================================\n[+] Exchanged x{purchaseNum} {purchaseName} \n========================================")
+                            main.logger.info(f"\n========================================\n[+] {purchaseNum}x {purchaseName} 购买成功\n========================================")
                             webhook.shop(purchaseName, purchaseNum)
             else:
-                main.logger.info(f"\n ======================================== \n ＞︿＜ Insufficient Bronze sapling. (*。>Д<)o゜_ \n ======================================== " )
+                main.logger.info(f"\n ======================================== \n ＞︿＜ 青銅の苗木が足りないヽ (*。>Д<)o゜ \n ======================================== " )
 
 
     def drawFP(self):
@@ -384,7 +384,7 @@ class user:
         if gachaSubId is None:
                gachaSubId = "0"
 
-        self.builder_.AddParameter('country', '484')    
+        self.builder_.AddParameter('country', '484')
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
         self.builder_.AddParameter('gachaId', '1')
@@ -393,7 +393,7 @@ class user:
         self.builder_.AddParameter('shopIdIndex', '1')
         self.builder_.AddParameter('gachaSubId', gachaSubId)
 
-        main.logger.info(f"\n ======================================== \n [+] FP Summoning current gachaSubId : {gachaSubId}\n ======================================== " )
+        main.logger.info(f"\n ======================================== \n [+] 友情卡池ID : {gachaSubId}\n ======================================== " )
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
@@ -430,22 +430,22 @@ class user:
 
 
     def lq001(self):
-         # https://game.fate-go.us/present/list?
+         # https://game.fate-go.jp/present/list?
           
         data = self.Post(
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"\n ======================================== \n [+] Checking Present Box \n ======================================== " )
+        main.logger.info(f"\n ======================================== \n [+] 读取礼物盒 \n ======================================== " )
 
     def lq002(self):
-         # https://game.fate-go.us/present/receive?
-        with open('login.json', 'r', encoding='utf-8') as f:
+         # https://game.fate-go.jp/present/receive?
+        with open('login.json', 'r', encoding='utf-8')as f:
             data = json.load(f)
 
         present_ids = []
         for item in data['cache']['replaced']['userPresentBox']:
-            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #Add the Id or baseSvtId of the item you want to pick up to filter the list.
+            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #添加你需要领取的物品 Id 或者 baseSvtId 进入筛选列表
                 present_ids.append(str(item['presentId']))
 
         with open('JJM.json', 'w') as f:
@@ -470,24 +470,34 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"\n ======================================== \n [+] Received rewards \n ======================================== " )
+            main.logger.info(f"\n ======================================== \n [+] 领取成功 \n ======================================== " )
 
     def lq003(self):
-        # https://game.fate-go.us/shop/purchase?
-
+        # https://game.fate-go.us/shop/purchase
+        
         url = 'https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstShop.json'
         response = requests.get(url)
 
         fdata = response.json()
         max_base_shop_id = None
         max_base_shop_s_id = None
+        max_base_lim_it_Num = None 
+        max_base_lim_it_s_Num = None 
+        max_base_prices = None
+        max_base_prices_s = None
+        max_base_name_s = '活动'
         num = None
 
         for item in fdata:
             if 4001 in item.get('targetIds', []) and item.get('flag') == 4096:
                 base_shop_id = item.get('baseShopId')
+                base_lim_it_Num = item.get('limitNum')
+                base_prices = item.get('prices')[0]
+                
                 if max_base_shop_id is None or base_shop_id > max_base_shop_id:
                     max_base_shop_id = base_shop_id
+                    max_base_lim_it_Num = base_lim_it_Num
+                    max_base_prices = base_prices
 
         if max_base_shop_id is not None:
             shopId = max_base_shop_id
@@ -504,14 +514,14 @@ class user:
 
             if num_value is not None:
                 shopId = max_base_shop_id
-                num_ok = 5 - num_value
+                num_ok = max_base_lim_it_Num - num_value
                 if num_ok == 0:
-                   main.logger.info(f"\n ======================================== \n You previously got the monthly Summom Tickets.了(´･ω･`) \n ======================================== ")
+                   main.logger.info(f"\n ======================================== \n 每月呼符 你已经兑换过了(´･ω･`) \n ======================================== ")
                 else:
                     mana = gdata['cache']['replaced']['userGame'][0]['mana']
-                    mana_s = mana // 20
+                    mana_s = mana // max_base_prices
                     if mana_s == 0:
-                       main.logger.info(f"\n ======================================== \n Insufficient Mana Prism(´･ω･`) \n ======================================== ")
+                       main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                     else:
                         if num_ok > mana_s:
                            num = mana_s
@@ -526,13 +536,13 @@ class user:
                 
                         responses = data['response'] 
                         if num is not None:
-                           main.logger.info(f"\n ======================================== \n Received x{num} summom tickets (monthly)\n ======================================== ")       
+                           main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （每月）\n ======================================== ")       
             else:
-                num_ok = 5
+                num_ok = max_base_lim_it_Num
                 mana = gdata['cache']['replaced']['userGame'][0]['mana']
-                mana_s = mana // 20
+                mana_s = mana // max_base_prices
                 if mana_s == 0:
-                   main.logger.info(f"\n ======================================== \n Insufficient Mana Prism(´･ω･`) \n ======================================== ")
+                   main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                 else:
                     if num_ok > mana_s:
                        num = mana_s
@@ -546,13 +556,22 @@ class user:
                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                     
                     if num is not None:
-                       main.logger.info(f"\n ======================================== \n Received x{num} Summon Tickets (monthly) \n ======================================== ")
+                       main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 （每月） \n ======================================== ")
 
         for item in fdata:
             if 4001 in item.get('targetIds', []) and item.get('flag') == 2048:
                 base_shop_s_id = item.get('baseShopId')
+                base_lim_it_s_Num = item.get('limitNum')
+                base_prices_s = item.get('prices')[0]
+                base_name_s = item.get('detail')
+                match = re.search(r'【(.*?)】', base_name_s)
+                base_name_ss = match.group(1)
+                
                 if max_base_shop_s_id is None or base_shop_s_id > max_base_shop_s_id:
                     max_base_shop_s_id = base_shop_s_id
+                    max_base_lim_it_s_Num = base_lim_it_s_Num
+                    max_base_prices_s = base_prices_s
+                    max_base_name_s = base_name_ss
 
         if max_base_shop_s_id is not None:
             shopId = max_base_shop_s_id
@@ -566,14 +585,14 @@ class user:
                         current_time = response.json()['unixtime']
 
                         if current_time > closedAt:
-                            main.logger.info(f"\n ======================================== \n No Mana Prism activity.(´･ω･`) \n ======================================== ")
+                            main.logger.info(f"\n ======================================== \n 目前没有 绿方块活动(´･ω･`) \n ======================================== ")
                             return
                         else:
                             with open('login.json', 'r', encoding='utf-8') as file:
                                  gdata = json.load(file)
 
                             mana = gdata['cache']['replaced']['userGame'][0]['mana']
-                            mana_s = mana // 20
+                            mana_s = mana // max_base_prices_s
                             num_value = None
 
                             for item in gdata.get('cache', {}).get('updated', {}).get('userShop', []):
@@ -582,13 +601,13 @@ class user:
                                     break
 
                             if num_value is not None:
-                               num_ok = 5 - num_value
+                               num_ok = max_base_lim_it_s_Num - num_value
                                if num_ok == 0:
-                                   main.logger.info(f"\n ======================================== \n Event Summon Tickets are already exchanged.\n ======================================== ")
+                                   main.logger.info(f"\n ======================================== \n {max_base_name_s}呼符 你已经兑换过了(´･ω･`) \n ======================================== ")
                                    return
                                else:
                                     if mana_s == 0:
-                                       main.logger.info(f"\n ======================================== \n Insufficient mana prism(´･ω･`) \n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                                     else:
                                         if num_ok > mana_s:
                                            num = mana_s
@@ -601,13 +620,14 @@ class user:
                                     data = self.Post(
                                         f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                     if num is not None:
-                                       main.logger.info(f"\n ======================================== \n Received x{num} Summon Tickets (Limited or Special Event) \n ======================================== ")
+                                       main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 // {max_base_name_s} \n ======================================== ")
                             else:
-                                 num_ok = 5
+                                 num_ok = max_base_lim_it_s_Num
                                  mana = gdata['cache']['replaced']['userGame'][0]['mana']
-                                 mana_s = mana // 20
+                                 mana_s = mana // max_base_prices_s
+                                
                                  if mana_s == 0:
-                                    main.logger.info(f"\n ======================================== \n Insufficient mana prism(´･ω･`)\n ======================================== ")
+                                    main.logger.info(f"\n ======================================== \n 魔力棱镜不足(´･ω･`) \n ======================================== ")
                                     return
                                  else:
                                      if num_ok > mana_s:
@@ -621,6 +641,6 @@ class user:
                                      data = self.Post(
                                          f'{fgourl.server_addr_}/shop/purchase?_userId={self.user_id_}') 
                                      if num is not None:
-                                        main.logger.info(f"\n ======================================== \n Received x{num}  limited time or special event Summon Tickets \n ======================================== ")
+                                        main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 // {max_base_name_s} \n ======================================== ")
                     else:
-                        main.logger.info(f"Time Server Connection Failure")
+                        main.logger.info(f"时间服务器连接失败")
