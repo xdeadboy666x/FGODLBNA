@@ -1,0 +1,10 @@
+json5
+httpx
+lxml
+requests
+py3rijndael
+msgpack
+coloredlogs
+fake-useragent
+cryptography~=42.0.7
+pycryptodome
