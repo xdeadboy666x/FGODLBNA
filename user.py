@@ -20,6 +20,8 @@ import time
 import requests
 import shutil
 
+from Crypto.Cipher import DES3
+from Crypto.Util.Padding import pad
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.backends import default_backend
@@ -50,7 +52,6 @@ class ParameterBuilder:
 
     def AddParameter(self, key: str, value: str):
         self.parameter_list_.append((key, value))
-        
 
     def Build(self) -> str:
         self.parameter_list_.sort(key=lambda tup: tup[0])
@@ -90,7 +91,7 @@ class ParameterBuilder:
 
 
 class Rewards:
-    def __init__(self, stone, level, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail):
+    def __init__(self, stone, fpids, level, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail):
         self.stone = stone
         self.level = level
         self.ticket = ticket
@@ -102,6 +103,7 @@ class Rewards:
         self.pureprism = pureprism
         self.sqf01 = sqf01
         self.holygrail = holygrail
+        self.fpids = fpids
 
 
 class Login:
@@ -119,7 +121,6 @@ class Login:
         self.remaining_ap = remaining_ap
 
 
-
 class Bonus:
     def __init__(self, message, items, bonus_name, bonus_detail, bonus_camp_items):
         self.message = message
@@ -133,6 +134,8 @@ class user:
     def __init__(self, user_id: str, auth_key: str, secret_key: str):
         self.name_ = ''
         self.user_id_ = (int)(user_id)
+        self.auth_ = (auth_key)
+        self.sec_ = (secret_key)
         self.s_ = fgourl.NewSession()
         self.builder_ = ParameterBuilder(user_id, auth_key, secret_key)
 
@@ -140,11 +143,11 @@ class user:
         res = fgourl.PostReq(self.s_, url, self.builder_.Build())
         self.builder_.Clean()
         return res
-
-    def topLogin_s(self):
-        DataWebhook = []  
-        device_info = os.environ.get('DEVICE_INFO_SECRET')
         
+            
+    def topLogin(self):
+        DataWebhook = []  # This data will be use in discord webhook!
+
         with open('private_key.pem', 'rb') as f:
             loaded_private_key = serialization.load_pem_private_key(
                 f.read(), password=None, backend=default_backend())
@@ -170,23 +173,23 @@ class user:
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
         self.builder_.AddParameter('idempotencyKeySignature', idempotencyKeySignature)
-        self.builder_.AddParameter('deviceInfo', device_info)
+        self.builder_.AddParameter('deviceInfo', 'Google Pixel 5 / Android OS 14 / API-34 (UP1A.231105.001/10817346)')
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
-        self.builder_.AddParameter('country', '484')
 
         data = self.Post(
             f'{fgourl.server_addr_}/login/top?_userId={self.user_id_}')
-
+        
         responses = data['response']
         
         with open('login.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        
+
         self.name_ = hashlib.md5(
             data['cache']['replaced']['userGame'][0]['name'].encode('utf-8')).hexdigest()
         stone = data['cache']['replaced']['userGame'][0]['stone']
         lv = data['cache']['replaced']['userGame'][0]['lv']
+        fpids = data['cache']['replaced']['userGame'][0]['friendCode']
         ticket = 0
         goldenfruit = 0
         silverfruit = 0
@@ -243,9 +246,10 @@ class user:
                 break
 
         
-        rewards = Rewards(stone, lv, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
+        rewards = Rewards(stone, lv, fpids, ticket, goldenfruit, silverfruit, bronzefruit, bluebronzesapling, bluebronzefruit, pureprism, sqf01, holygrail)
 
         DataWebhook.append(rewards)
+
 
         login_days = data['cache']['updated']['userLogin'][0]['seqLoginCount']
         total_days = data['cache']['updated']['userLogin'][0]['totalLoginCount']
@@ -266,6 +270,7 @@ class user:
                 remaining_ap = int(remaining_ap_int)
         else:
             remaining_ap = act_max + carryOverActPoint
+                
         
         now_act = (act_max - (act_recover_at - mytime.GetTimeStamp()) / 300)
 
@@ -313,7 +318,7 @@ class user:
             DataWebhook.append("No Bonus")
 
         webhook.topLogin(DataWebhook)
-        
+
 
     def buyBlueApple(self):
         with open('login.json', 'r', encoding='utf-8') as file:
@@ -379,21 +384,24 @@ class user:
 
 
     def drawFP(self):
+        gachaSubId = None
+        
         gachaSubId = GetGachaSubIdFP("NA")
-
-        if gachaSubId is None:
-               gachaSubId = "0"
-
-        self.builder_.AddParameter('country', '484')
+    
+        if gachaSubId == 1000:
+           gachaSubId_mo = 0
+        else:
+           gachaSubId_mo = int(gachaSubId) - 1
+            
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
-        self.builder_.AddParameter('gachaSubId', gachaSubId)
+        self.builder_.AddParameter('gachaSubId', str(gachaSubId_mo))
 
-        main.logger.info(f"\n ======================================== \n [+] 友情卡池ID : {gachaSubId}\n ======================================== " )
+        main.logger.info(f"\n ======================================== \n [+] 友情卡池ID : {gachaSubId_mo}\n ======================================== " )
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
@@ -425,39 +433,138 @@ class user:
 
         webhook.drawFP(servantArray, missionArray)
 
+    def drawS(self):
+        # 石头卡池
+        #謎の代行者C.I.E.L
+        
+        self.builder_.AddParameter('storyAdjustIds', '[]')
+        self.builder_.AddParameter('selectBonusList', '')
+        self.builder_.AddParameter('gachaId', "50024371")
+        self.builder_.AddParameter('num', '11')
+        self.builder_.AddParameter('ticketItemId', '0')
+        self.builder_.AddParameter('shopIdIndex', '2')
+        self.builder_.AddParameter('gachaSubId', '0')
+
+        data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
+
+        responses = data['response']
+        main.logger.info(f"[+] 圣晶石 抽卡成功" )
+        
+    def drawFF(self):
+        # 石头卡池
+        #謎の代行者C.I.E.L
+        
+        self.builder_.AddParameter('storyAdjustIds', '[]')
+        self.builder_.AddParameter('selectBonusList', '')
+        self.builder_.AddParameter('gachaId', "50024371")
+        self.builder_.AddParameter('num', '1')
+        self.builder_.AddParameter('ticketItemId', '4001')
+        self.builder_.AddParameter('shopIdIndex', '1')
+        self.builder_.AddParameter('gachaSubId', '0')
+
+        data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
+
+        responses = data['response']
+        main.logger.info(f"[+] 呼符 抽卡成功" )
+    
     def topHome(self):
         self.Post(f'{fgourl.server_addr_}/home/top?_userId={self.user_id_}')
 
 
+    def zc15(self):
+        # 抽卡设定
+        # https://game.fate-go.jp/userStatus/flagSet?_userId=
+        
+        self.builder_.AddParameter('onFlagNumbers', '[8,7,4,1,2,0,3,6]') 
+        self.builder_.AddParameter('offFlagNumbers', '[5]') 
+        data = self.Post(
+            f'{fgourl.server_addr_}/userStatus/flagSet?_userId={self.user_id_}')
+        
+        responses = data['response']
+
+        main.logger.info(f"友情抽卡!")
+
+
+
+
+    def zc16(self):
+        # 抽卡
+        # https://game.fate-go.jp/gacha/draw?_userId=
+        
+        self.builder_.AddParameter('storyAdjustIds', '[]') 
+        self.builder_.AddParameter('selectBonusList', '') 
+        self.builder_.AddParameter('gachaId', '1') 
+        self.builder_.AddParameter('num', '10') 
+        self.builder_.AddParameter('ticketItemId', '0') 
+        self.builder_.AddParameter('shopIdIndex', '1') 
+        self.builder_.AddParameter('gachaSubId', '410') 
+
+        data = self.Post(
+            f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
+        
+        responses = data['response']
+
+        main.logger.info(f"成功!")
+
+    
+    def zc22(self):
+          
+        self.builder_.AddParameter('name', '111111111')
+        self.builder_.AddParameter('message', '')
+        self.builder_.AddParameter('genderType', '2')
+
+        data = self.Post(
+            f'{fgourl.server_addr_}/profile/editName?_userId={self.user_id_}')
+        
+        responses = data['response']
+        main.logger.info(f"改名!")
+
+    def zc23(self):
+          
+        self.builder_.AddParameter('name', '11111111')
+        self.builder_.AddParameter('message', '222222222')
+        self.builder_.AddParameter('genderType', '2')
+
+        data = self.Post(
+            f'{fgourl.server_addr_}/profile/editName?_userId={self.user_id_}')
+        
+        responses = data['response']
+        main.logger.info(f"改签名!")
+
     def lq001(self):
-         # https://game.fate-go.jp/present/list?
+         # https://game.fate-go.jp/present/list?_userId=
           
         data = self.Post(
             f'{fgourl.server_addr_}/present/list?_userId={self.user_id_}')
         
         responses = data['response']
-        main.logger.info(f"\n ======================================== \n [+] 读取礼物盒 \n ======================================== " )
+        main.logger.info(f"读取礼物盒!")
 
     def lq002(self):
-         # https://game.fate-go.jp/present/receive?
+         # https://game.fate-go.jp/present/receive?_userId=
+        
         with open('login.json', 'r', encoding='utf-8')as f:
             data = json.load(f)
 
         present_ids = []
         for item in data['cache']['replaced']['userPresentBox']:
-            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000, 6999, 9570400, 9670400]: #添加你需要领取的物品 Id 或者 baseSvtId 进入筛选列表
+            if item['objectId'] in [2, 6, 11, 16, 3, 46, 18, 48, 4001, 100, 101, 102, 103, 104, 1, 4, 7998, 7999, 1000, 2000]:
                 present_ids.append(str(item['presentId']))
 
         with open('JJM.json', 'w') as f:
             json.dump(present_ids, f, ensure_ascii=False, indent=4)
-            
+
+        main.logger.info(f"解析完成!")
+
         time.sleep(1)
 
         if os.path.exists('JJM.json'):
             with open('JJM.json', 'r', encoding='utf-8') as file:
-                datas = json.load(file)
+                data1 = json.load(file)
 
-            msgpack_data = msgpack.packb(datas)
+            data = data1
+
+            msgpack_data = msgpack.packb(data)
 
             base64_encoded_data = base64.b64encode(msgpack_data).decode()
 
@@ -470,12 +577,14 @@ class user:
     
             responses = data['response']
 
-            main.logger.info(f"\n ======================================== \n [+] 领取成功 \n ======================================== " )
+            main.logger.info(f"领取成功!")
+        else:
+            main.logger.info(f"没有物品可领取!")
 
     def lq003(self):
-        # https://game.fate-go.us/shop/purchase
+        # https://game.fate-go.jp/shop/purchase
         
-        url = 'https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstShop.json'
+        url = 'https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/JP/master/mstShop.json'
         response = requests.get(url)
 
         fdata = response.json()
@@ -644,3 +753,65 @@ class user:
                                         main.logger.info(f"\n ======================================== \n 已兑换 {num} 呼符 // {max_base_name_s} \n ======================================== ")
                     else:
                         main.logger.info(f"时间服务器连接失败")
+
+
+    def zc25(self):
+        
+        #导出账号功能，在main中引用函数后将还原并导出账号文件到每个工作流程中的工件之中，以zip形式提供下载！
+    
+        #注意！！不要在公开的github存储库上直接使用它，这会直接暴露你的账号文件！
+
+        with open('login.json', 'r', encoding='utf-8')as f:
+            data = json.load(f)
+
+            fpids = data['cache']['replaced']['userGame'][0]['friendCode']
+  
+        processed = False
+
+        if not processed:
+           
+           auth_key = self.auth_
+           secret_key = self.sec_
+           user_id = self.user_id_
+
+           folder_name = f"ID_{fpids}"
+           
+           os.makedirs(folder_name)
+
+           text = f"""{{"SaveDataVer":"Fgo_20150511_1","userCreateServer":"game.fate-go.jp/","userId":"{user_id}","authKey":"{auth_key}","secretKey":"{secret_key}"}}\u0007\u0007\u0007\u0007\u0007\u0007\u0007"""
+            
+          #2018年之前的账号使用下面这个转码格式
+          #text = f"""{{"SaveDataVer":"Fgo_20150511_1","userCreateServer":"game.fate-go.jp/","userId":"{user_id}","authKey":"{auth_key}","secretKey":"{secret_key}"}}\b\b\b\b\b\b\b\b"""
+        
+
+           text_bytes = text.encode('utf-8')
+
+           bytes1 = "b5nHjsMrqaeNliSs3jyOzgpD".encode('utf-8')
+           bytes2 = "wuD6keVr".encode('utf-8')
+
+           des3 = DES3.new(bytes1, DES3.MODE_CBC, bytes2)
+
+           encrypted_bytes = des3.encrypt(text_bytes)
+
+           encrypted_text = base64.b64encode(encrypted_bytes).decode('utf-8')
+   
+           encrypted_text_with_question = encrypted_text
+
+           encrypted_bytes_with_question = encrypted_text_with_question.encode('utf-8')
+
+           hex_prefix = bytes.fromhex("F801")
+
+           modified_content = hex_prefix + encrypted_bytes_with_question
+
+           with open('54cc790bf952ea710ed7e8be08049531', 'wb') as modified_file:
+               modified_file.write(modified_content)
+
+           with open('969b46577f365fadeb79ef14cf5d6370', 'wb') as renamed_file:
+               renamed_file.write(modified_content)
+
+           shutil.move('54cc790bf952ea710ed7e8be08049531', os.path.join(folder_name, '54cc790bf952ea710ed7e8be08049531'))
+           shutil.move('969b46577f365fadeb79ef14cf5d6370', os.path.join(folder_name, '969b46577f365fadeb79ef14cf5d6370'))
+           main.logger.info("[+] 加密还原账号文件 保存完成")
+           processed = True 
+           main.logger.info(f"\n ========================================")
+
