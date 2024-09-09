@@ -2,6 +2,8 @@ import json
 import binascii
 import requests
 import main
+import CatAndMouseGame
+import os
 
 requests.urllib3.disable_warnings()
 session = requests.Session()
