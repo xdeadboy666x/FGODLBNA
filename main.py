@@ -64,12 +64,5 @@ def main():
                 time.sleep(1)
                 instance.drawFP()
 
-                # Send a message to Discord after the login
-                send_discord_msg(f"Successfully logged in for user {userIds[i]}")
-
-            except Exception as ex:
-                logger.error(ex)
-                send_discord_msg(f"Failed to log in for user {userIds[i]}. Error: {ex}")
-
 if __name__ == "__main__":
     main()
