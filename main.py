@@ -24,7 +24,7 @@ authKeyNums = len(authKeys)
 secretKeyNums = len(secretKeys)
 
 # Set up logging
-logger = logging.getLogger("FGO Daily Login")
+logger = logging.getLogger("FGO AutoLogin Manager")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
 # Function to load JSON from file
@@ -47,21 +47,21 @@ def dump_json(obj, fp: str | Path | None = None, indent=False, default=None) -> 
     return result.decode()
 
 # Function to send a message to Discord webhook
-def send_discord_msg(msg: str):
-    if not webhook_discord_url:
-        return
-    try:
-        logger.info(f"Sending discord webhook: {msg}")
-        resp = requests.post(
-            webhook_discord_url,
-            json={
-                "username": "Daily Bonus",
-                "content": f"```\n{msg}\n```",
-            },
-        )
-        logger.info(f"Discord webhook response: {resp.status_code}")
-    except Exception as e:
-        logger.exception("Failed to send discord webhook")
+#def send_discord_msg(msg: str):
+    #if not webhook_discord_url:
+        #return
+    #try:
+        #logger.info(f"Sending discord webhook: {msg}")
+        #resp = requests.post(
+            #webhook_discord_url,
+            #json={
+                #"username": "Daily Bonus",
+                #"content": f"```\n{msg}\n```",
+            #},
+        #)
+        #logger.info(f"Discord webhook response: {resp.status_code}")
+    #except Exception as e:
+        #logger.exception("Failed to send discord webhook")
 
 # Function to get the latest version code
 def get_latest_verCode():
@@ -87,7 +87,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info(f"\n ======================================== \n [+] Logging into account \n ======================================== ")
+                logger.info(f"\n ======================================== \n [+] Signing in... \n ======================================== ")
 
                 time.sleep(1)
                 instance.topLogin_s()
@@ -104,11 +104,11 @@ def main():
                 instance.drawFP()
 
                 # Send a message to Discord after the login
-                send_discord_msg(f"Successfully logged in for user {userIds[i]}")
+                #send_discord_msg(f"Successfully logged in for user {userIds[i]}")
 
             except Exception as ex:
                 logger.error(ex)
-                send_discord_msg(f"Failed to log in for user {userIds[i]}. Error: {ex}")
+                #send_discord_msg(f"Failed to log in for user {userIds[i]}. Error: {ex}")
 
 if __name__ == "__main__":
     main()
