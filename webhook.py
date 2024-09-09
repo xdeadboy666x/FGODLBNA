@@ -14,7 +14,7 @@ dracula_colors = {
     "orange": 0xFFB86C,
 }
 
-def topLogin_s(data: List[Union["user.Rewards", "user.Login", Union["user.Bonus", str]]]) -> None:
+def topLogin(data: List[Union["user.Rewards", "user.Login", Union["user.Bonus", str]]]) -> None:
     endpoint = main.webhook_discord_url
 
     rewards: "user.Rewards" = data[0]
