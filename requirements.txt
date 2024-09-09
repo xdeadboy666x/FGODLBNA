@@ -8,5 +8,6 @@ httpx
 json5
 lxml
 msgpack
+orjson
 py3rijndael
 requests
