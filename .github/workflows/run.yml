@@ -1,7 +1,7 @@
 name: FGO Login System NA
 
 on:
-    workflow_dispatch:
+workflow_dispatch:
   push:
     branches: [master]
   pull_request:
@@ -38,8 +38,7 @@ jobs:
           pip install --cache-dir ~/.pip-cache setuptools wheel -r requirements.txt --user
           
       - name: Run main scripts
-        run: |
-          python3 main.py
+        run: |python3 main.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
