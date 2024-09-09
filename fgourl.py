@@ -33,7 +33,7 @@ def set_latest_assets():
         server_addr_ = "https://game.fate-go.us"
 
     # Get Latest Version of the data!
-    version_str = version.get_version(region)
+    version_str = main.get_latest_appver()
     response = requests.get(
         server_addr_ + '/gamedata/top?appVer=' + version_str).text
     response_data = json.loads(response)["response"][0]["success"]
