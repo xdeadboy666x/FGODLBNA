@@ -1,6 +1,7 @@
 name: FGO Login System NA
 
 on:
+    workflow_dispatch:
   push:
     branches: [master]
   pull_request:
@@ -14,15 +15,13 @@ on:
     - cron: "10 12 * * *"
     - cron: "36 15 * * *"
     
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: macos-latest
 
     steps:
       - name: Set Time Zone
-        run: sudo systemsetup -settimezone America/Mexico_City
+        run: sudo timedatectl set-timezone America/Mexico_City
 
       - uses: actions/checkout@v4
       - name: Checkout data repo
