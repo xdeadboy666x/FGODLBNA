@@ -6,6 +6,9 @@ import fgourl
 import user
 import coloredlogs
 import logging
+from pathlib import Path
+from typing import Any
+import orjson
 
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
@@ -37,6 +40,7 @@ def get_latest_appver():
     return response_data['appVer']
 
 
+# Main function that logs into FGO accounts and performs tasks
 def main():
     if userNums == authKeyNums and userNums == secretKeyNums:
         fgourl.set_latest_assets()
@@ -44,7 +48,7 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
-                logger.info(f"\n ======================================== \n [+] Signing \n ======================================== " )
+                logger.info(f"\n ======================================== \n [+] Logging into account \n ======================================== ")
 
                 time.sleep(1)
                 instance.topLogin_s()
@@ -57,13 +61,15 @@ def main():
                 instance.buyBlueApple()
                 time.sleep(1)
                 instance.lq003()
-                time.sleep(2)
+                time.sleep(1)
                 instance.drawFP()
-                time.sleep(2)
 
+                # Send a message to Discord after the login
+                send_discord_msg(f"Successfully logged in for user {userIds[i]}")
 
             except Exception as ex:
                 logger.error(ex)
+                send_discord_msg(f"Failed to log in for user {userIds[i]}. Error: {ex}")
 
 if __name__ == "__main__":
     main()
