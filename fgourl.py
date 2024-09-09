@@ -43,10 +43,10 @@ def set_latest_assets():
     data_ver_ = response_data['dataVer']
     date_ver_ = response_data['dateVer']
     ver_code_ = main.get_latest_verCode()
+
+    # Use Asset Bundle Extractor to get Folder Name
     assetbundle = CatAndMouseGame.getAssetBundle(response_data['assetbundle'])
     get_folder_data(assetbundle)
-        assetbundle = json.load(data)
-        get_folder_data(assetbundle)
 
 
 def get_folder_data(assetbundle):
