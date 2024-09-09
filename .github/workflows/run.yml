@@ -1,7 +1,7 @@
 name: FGO Login System NA
 
 on:
-workflow_dispatch:
+  workflow_dispatch:
   push:
     branches: [master]
   pull_request:
@@ -18,14 +18,12 @@ workflow_dispatch:
 jobs:
   build:
     runs-on: macos-latest
-
+    env:
+      TZ: America/Mexico_City
+    
     steps:
-      - name: Set Time Zone
-        run: sudo timedatectl set-timezone America/Mexico_City
-
+    
       - uses: actions/checkout@v4
-      - name: Checkout data repo
-        uses: actions/checkout@v4
       
       - name: Setup Python 3.11
         uses: actions/setup-python@v5
@@ -34,8 +32,7 @@ jobs:
           cache: "pip"
           
       - name: Install dependencies
-        run: |
-          pip install --cache-dir ~/.pip-cache setuptools wheel -r requirements.txt --user
+        run: pip install --cache-dir ~/.pip-cache setuptools wheel -r requirements.txt --upgrade --user
           
       - name: Run main scripts
         run: python3 main.py
