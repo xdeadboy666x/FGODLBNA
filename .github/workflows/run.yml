@@ -44,3 +44,12 @@ jobs:
           DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
           USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+
+  keepalive-job:
+    name: Keepalive Workflow
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gautamkrishnar/keepalive-workflow@v2
