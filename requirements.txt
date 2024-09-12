@@ -10,4 +10,5 @@ lxml
 msgpack
 orjson
 py3rijndael
+pycryptodome
 requests
