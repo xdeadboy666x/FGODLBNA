@@ -37,10 +37,11 @@ jobs:
       - name: Run main scripts
         run: python3 main.py
         env:
-          userIds: ${{ secrets.GAME_USERIDS }}
-          authKeys: ${{ secrets.GAME_AUTHKEYS }}
-          secretKeys: ${{ secrets.GAME_SECRETKEYS }}
-          fateRegion: ${{ secrets.GAME_REGION }}
+          CERT: ${{ secrets.CERTIFICATE }}
+          #userIds: ${{ secrets.GAME_USERIDS }}
+          #authKeys: ${{ secrets.GAME_AUTHKEYS }}
+          #secretKeys: ${{ secrets.GAME_SECRETKEYS }}
+          FATE_REGION: ${{ secrets.GAME_REGION }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
           DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
           USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
