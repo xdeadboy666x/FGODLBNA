@@ -19,7 +19,7 @@ from datetime import datetime, timedelta, timezone
 tz_utc_8 = timezone(timedelta(hours=8))
 
 def get_ver_code(REGION):
-    url = f"https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/VerCode.json"
+    url = f"https://fgo.bigcereal.com/{REGION}/verCode.txt"
     response = requests.get(url)
     data = response.text.strip()
     params = dict(item.split('=') for item in data.split('&'))
