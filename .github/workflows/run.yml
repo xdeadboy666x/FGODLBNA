@@ -17,7 +17,7 @@ on:
     
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       TZ: America/Mexico_City
     
@@ -32,7 +32,7 @@ jobs:
           cache: "pip"
           
       - name: Install dependencies
-        run: pip install --cache-dir ~/.pip-cache -r requirements.txt --user
+        run: pip install --cache-dir ~/.pip-cache setuptools wheel -r requirements.txt --upgrade --user
           
       - name: Run main scripts
         run: python3 main.py
@@ -41,15 +41,6 @@ jobs:
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
           secretKeys: ${{ secrets.GAME_SECRETKEYS }}
           fateRegion: ${{ secrets.GAME_REGION }}
-          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
           DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
           USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
-
-  keepalive-job:
-    name: Keepalive Workflow
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: gautamkrishnar/keepalive-workflow@v2
+          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
