@@ -105,7 +105,7 @@ def topLogin(
                 },
             }
         ],
-        "attachments": [],
+        "attachments": []
     }
 
     headers = {"Content-Type": "application/json"}
@@ -135,7 +135,7 @@ def shop(item: str, quantity: int) -> None:
                 },
             }
         ],
-        "attachments": [],
+        "attachments": []
     }
 
     headers = {"Content-Type": "application/json"}
@@ -186,7 +186,7 @@ def drawFP(servants: list, missions: list) -> None:
                 },
             }
         ],
-        "attachments": [],
+        "attachments": []
     }
 
     headers = {"Content-Type": "application/json"}
