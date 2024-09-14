@@ -381,7 +381,7 @@ class user:
     	gachaSubId = ("{region}")
     	
         if gachaSubId is None:
-              gachaSubId = "0"
+        gachaSubId = "0"
               
 				self.builder_.AddParameter('country', '484')
 				self.builder_.AddParameter('storyAdjustIds', '[]')
