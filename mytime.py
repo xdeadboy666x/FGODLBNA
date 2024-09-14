@@ -1,48 +1,45 @@
 import math
 from datetime import datetime, timedelta, timezone
 
-# Set timezone to UTC+4
-tz_utc_4 = timezone(timedelta(hours=4))
 
-class MyTime:
-    @classmethod
-    def get_timestamp(cls):
-        return int(datetime.now().timestamp())  # FGO uses UTC time
-
-    @classmethod
-    def is_Free_FP_draw_available(cls, last_free_draw_timestamp_utc: int):
-        UTC_PLUS_4 = timezone(timedelta(hours=+4))
-        # get last free draw time in GMT+0 and convert to GMT+4 to the next day
-        dt_utc = datetime.fromtimestamp(last_free_draw_timestamp_utc, timezone.utc)
-        dt_custom = dt_utc.astimezone(UTC_PLUS_4)
-        next_midnight = datetime(dt_custom.year, dt_custom.month, dt_custom.day, tzinfo=UTC_PLUS_4) + timedelta(days=1)
-
-        # Convert next_midnight back to UTC to compare with the current time
-        next_midnight_utc = next_midnight.astimezone(timezone.utc)
-        next_midnight_timestamp = next_midnight_utc.timestamp()
-
-        # Returns True if the current time has passed the midnight of the day following the last draw date
-        return cls.get_timestamp() >= next_midnight_timestamp
-
-    @classmethod
-    def get_used_act_ammount(cls, full_recover_at: int):
-        return max(0, math.ceil((full_recover_at - cls.get_timestamp()) / 300))
-
-# Updated functions with timezone set to UTC+4
 def GetNowTimeHour():
-    return datetime.now(tz=tz_utc_4).hour
+    return datetime.now(tz=tz_utc_8).hour
+
 
 def GetNowTime():
-    return datetime.now(tz=tz_utc_4)
+    return datetime.now(tz=tz_utc_8)
+
 
 def GetFormattedNowTime():
-    return datetime.now(tz=tz_utc_4).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.now(tz=tz_utc_8).strftime("%Y-%m-%d %H:%M:%S")
+
 
 def GetTimeStamp():
-    return int(datetime.now(tz=tz_utc_4).timestamp())
+    return (int)(datetime.now(tz=tz_utc_8).timestamp())
+
 
 def TimeStampToString(timestamp):
-    return datetime.fromtimestamp(timestamp, tz=tz_utc_4).strftime('%Y-%m-%d %H:%M:%S')
+    return datetime.fromtimestamp(timestamp)
+
 
 def GetNowTimeFileName():
-    return datetime.now(tz=tz_utc_4).strftime('%Y/%m/%d.log')
+    return datetime.now(tz=tz_utc_8).strftime("%Y/%m/%d.log")
+
+
+def get_time_stamp():
+    return str(int(time.time()))
+
+
+def get_asset_bundle(assetbundle):
+    data = base64.b64decode(assetbundle)
+    key = b"nn33CYId2J1ggv0bYDMbYuZ60m4GZt5P"  # NA key
+    if REGION == "JP":
+        key = b"W0Juh4cFJSYPkebJB9WpswNF51oa6Gm7"  # JP key
+    iv = data[:32]
+    array = data[32:]
+    cipher = py3rijndael.RijndaelCbc(key, iv, py3rijndael.paddings.Pkcs7Padding(16), 32)
+    data = cipher.decrypt(array)
+    gzip_data = gzip.decompress(data)
+    data_unpacked = msgpack.unpackb(gzip_data)
+
+    return data_unpacked
