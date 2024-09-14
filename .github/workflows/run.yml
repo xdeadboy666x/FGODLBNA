@@ -1,4 +1,4 @@
-name: FGO Login System NA
+name: FGO Login System
 
 on:
   workflow_dispatch:
@@ -14,13 +14,13 @@ on:
     - cron: "44 08 * * *"
     - cron: "10 12 * * *"
     - cron: "36 15 * * *"
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       TZ: America/Mexico_City
-    
+
     steps:
       - uses: actions/checkout@v4
 
