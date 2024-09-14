@@ -377,13 +377,13 @@ class user:
             else:
                 main.logger.info(f"\n ======================================== \n ＞︿＜ Bronze seedlings are not enough. (*。>Д<)o゜ \n ======================================== " )
 
-
-        gachaSubId = GetGachaSubIdFP("NA")
+    def drawFP(self):
+        gachaSubId = GetGachaSubIdFP("{region}")
 
         if gachaSubId is None:
                gachaSubId = "0"
 
-        self.builder_.AddParameter('storyAdjustIds', '[]')
+self.builder_.AddParameter('country', '484') self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
         self.builder_.AddParameter('gachaId', '1')
         self.builder_.AddParameter('num', '10')
