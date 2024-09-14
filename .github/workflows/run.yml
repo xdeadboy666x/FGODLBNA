@@ -35,7 +35,7 @@ jobs:
                   key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
                   restore-keys: |
                       ${{ runner.os }}-pip-
-            - name: Set up Python for NA
+            - name: Set up Python
               uses: actions/setup-python@v5
               with:
                   python-version: "3.11"
@@ -44,7 +44,7 @@ jobs:
                   pip install --cache-dir $HOME/.cache/pip -r requirements.txt
                   --user
             - name: Execute script
-              run: python main.py
+              run: python3 main.py
               env:
                   userIds: ${{ secrets.GAME_USERIDS }}
                   authKeys: ${{ secrets.GAME_AUTHKEYS }}
