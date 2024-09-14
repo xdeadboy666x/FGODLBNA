@@ -3,9 +3,12 @@ import json
 
 from mytime import GetTimeStamp
 
+
 # Get Friend Summon Gacha Sub Id
 def GetGachaSubIdFP(region):
-    response = requests.get(f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstGachaSub.json");
+    response = requests.get(
+        f"https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstGachaSub.json"
+    )
     gachaList = json.loads(response.text)
     timeNow = GetTimeStamp()
     priority = 0
@@ -16,7 +19,7 @@ def GetGachaSubIdFP(region):
 
         if openedAt <= timeNow & timeNow <= closedAt:
             p = int(gacha["priority"])
-            if(p > priority):
+            if p > priority:
                 priority = p
                 goodGacha = gacha
-    return str(goodGacha["id"])
+            return str(goodGacha["id"])
