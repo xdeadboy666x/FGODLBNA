@@ -378,13 +378,11 @@ class user:
                 main.logger.info(f"\n ======================================== \n ＞︿＜ Bronze seedlings are not enough. (*。>Д<)o゜ \n ======================================== " )
 
 
-    def drawFP(self):
         gachaSubId = GetGachaSubIdFP("NA")
 
         if gachaSubId is None:
                gachaSubId = "0"
 
-        self.builder_.AddParameter('country', '484')
         self.builder_.AddParameter('storyAdjustIds', '[]')
         self.builder_.AddParameter('selectBonusList', '')
         self.builder_.AddParameter('gachaId', '1')
@@ -393,7 +391,7 @@ class user:
         self.builder_.AddParameter('shopIdIndex', '1')
         self.builder_.AddParameter('gachaSubId', gachaSubId)
 
-        main.logger.info(f"\n ======================================== \n [+] FP Card Pool ID : {gachaSubId}\n ======================================== " )
+        main.logger.info(f"\n ======================================== \n [+] FP Summoning SubID : {gachaSubId}\n ======================================== " )
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
         responses = data['response']
 
