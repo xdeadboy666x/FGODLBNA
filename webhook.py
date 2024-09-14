@@ -115,6 +115,7 @@ def drawFP(servants: list, missions: list) -> None:
             if svt:
                 message_servant += f"`{svt['name']}` "
 
+
     if len(missions) > 0:
         for mission in missions:
             message_mission += f"__{mission.message}__\n{mission.progressTo}/{mission.condition}\n"
@@ -127,7 +128,7 @@ def drawFP(servants: list, missions: list) -> None:
                 "description": f"{message_mission}",
                 "color": dracula_colors["green"],  # Dracula green color
                 "fields": [
-                    {"name": "FP Gacha results", "value": f"{message_servant}\n", "inline": False}
+                    {"name": "FP Gacha results", "value": f"{message_servant}", "inline": False}
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo3/images/commnet_chara10.png"
