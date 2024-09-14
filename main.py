@@ -66,6 +66,8 @@ def main():
                 logger.error(f"Network error: {ex}")
             except Exception as ex:
                 logger.error(f"An error occurred: {ex}")
+    else:
+        logger.error("Mismatch in the number of userIds, authKeys, and secretKeys")
 
 
 if __name__ == "__main__":
