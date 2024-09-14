@@ -112,18 +112,17 @@ def drawFP(servants: list, missions: list) -> None:
     message_servant = ""
 
     if len(servants) > 0:
-        try:
-            servants_atlas = requests.get(
-                "https://api.atlasacademy.io/export/NA/basic_servant.json").json()
-            svt_dict = {svt["id"]: svt for svt in servants_atlas}
-        except requests.exceptions.RequestException as e:
-            print(f"Error fetching servant data: {e}")
-            return
+        servants_atlas = requests.get(
+            "https://api.atlasacademy.io/export/NA/basic_servant.json").json()
+
+        svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
         for servant in servants:
             svt = svt_dict.get(servant.objectId, None)
             if svt:
-                message_servant += f"`{svt['name']}` "
+                message_servant += f"{svt['name']}\n"  # Add newline for each servant
+            else:
+                message_servant += "Servant data not found\n"  # Handle missing data
 
     if len(missions) > 0:
         for mission in missions:
@@ -135,7 +134,7 @@ def drawFP(servants: list, missions: list) -> None:
             {
                 "title": f"Fate/Grand Order FP Summon Manager - {main.fate_region}",
                 "description": f"{message_mission}",
-                "color": dracula_colors["green"],
+                "color": dracula_colors["green"],  # Dracula green color
                 "fields": [
                     {"name": "FP Gacha results", "value": f"{message_servant}\n", "inline": False}
                 ],
@@ -147,4 +146,6 @@ def drawFP(servants: list, missions: list) -> None:
         "attachments": []
     }
 
-    send_discord_webhook(endpoint, jsonData)
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(endpoint, json=jsonData, headers=headers)
+    print("drawFP response:", response.status_code, response.text)
