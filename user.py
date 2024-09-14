@@ -146,7 +146,9 @@ class Login:
 
 
 class Bonus:
-    def __init__(self, message, items, bonus_name, bonus_detail, bonus_camp_items):
+    def __init__(
+        self, message, items, bonus_name, bonus_detail, bonus_camp_items
+    ):
         self.message = message
         self.items = items
         self.bonus_name = bonus_name
@@ -193,13 +195,19 @@ class user:
         ) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
         self.builder_.AddParameter("country", "484")
-        self.builder_.AddParameter("assetbundleFolder", fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter("idempotencyKeySignature", idempotencyKeySignature)
+        self.builder_.AddParameter(
+            "assetbundleFolder", fgourl.asset_bundle_folder_
+        )
+        self.builder_.AddParameter(
+            "idempotencyKeySignature", idempotencyKeySignature
+        )
         self.builder_.AddParameter("deviceInfo", device_info)
         self.builder_.AddParameter("isTerminalLogin", "1")
         self.builder_.AddParameter("userState", str(userState))
 
-        data = self.Post(f"{fgourl.server_addr_}/login/top?_userId={self.user_id_}")
+        data = self.Post(
+            f"{fgourl.server_addr_}/login/top?_userId={self.user_id_}"
+        )
 
         responses = data["response"]
 
@@ -288,7 +296,9 @@ class user:
         fpids1 = data["cache"]["replaced"]["userGame"][0]["friendCode"]
 
         act_max = data["cache"]["replaced"]["userGame"][0]["actMax"]
-        act_recover_at = data["cache"]["replaced"]["userGame"][0]["actRecoverAt"]
+        act_recover_at = data["cache"]["replaced"]["userGame"][0][
+            "actRecoverAt"
+        ]
         carryOverActPoint = data["cache"]["replaced"]["userGame"][0][
             "carryOverActPoint"
         ]
@@ -333,16 +343,22 @@ class user:
             items = []
             items_camp_bonus = []
 
-            for i in data["response"][0]["success"]["seqLoginBonus"][0]["items"]:
+            for i in data["response"][0]["success"]["seqLoginBonus"][0][
+                "items"
+            ]:
                 items.append(f'{i["name"]} x{i["num"]}')
 
             if "campaignbonus" in data["response"][0]["success"]:
-                bonus_name = data["response"][0]["success"]["campaignbonus"][0]["name"]
-                bonus_detail = data["response"][0]["success"]["campaignbonus"][0][
-                    "detail"
+                bonus_name = data["response"][0]["success"]["campaignbonus"][0][
+                    "name"
                 ]
+                bonus_detail = data["response"][0]["success"]["campaignbonus"][
+                    0
+                ]["detail"]
 
-                for i in data["response"][0]["success"]["campaignbonus"][0]["items"]:
+                for i in data["response"][0]["success"]["campaignbonus"][0][
+                    "items"
+                ]:
                     items_camp_bonus.append(f'{i["name"]} x{i["num"]}')
             else:
                 bonus_name = None
@@ -361,7 +377,9 @@ class user:
         with open("login.json", "r", encoding="utf-8") as file:
             data = json.load(file)
 
-            actRecoverAt = data["cache"]["replaced"]["userGame"][0]["actRecoverAt"]
+            actRecoverAt = data["cache"]["replaced"]["userGame"][0][
+                "actRecoverAt"
+            ]
             actMax = data["cache"]["replaced"]["userGame"][0]["actMax"]
             carryOverActPoint = data["cache"]["replaced"]["userGame"][0][
                 "carryOverActPoint"
@@ -416,7 +434,10 @@ class user:
                         continue
 
                     if nid == "purchase":
-                        if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                        if (
+                            "purchaseName" in resSuccess
+                            and "purchaseNum" in resSuccess
+                        ):
                             purchaseName = resSuccess["purchaseName"]
                             purchaseNum = resSuccess["purchaseNum"]
 
@@ -447,7 +468,9 @@ class user:
         main.logger.info(
             f"\n ======================================== \n [+] FP Summoning SubID : {gachaSubId}\n ======================================== "
         )
-        data = self.Post(f"{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}")
+        data = self.Post(
+            f"{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}"
+        )
         responses = data["response"]
 
         servantArray = []
@@ -490,7 +513,9 @@ class user:
     def lq001(self):
         # https://game.fate-go.us/present/list?
 
-        data = self.Post(f"{fgourl.server_addr_}/present/list?_userId={self.user_id_}")
+        data = self.Post(
+            f"{fgourl.server_addr_}/present/list?_userId={self.user_id_}"
+        )
 
         responses = data["response"]
         main.logger.info(
@@ -583,7 +608,9 @@ class user:
 
             num_value = None
 
-            for item in gdata.get("cache", {}).get("updated", {}).get("userShop", []):
+            for item in (
+                gdata.get("cache", {}).get("updated", {}).get("userShop", [])
+            ):
                 if item.get("shopId") == shopId:
                     num_value = item.get("num")
                     break
@@ -649,7 +676,10 @@ class user:
         for item in fdata:
             if 4001 in item.get("targetIds", []) and item.get("flag") == 2048:
                 base_shop_s_id = item.get("baseShopId")
-                if max_base_shop_s_id is None or base_shop_s_id > max_base_shop_s_id:
+                if (
+                    max_base_shop_s_id is None
+                    or base_shop_s_id > max_base_shop_s_id
+                ):
                     max_base_shop_s_id = base_shop_s_id
 
         if max_base_shop_s_id is not None:
@@ -671,10 +701,14 @@ class user:
                             )
                             return
                         else:
-                            with open("login.json", "r", encoding="utf-8") as file:
+                            with open(
+                                "login.json", "r", encoding="utf-8"
+                            ) as file:
                                 gdata = json.load(file)
 
-                            mana = gdata["cache"]["replaced"]["userGame"][0]["mana"]
+                            mana = gdata["cache"]["replaced"]["userGame"][0][
+                                "mana"
+                            ]
                             mana_s = mana // 20
                             num_value = None
 
@@ -705,7 +739,9 @@ class user:
                                         else:
                                             num = num_ok
 
-                                    self.builder_.AddParameter("id", str(shopId))
+                                    self.builder_.AddParameter(
+                                        "id", str(shopId)
+                                    )
                                     self.builder_.AddParameter("num", str(num))
 
                                     data = self.Post(
@@ -717,7 +753,9 @@ class user:
                                         )
                             else:
                                 num_ok = 5
-                                mana = gdata["cache"]["replaced"]["userGame"][0]["mana"]
+                                mana = gdata["cache"]["replaced"]["userGame"][
+                                    0
+                                ]["mana"]
                                 mana_s = mana // 20
                                 if mana_s == 0:
                                     main.logger.info(
@@ -730,7 +768,9 @@ class user:
                                     else:
                                         num = num_ok
 
-                                    self.builder_.AddParameter("id", str(shopId))
+                                    self.builder_.AddParameter(
+                                        "id", str(shopId)
+                                    )
                                     self.builder_.AddParameter("num", str(num))
 
                                     data = self.Post(
