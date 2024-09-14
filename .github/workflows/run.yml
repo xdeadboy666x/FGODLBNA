@@ -17,25 +17,39 @@ on:
     
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     env:
       TZ: America/Mexico_City
     
     steps:
-    
       - uses: actions/checkout@v4
-      
-      - name: Setup Python 3.11
+
+      - name: Create pip cache directory if none exists
+        run: |
+          if [ ! -d "$HOME/.cache/pip" ]; then
+            mkdir -p "$HOME/.cache/pip"
+          fi
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Set up Python for NA
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
-          
-      - name: Install dependencies
-        run: pip install --cache-dir ~/.pip-cache setuptools wheel -r requirements.txt --upgrade --user
-          
-      - name: Run main scripts
-        run: python3 main.py
+
+      - name: Install Requirements
+        run: |
+          pip install --cache-dir $HOME/.cache/pip -r requirements.txt --user
+
+      - name: Execute script
+        run: python main.py
         env:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
