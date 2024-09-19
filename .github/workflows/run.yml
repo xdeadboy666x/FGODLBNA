@@ -1,4 +1,4 @@
-name: FGO Login System
+name: Fate/Grand Order Login Manager NA
 on:
     workflow_dispatch:
     push:
