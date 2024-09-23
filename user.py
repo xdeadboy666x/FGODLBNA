@@ -27,7 +27,6 @@ from cryptography.hazmat.primitives import hashes
 from urllib.parse import quote_plus
 from libs.GetSubGachaId import GetGachaSubIdFP
 
-
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
         self.uid_ = uid
@@ -88,7 +87,6 @@ class ParameterBuilder:
             ("verCode", fgourl.ver_code_),
         ]
 
-
 class Rewards:
     def __init__(
         self,
@@ -115,7 +113,6 @@ class Rewards:
         self.pureprism = pureprism
         self.sqf01 = sqf01
         self.holygrail = holygrail
-
 
 class Login:
     def __init__(
@@ -144,7 +141,6 @@ class Login:
         self.fpids1 = fpids1
         self.remaining_ap = remaining_ap
 
-
 class Bonus:
     def __init__(self, message, items, bonus_name, bonus_detail, bonus_camp_items):
         self.message = message
@@ -152,7 +148,6 @@ class Bonus:
         self.bonus_name = bonus_name
         self.bonus_detail = bonus_detail
         self.bonus_camp_items = bonus_camp_items
-
 
 class user:
     def __init__(self, user_id: str, auth_key: str, secret_key: str):
@@ -180,7 +175,6 @@ class user:
                 bytes(uuid, "utf-8"), padding.PKCS1v15(), hashes.SHA256()
             )
             return base64.b64encode(signature).decode("utf-8")
-
         userid = self.user_id_
         idk = self.builder_.get_idempotency_key()
         input_string = f"{userid}{idk}"
