@@ -65,6 +65,5 @@ jobs:
   keepalive:
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/checkout@v4
-     - uses: gautamkrishnar/keepalive-workflow@v2
-    time_elapsed: 30
+      - uses: actions/checkout@v4
+      - uses: gautamkrishnar/keepalive-workflow@v2
