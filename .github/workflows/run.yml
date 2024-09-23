@@ -1,65 +1,70 @@
 name: Fate/Grand Order Login Manager NA
 on:
-    workflow_dispatch:
-    push:
-        branches:
-            - master
-    pull_request:
-        branches:
-            - master
-    schedule:
-        - cron: 00 19 * * *
-        - cron: 26 22 * * *
-        - cron: 52 01 * * *
-        - cron: 18 05 * * *
-        - cron: 44 08 * * *
-        - cron: 10 12 * * *
-        - cron: 36 15 * * *
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: 00 19 * * *
+    - cron: 26 22 * * *
+    - cron: 52 01 * * *
+    - cron: 18 05 * * *
+    - cron: 44 08 * * *
+    - cron: 10 12 * * *
+    - cron: 36 15 * * *
+
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        env:
-            TZ: America/Mexico_City
-        steps:
-            - uses: actions/checkout@v4
-            - name: Create pip cache directory if none exists
-              run: |
-                  if [ ! -d "~/.cache/pip" ]; then
-                    mkdir -p "~/.cache/pip"
-                  fi
-            - name: Cache pip dependencies
-              uses: actions/cache@v4
-              with:
-                  path: |
-                      ~/.cache/pip
-                  key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-                  restore-keys: |
-                      ${{ runner.os }}-pip-
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                  python-version: "3.11"
-            - name: Install Requirements
-              run: >
-                  pip install --cache-dir ~/.cache/pip -r requirements.txt
-                  --user
-            - name: Execute script
-              run: python3 main.py
-              env:
-                  userIds: ${{ secrets.GAME_USERIDS }}
-                  authKeys: ${{ secrets.GAME_AUTHKEYS }}
-                  secretKeys: ${{ secrets.GAME_SECRETKEYS }}
-                  fateRegion: ${{ secrets.GAME_REGION }}
-                  DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
-                  USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
-                  webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
-    keepalive	:
-        name: Keepalive
-        runs-on: ubuntu-latest
-        permissions:
-            actions: write
-        steps:
-            - uses: actions/checkout@v4
-            - uses: gautamkrishnar/keepalive-workflow@v2
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/Mexico_City
+    permissions:
+      actions: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create pip cache directory if none exists
+        run: |
+          if [ ! -d "$HOME/.cache/pip" ]; then
+            mkdir -p "$HOME/.cache/pip"
+          fi
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
         with:
-          time_elapsed: 30
+          path: |
+            ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Requirements
+        run: |
+          pip install --cache-dir ~/.cache/pip -r requirements.txt --user
+
+      - name: Execute script
+        run: python3 main.py
+        env:
+          userIds: ${{ secrets.GAME_USERIDS }}
+          authKeys: ${{ secrets.GAME_AUTHKEYS }}
+          secretKeys: ${{ secrets.GAME_SECRETKEYS }}
+          fateRegion: ${{ secrets.GAME_REGION }}
+          DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
+          USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
+          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+
+  keepalive:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v4
+     - uses: gautamkrishnar/keepalive-workflow@v2
+    time_elapsed: 30
