@@ -450,7 +450,7 @@ class user:
                 )
 
     def drawFP(self):
-        gachaSubId = GetGachaSubIdFP("JP")
+        gachaSubId = GetGachaSubIdFP("NA")
 
         if gachaSubId is None:
             gachaSubId = "0"
@@ -584,7 +584,7 @@ class user:
     def lq003(self):
         # https://game.fate-go.jp/shop/purchase
 
-        url = "https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/JP/master/mstShop.json"
+        url = "https://git.atlasacademy.io/atlasacademy/fgo-game-data/raw/branch/NA/master/mstShop.json"
         response = requests.get(url)
 
         fdata = response.json()
