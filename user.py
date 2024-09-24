@@ -27,6 +27,7 @@ from cryptography.hazmat.primitives import hashes
 from urllib.parse import quote_plus
 from libs.GetSubGachaId import GetGachaSubIdFP
 
+
 class ParameterBuilder:
     def __init__(self, uid: str, auth_key: str, secret_key: str):
         self.uid_ = uid
@@ -87,6 +88,7 @@ class ParameterBuilder:
             ("verCode", fgourl.ver_code_),
         ]
 
+
 class Rewards:
     def __init__(
         self,
@@ -113,6 +115,7 @@ class Rewards:
         self.pureprism = pureprism
         self.sqf01 = sqf01
         self.holygrail = holygrail
+
 
 class Login:
     def __init__(
@@ -141,13 +144,17 @@ class Login:
         self.fpids1 = fpids1
         self.remaining_ap = remaining_ap
 
+
 class Bonus:
-    def __init__(self, message, items, bonus_name, bonus_detail, bonus_camp_items):
+    def __init__(
+        self, message, items, bonus_name, bonus_detail, bonus_camp_items
+    ):
         self.message = message
         self.items = items
         self.bonus_name = bonus_name
         self.bonus_detail = bonus_detail
         self.bonus_camp_items = bonus_camp_items
+
 
 class user:
     def __init__(self, user_id: str, auth_key: str, secret_key: str):
@@ -175,6 +182,7 @@ class user:
                 bytes(uuid, "utf-8"), padding.PKCS1v15(), hashes.SHA256()
             )
             return base64.b64encode(signature).decode("utf-8")
+
         userid = self.user_id_
         idk = self.builder_.get_idempotency_key()
         input_string = f"{userid}{idk}"
@@ -187,13 +195,19 @@ class user:
         ) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
         self.builder_.AddParameter("country", "484")
-        self.builder_.AddParameter("assetbundleFolder", fgourl.asset_bundle_folder_)
-        self.builder_.AddParameter("idempotencyKeySignature", idempotencyKeySignature)
+        self.builder_.AddParameter(
+            "assetbundleFolder", fgourl.asset_bundle_folder_
+        )
+        self.builder_.AddParameter(
+            "idempotencyKeySignature", idempotencyKeySignature
+        )
         self.builder_.AddParameter("deviceInfo", device_info)
         self.builder_.AddParameter("isTerminalLogin", "1")
         self.builder_.AddParameter("userState", str(userState))
 
-        data = self.Post(f"{fgourl.server_addr_}/login/top?_userId={self.user_id_}")
+        data = self.Post(
+            f"{fgourl.server_addr_}/login/top?_userId={self.user_id_}"
+        )
 
         responses = data["response"]
 
@@ -282,7 +296,9 @@ class user:
         fpids1 = data["cache"]["replaced"]["userGame"][0]["friendCode"]
 
         act_max = data["cache"]["replaced"]["userGame"][0]["actMax"]
-        act_recover_at = data["cache"]["replaced"]["userGame"][0]["actRecoverAt"]
+        act_recover_at = data["cache"]["replaced"]["userGame"][0][
+            "actRecoverAt"
+        ]
         carryOverActPoint = data["cache"]["replaced"]["userGame"][0][
             "carryOverActPoint"
         ]
@@ -327,16 +343,22 @@ class user:
             items = []
             items_camp_bonus = []
 
-            for i in data["response"][0]["success"]["seqLoginBonus"][0]["items"]:
+            for i in data["response"][0]["success"]["seqLoginBonus"][0][
+                "items"
+            ]:
                 items.append(f'{i["name"]} x{i["num"]}')
 
             if "campaignbonus" in data["response"][0]["success"]:
-                bonus_name = data["response"][0]["success"]["campaignbonus"][0]["name"]
-                bonus_detail = data["response"][0]["success"]["campaignbonus"][0][
-                    "detail"
+                bonus_name = data["response"][0]["success"]["campaignbonus"][0][
+                    "name"
                 ]
+                bonus_detail = data["response"][0]["success"]["campaignbonus"][
+                    0
+                ]["detail"]
 
-                for i in data["response"][0]["success"]["campaignbonus"][0]["items"]:
+                for i in data["response"][0]["success"]["campaignbonus"][0][
+                    "items"
+                ]:
                     items_camp_bonus.append(f'{i["name"]} x{i["num"]}')
             else:
                 bonus_name = None
@@ -355,7 +377,9 @@ class user:
         with open("login.json", "r", encoding="utf-8") as file:
             data = json.load(file)
 
-            actRecoverAt = data["cache"]["replaced"]["userGame"][0]["actRecoverAt"]
+            actRecoverAt = data["cache"]["replaced"]["userGame"][0][
+                "actRecoverAt"
+            ]
             actMax = data["cache"]["replaced"]["userGame"][0]["actMax"]
             carryOverActPoint = data["cache"]["replaced"]["userGame"][0][
                 "carryOverActPoint"
@@ -384,9 +408,7 @@ class user:
                 quantity = remaining_ap_int // 40
                 if quantity == 0:
                     main.logger.info(
-                        f"\n ======================================== \n Cannot"
-                        f" purchase if AP is less than 40 (´･ω･`)? \n"
-                        f" ======================================== "
+                        f"\n ======================================== \n Cannot purchase if AP is less than 40 (´･ω･`)? \n ======================================== "
                     )
                     return
 
@@ -412,21 +434,20 @@ class user:
                         continue
 
                     if nid == "purchase":
-                        if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                        if (
+                            "purchaseName" in resSuccess
+                            and "purchaseNum" in resSuccess
+                        ):
                             purchaseName = resSuccess["purchaseName"]
                             purchaseNum = resSuccess["purchaseNum"]
 
                             main.logger.info(
-                                "\n========================================\n[+]"
-                                f" {purchaseNum}x {purchaseName} success!"
-                                " \n========================================"
+                                f"\n========================================\n[+] {purchaseNum}x {purchaseName} success! \n========================================"
                             )
                             webhook.shop(purchaseName, purchaseNum)
             else:
                 main.logger.info(
-                    f"\n ======================================== \n ＞︿＜ Bronze"
-                    f" seedlings are not enough. (*。>Д<)o゜ \n"
-                    f" ======================================== "
+                    f"\n ======================================== \n ＞︿＜ Bronze seedlings are not enough. (*。>Д<)o゜ \n ======================================== "
                 )
 
     def drawFP(self):
@@ -445,10 +466,11 @@ class user:
         self.builder_.AddParameter("gachaSubId", gachaSubId)
 
         main.logger.info(
-            "\n ======================================== \n [+] FP Card Pool ID :"
-            f" {gachaSubId}\n ======================================== "
+            f"\n ======================================== \n [+] FP Card Pool ID : {gachaSubId}\n ======================================== "
         )
-        data = self.Post(f"{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}")
+        data = self.Post(
+            f"{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}"
+        )
         responses = data["response"]
 
         servantArray = []
@@ -491,12 +513,13 @@ class user:
     def lq001(self):
         # https://game.fate-go.us/present/list?
 
-        data = self.Post(f"{fgourl.server_addr_}/present/list?_userId={self.user_id_}")
+        data = self.Post(
+            f"{fgourl.server_addr_}/present/list?_userId={self.user_id_}"
+        )
 
         responses = data["response"]
         main.logger.info(
-            f"\n ======================================== \n [+] Sync the rewards box"
-            f" \n ======================================== "
+            f"\n ======================================== \n [+] Sync the rewards box \n ======================================== "
         )
 
     def lq002(self):
@@ -557,8 +580,7 @@ class user:
             responses = data["response"]
 
             main.logger.info(
-                f"\n ======================================== \n [+] Claim Successful"
-                f" \n ======================================== "
+                f"\n ======================================== \n [+] Claim Successful \n ======================================== "
             )
 
     def lq003(self):
@@ -586,7 +608,9 @@ class user:
 
             num_value = None
 
-            for item in gdata.get("cache", {}).get("updated", {}).get("userShop", []):
+            for item in (
+                gdata.get("cache", {}).get("updated", {}).get("userShop", [])
+            ):
                 if item.get("shopId") == shopId:
                     num_value = item.get("num")
                     break
@@ -596,18 +620,14 @@ class user:
                 num_ok = 5 - num_value
                 if num_ok == 0:
                     main.logger.info(
-                        f"\n ======================================== \n Monthly call"
-                        f" sign. It has already been exchanged.了(´･ω･`) \n"
-                        f" ======================================== "
+                        f"\n ======================================== \n Monthly call sign. It has already been exchanged.了(´･ω･`) \n ======================================== "
                     )
                 else:
                     mana = gdata["cache"]["replaced"]["userGame"][0]["mana"]
                     mana_s = mana // 20
                     if mana_s == 0:
                         main.logger.info(
-                            f"\n ======================================== \n"
-                            f" Insufficient Mana Prisms(´･ω･`) \n"
-                            f" ======================================== "
+                            f"\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== "
                         )
                     else:
                         if num_ok > mana_s:
@@ -625,9 +645,7 @@ class user:
                         responses = data["response"]
                         if num is not None:
                             main.logger.info(
-                                "\n ======================================== \n"
-                                f" Exchanged {num} call sign (per month)\n"
-                                " ======================================== "
+                                f"\n ======================================== \n Exchanged {num} call sign (per month)\n ======================================== "
                             )
             else:
                 num_ok = 5
@@ -635,9 +653,7 @@ class user:
                 mana_s = mana // 20
                 if mana_s == 0:
                     main.logger.info(
-                        f"\n ======================================== \n Insufficient"
-                        f" Mana Prisms(´･ω･`) \n"
-                        f" ======================================== "
+                        f"\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== "
                     )
                 else:
                     if num_ok > mana_s:
@@ -654,15 +670,16 @@ class user:
 
                     if num is not None:
                         main.logger.info(
-                            "\n ======================================== \n Exchanged"
-                            f" {num} call sign (per month) \n"
-                            " ======================================== "
+                            f"\n ======================================== \n Exchanged {num} call sign (per month) \n ======================================== "
                         )
 
         for item in fdata:
             if 4001 in item.get("targetIds", []) and item.get("flag") == 2048:
                 base_shop_s_id = item.get("baseShopId")
-                if max_base_shop_s_id is None or base_shop_s_id > max_base_shop_s_id:
+                if (
+                    max_base_shop_s_id is None
+                    or base_shop_s_id > max_base_shop_s_id
+                ):
                     max_base_shop_s_id = base_shop_s_id
 
         if max_base_shop_s_id is not None:
@@ -680,16 +697,18 @@ class user:
 
                         if current_time > closedAt:
                             main.logger.info(
-                                f"\n ======================================== \n No"
-                                f" Mana Prism activity at this time.(´･ω･`) \n"
-                                f" ======================================== "
+                                f"\n ======================================== \n No Mana Prism activity at this time.(´･ω･`) \n ======================================== "
                             )
                             return
                         else:
-                            with open("login.json", "r", encoding="utf-8") as file:
+                            with open(
+                                "login.json", "r", encoding="utf-8"
+                            ) as file:
                                 gdata = json.load(file)
 
-                            mana = gdata["cache"]["replaced"]["userGame"][0]["mana"]
+                            mana = gdata["cache"]["replaced"]["userGame"][0][
+                                "mana"
+                            ]
                             mana_s = mana // 20
                             num_value = None
 
@@ -706,18 +725,13 @@ class user:
                                 num_ok = 5 - num_value
                                 if num_ok == 0:
                                     main.logger.info(
-                                        f"\n ========================================"
-                                        f" \n Event call sign You have already"
-                                        f" exchanged it.\n"
-                                        f" ======================================== "
+                                        f"\n ======================================== \n Event call sign You have already exchanged it.\n ======================================== "
                                     )
                                     return
                                 else:
                                     if mana_s == 0:
                                         main.logger.info(
-                                            f"\n ========================================"
-                                            f" \n Insufficient mana prisms(´･ω･`) \n"
-                                            f" ======================================== "
+                                            f"\n ======================================== \n Insufficient mana prisms(´･ω･`) \n ======================================== "
                                         )
                                     else:
                                         if num_ok > mana_s:
@@ -725,7 +739,9 @@ class user:
                                         else:
                                             num = num_ok
 
-                                    self.builder_.AddParameter("id", str(shopId))
+                                    self.builder_.AddParameter(
+                                        "id", str(shopId)
+                                    )
                                     self.builder_.AddParameter("num", str(num))
 
                                     data = self.Post(
@@ -733,20 +749,17 @@ class user:
                                     )
                                     if num is not None:
                                         main.logger.info(
-                                            "\n ========================================"
-                                            f" \n Redeemed {num} Call Sign (Limited"
-                                            " Time Event) \n"
-                                            " ======================================== "
+                                            f"\n ======================================== \n Redeemed {num} Call Sign (Limited Time Event) \n ======================================== "
                                         )
                             else:
                                 num_ok = 5
-                                mana = gdata["cache"]["replaced"]["userGame"][0]["mana"]
+                                mana = gdata["cache"]["replaced"]["userGame"][
+                                    0
+                                ]["mana"]
                                 mana_s = mana // 20
                                 if mana_s == 0:
                                     main.logger.info(
-                                        f"\n ========================================"
-                                        f" \n Insufficient mana prisms(´･ω･`)\n"
-                                        f" ======================================== "
+                                        f"\n ======================================== \n Insufficient mana prisms(´･ω･`)\n ======================================== "
                                     )
                                     return
                                 else:
@@ -755,7 +768,9 @@ class user:
                                     else:
                                         num = num_ok
 
-                                    self.builder_.AddParameter("id", str(shopId))
+                                    self.builder_.AddParameter(
+                                        "id", str(shopId)
+                                    )
                                     self.builder_.AddParameter("num", str(num))
 
                                     data = self.Post(
@@ -763,10 +778,7 @@ class user:
                                     )
                                     if num is not None:
                                         main.logger.info(
-                                            "\n ========================================"
-                                            f" \n Exchanged {num} call sign (limited"
-                                            " time event) \n"
-                                            " ======================================== "
+                                            f"\n ======================================== \n Exchanged {num} call sign (limited time event) \n ======================================== "
                                         )
                     else:
                         main.logger.info(f"Time Server Connection Failure")
