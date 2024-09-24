@@ -16,7 +16,7 @@ dracula_colors = {
 
 
 def topLogin(
-    data: List[Union["user.Rewards", "user.Login", Union["user.Bonus", str]]]
+    data: List[Union["user.Rewards", "user.Login", Union["user.Bonus", str]]],
 ) -> None:
     endpoint = main.webhook_discord_url
 
@@ -175,7 +175,9 @@ def drawFP(servants: list, missions: list) -> None:
 
     if len(missions) > 0:
         for mission in missions:
-            message_mission += f"__{mission.message}__\n{mission.progressTo}/{mission.condition}\n"
+            message_mission += (
+                f"__{mission.message}__\n{mission.progressTo}/{mission.condition}\n"
+            )
 
     jsonData = {
         "content": None,
