@@ -36,9 +36,7 @@ def set_latest_assets():
     version_str = main.get_latest_appver()
     # main.logger.info(f"vv{version_str}")
 
-    response = requests.get(
-        server_addr_ + "/gamedata/top?appVer=" + version_str
-    ).text
+    response = requests.get(server_addr_ + "/gamedata/top?appVer=" + version_str).text
     response_data = json.loads(response)["response"][0]["success"]
 
     # Set AppVer, DataVer, DateVer
@@ -58,9 +56,7 @@ def get_folder_data(assetbundle):
     global asset_bundle_folder_, data_server_folder_crc_
 
     asset_bundle_folder_ = assetbundle["folderName"]
-    data_server_folder_crc_ = binascii.crc32(
-        assetbundle["folderName"].encode("utf8")
-    )
+    data_server_folder_crc_ = binascii.crc32(assetbundle["folderName"].encode("utf8"))
 
 
 # ===== End =====
