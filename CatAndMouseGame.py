@@ -11,9 +11,7 @@ def getAssetBundle(assetbundle):
     iv = data[:32]
     array = data[32:]
 
-    cipher = py3rijndael.RijndaelCbc(
-        key, iv, py3rijndael.paddings.Pkcs7Padding(16), 32
-    )
+    cipher = py3rijndael.RijndaelCbc(key, iv, py3rijndael.paddings.Pkcs7Padding(16), 32)
 
     data = cipher.decrypt(array)
     gzip_data = gzip.decompress(data)
