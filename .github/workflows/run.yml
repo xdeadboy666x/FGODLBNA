@@ -3,10 +3,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - master
+      - Test
   pull_request:
     branches:
-      - master
+      - Test
   schedule:
     - cron: 00 19 * * *
     - cron: 26 22 * * *
@@ -44,7 +44,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: "3.11"
 
       - name: Install Requirements
         run: pip install --cache-dir ~/.cache/pip -r requirements.txt --user
