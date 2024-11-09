@@ -3,10 +3,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - Test
+      - naster
   pull_request:
     branches:
-      - Test
+      - master
   schedule:
     - cron: 00 19 * * *
     - cron: 26 22 * * *
