@@ -23,7 +23,14 @@ github_name_ = ""
 
 # ==== User Info ====
 def set_latest_assets():
-    global app_ver_, data_ver_, date_ver_, asset_bundle_folder_, data_server_folder_crc_, ver_code_, server_addr_
+    global \
+        app_ver_, \
+        data_ver_, \
+        date_ver_, \
+        asset_bundle_folder_, \
+        data_server_folder_crc_, \
+        ver_code_, \
+        server_addr_
 
     region = main.fate_region
 
