@@ -24,7 +24,7 @@ coloredlogs.install(fmt="%(asctime)s %(name)s %(levelname)s %(message)s")
 
 
 def get_latest_verCode():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/refs/heads/NA/na.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/na.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
@@ -32,7 +32,7 @@ def get_latest_verCode():
 
 
 def get_latest_appver():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/refs/heads/NA/na.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/NA/na.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
@@ -47,7 +47,7 @@ def main():
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(3)
                 logger.info(
-                    f"\n ======================================== \n [+]Signing in... \n ======================================== "
+                    "\n ======================================== \n [+]Signing in... \n ======================================== "
                 )
 
                 time.sleep(1)
