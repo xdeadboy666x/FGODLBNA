@@ -390,7 +390,7 @@ class user:
                 quantity = remaining_ap_int // 40
                 if quantity == 0:
                     main.logger.info(
-                        f"\n ======================================== \n Cannot purchase if AP is less than 40 (´･ω･`)? \n ======================================== "
+                        "\n ======================================== \n Cannot purchase if AP is less than 40 (´･ω･`)? \n ======================================== "
                     )
                     return
 
@@ -416,7 +416,10 @@ class user:
                         continue
 
                     if nid == "purchase":
-                        if "purchaseName" in resSuccess and "purchaseNum" in resSuccess:
+                        if (
+                            "purchaseName" in resSuccess
+                            and "purchaseNum" in resSuccess
+                        ):
                             purchaseName = resSuccess["purchaseName"]
                             purchaseNum = resSuccess["purchaseNum"]
 
@@ -426,7 +429,7 @@ class user:
                             webhook.shop(purchaseName, purchaseNum)
             else:
                 main.logger.info(
-                    f"\n ======================================== \n ＞︿＜ Bronze seedlings are not enough. (*。>Д<)o゜ \n ======================================== "
+                    "\n ======================================== \n ＞︿＜ Bronze seedlings are not enough. (*。>Д<)o゜ \n ======================================== "
                 )
 
     def drawFP(self):
@@ -494,7 +497,7 @@ class user:
 
         responses = data["response"]
         main.logger.info(
-            f"\n ======================================== \n [+] Sync the rewards box \n ======================================== "
+            "\n ======================================== \n [+] Sync the rewards box \n ======================================== "
         )
 
     def lq002(self):
@@ -555,7 +558,7 @@ class user:
             responses = data["response"]
 
             main.logger.info(
-                f"\n ======================================== \n [+] Claim Successful \n ======================================== "
+                "\n ======================================== \n [+] Claim Successful \n ======================================== "
             )
 
     def lq003(self):
@@ -593,14 +596,14 @@ class user:
                 num_ok = 5 - num_value
                 if num_ok == 0:
                     main.logger.info(
-                        f"\n ======================================== \n Monthly call sign. It has already been exchanged.了(´･ω･`) \n ======================================== "
+                        "\n ======================================== \n Monthly call sign. It has already been exchanged.了(´･ω･`) \n ======================================== "
                     )
                 else:
                     mana = gdata["cache"]["replaced"]["userGame"][0]["mana"]
                     mana_s = mana // 20
                     if mana_s == 0:
                         main.logger.info(
-                            f"\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== "
+                            "\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== "
                         )
                     else:
                         if num_ok > mana_s:
@@ -626,7 +629,7 @@ class user:
                 mana_s = mana // 20
                 if mana_s == 0:
                     main.logger.info(
-                        f"\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== "
+                        "\n ======================================== \n Insufficient Mana Prisms(´･ω･`) \n ======================================== "
                     )
                 else:
                     if num_ok > mana_s:
@@ -667,7 +670,7 @@ class user:
 
                         if current_time > closedAt:
                             main.logger.info(
-                                f"\n ======================================== \n No Mana Prism activity at this time.(´･ω･`) \n ======================================== "
+                                "\n ======================================== \n No Mana Prism activity at this time.(´･ω･`) \n ======================================== "
                             )
                             return
                         else:
@@ -691,13 +694,13 @@ class user:
                                 num_ok = 5 - num_value
                                 if num_ok == 0:
                                     main.logger.info(
-                                        f"\n ======================================== \n Event call sign You have already exchanged it.\n ======================================== "
+                                        "\n ======================================== \n Event call sign You have already exchanged it.\n ======================================== "
                                     )
                                     return
                                 else:
                                     if mana_s == 0:
                                         main.logger.info(
-                                            f"\n ======================================== \n Insufficient mana prisms(´･ω･`) \n ======================================== "
+                                            "\n ======================================== \n Insufficient mana prisms(´･ω･`) \n ======================================== "
                                         )
                                     else:
                                         if num_ok > mana_s:
@@ -717,11 +720,13 @@ class user:
                                         )
                             else:
                                 num_ok = 5
-                                mana = gdata["cache"]["replaced"]["userGame"][0]["mana"]
+                                mana = gdata["cache"]["replaced"]["userGame"][0][
+                                    "mana"
+                                ]
                                 mana_s = mana // 20
                                 if mana_s == 0:
                                     main.logger.info(
-                                        f"\n ======================================== \n Insufficient mana prisms(´･ω･`)\n ======================================== "
+                                        "\n ======================================== \n Insufficient mana prisms(´･ω･`)\n ======================================== "
                                     )
                                     return
                                 else:
@@ -741,4 +746,4 @@ class user:
                                             f"\n ======================================== \n Exchanged {num} call sign (limited time event) \n ======================================== "
                                         )
                     else:
-                        main.logger.info(f"Time Server Connection Failure")
+                        main.logger.info("Time Server Connection Failure")
