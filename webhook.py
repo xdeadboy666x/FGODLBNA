@@ -228,7 +228,11 @@ def LTO_Gacha(servants) -> None:
                 "description": "FP Summoning Gacha",
                 "color": dracula_colors["yellow"],
                 "fields": [
-                    {"name": "Limited Cards", "value": message_servant, "inline": False}
+                    {
+                        "name": "Limited Cards",
+                        "value": message_servant,
+                        "inline": False,
+                    }
                 ],
                 "thumbnail": {
                     "url": "https://www.fate-go.jp/manga_fgo/images/commnet_chara02_rv.png"
