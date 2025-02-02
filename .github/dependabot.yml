@@ -7,12 +7,13 @@ updates:
       time: '12:01'
     commit-message:
       prefix: "[DEPENDABOT]"
-    pull-request-branch-name: "dependabot/{package-ecosystem}/{directory}"
-    rebase-strategy: "merge-commit"
+    rebase-strategy: auto
     labels:
       - dependencies
     reviewers:
       - xdeadboy666x
+    open-pull-requests-limit: 5
+
   - package-ecosystem: pip
     directory: /
     schedule:
@@ -20,9 +21,9 @@ updates:
       time: '12:01'
     commit-message:
       prefix: "[DEPENDABOT]"
-    pull-request-branch-name: "dependabot/{package-ecosystem}/{directory}"
-    rebase-strategy: "merge-commit"
+    rebase-strategy: auto
     labels:
       - dependencies
     reviewers:
       - xdeadboy666x
+    open-pull-requests-limit: 5
