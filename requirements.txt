@@ -1,7 +1,7 @@
 # coding: utf-8
 coloredlogs
 croniter
-cryptography~=42.0.7
+cryptography~=43.0.1
 fake-useragent
 fgo-api-types
 httpx
