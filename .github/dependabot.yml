@@ -1,29 +1,20 @@
 version: 2
-updates:
-  - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: daily
-      time: '12:01'
-    commit-message:
-      prefix: "[DEPENDABOT]"
-    rebase-strategy: auto
-    labels:
-      - dependencies
-    reviewers:
-      - xdeadboy666x
-    open-pull-requests-limit: 5
 
-  - package-ecosystem: pip
-    directory: /
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: daily
-      time: '12:01'
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
     commit-message:
-      prefix: "[DEPENDABOT]"
-    rebase-strategy: auto
-    labels:
-      - dependencies
-    reviewers:
-      - xdeadboy666x
-    open-pull-requests-limit: 5
+      prefix: ":arrow_up:"
+      
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    allow:
+      - dependency-type: "all"
+    commit-message:
+      prefix: ":arrow_up:"
