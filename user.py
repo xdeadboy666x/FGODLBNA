@@ -70,7 +70,7 @@ class ParameterBuilder:
 
         temp += ":" + self.secret_key_
         self.content_ += "&authCode=" + quote_plus(
-            base64.b64encode(hashlib.sha256(temp.encode("utf-8")).digest())
+            base64.b64encode(hashlib.sha1(temp.encode("utf-8")).digest())
         )
 
         return self.content_
@@ -123,8 +123,7 @@ class Login:
         name,
         login_days,
         total_days,
-        act_max,
-        act_recover_at,
+        act_max, act_recover_at,
         now_act,
         add_fp,
         total_fp,
