@@ -70,7 +70,7 @@ class ParameterBuilder:
 
         temp += ":" + self.secret_key_
         self.content_ += "&authCode=" + quote_plus(
-            base64.b64encode(hashlib.sha1(temp.encode("utf-8")).digest())
+            base64.b64encode(hashlib.sha256(temp.encode("utf-8")).digest())
         )
 
         return self.content_
