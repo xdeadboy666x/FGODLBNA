@@ -29,8 +29,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
-      - run: pip install -r requirements.txt
+      - run: |
+          if [ ! -d "$HOME/.cache/pip" ]; then
+            mkdir -p "$HOME/.cache/pip"
+          fi
+      - run: pip install --cache-dir ~/.cache/pip -r requirements.txt --user
 
       - name: Execute script
         run: python3 main.py
@@ -43,17 +46,17 @@ jobs:
           USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
           webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
 
-#      - name: Install RAR
-#        run: sudo apt-get install rar -y
+      - name: Install RAR
+        run: sudo apt-get install rar -y
 
-#      - name: Archive login.json with password
-#        run: rar a -hp${{ secrets.RAR_PASSWORD }} login.rar login.json
+      - name: Archive login.json with password
+        run: rar a -hp${{ secrets.RAR_PASSWORD }} login.rar login.json
 
-#      - name: Upload login.rar artifact
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: login-rar
-#          path: login.rar
+      - name: Upload login.rar artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: login-rar
+          path: login.rar
 
   keepalive:
     runs-on: ubuntu-latest
