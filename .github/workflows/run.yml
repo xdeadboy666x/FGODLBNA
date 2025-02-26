@@ -1,4 +1,4 @@
-9name: Fate/Grand Order Login Manager NA
+name: Fate/Grand Order Login Manager NA
 on:
   workflow_dispatch:
   push:
