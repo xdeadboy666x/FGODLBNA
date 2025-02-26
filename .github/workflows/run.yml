@@ -1,4 +1,4 @@
-name: Fate/Grand Order Login Manager NA
+9name: Fate/Grand Order Login Manager NA
 on:
   workflow_dispatch:
   push:
@@ -33,6 +33,13 @@ jobs:
           if [ ! -d "$HOME/.cache/pip" ]; then
             mkdir -p "$HOME/.cache/pip"
           fi
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+           ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: ${{ runner.os }}-pip-   
       - run: pip install --cache-dir ~/.cache/pip -r requirements.txt --user
 
       - name: Execute script
