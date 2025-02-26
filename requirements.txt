@@ -3,7 +3,6 @@ coloredlogs
 croniter
 cryptography~=44.0.1
 fake-useragent
-fgo-api-types
 httpx
 json5
 lxml
