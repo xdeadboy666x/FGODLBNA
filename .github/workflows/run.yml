@@ -37,7 +37,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: |
-           ~/.cache/pip
+             ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: ${{ runner.os }}-pip-   
       - run: pip install --cache-dir ~/.cache/pip -r requirements.txt --user
@@ -65,8 +65,11 @@ jobs:
           name: login-rar
           path: login.rar
 
-  keepalive:
+  keepalive-job:
+    name: Keepalive Workflow
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
     steps:
       - uses: actions/checkout@v4
       - uses: gautamkrishnar/keepalive-workflow@v2
