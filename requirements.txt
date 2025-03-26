@@ -1,13 +1,9 @@
-# coding: utf-8
-coloredlogs
-croniter
-cryptography~=44.0.2
-fake-useragent
-httpx
 json5
+httpx
 lxml
-msgpack
-orjson
-py3rijndael
-pycryptodome
 requests
+py3rijndael
+msgpack
+coloredlogs
+fake-useragent
+cryptography~=44.0.2
