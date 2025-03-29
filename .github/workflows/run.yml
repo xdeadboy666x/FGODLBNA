@@ -48,15 +48,10 @@ jobs:
           userIds: ${{ secrets.GAME_USERIDS }}
           authKeys: ${{ secrets.GAME_AUTHKEYS }}
           secretKeys: ${{ secrets.GAME_SECRETKEYS }}
-          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          fateRegion: ${{ secrets.GAME_REGION }}
           DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
-          APP_CHECK_SECRET: ${{ secrets.APP_CHECK_SECRET }}
           USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
-
-          #fateRegion: ${{ secrets.GAME_REGION }}
-          #DEVICE_INFO_SECRET: ${{ secrets.DEVICE_INFO_SECRET }}
-          #USER_AGENT_SECRET_2: ${{ secrets.USER_AGENT_SECRET_2 }}
-          #webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
+          webhookDiscord: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Install RAR
         run: sudo apt-get install rar -y
