@@ -68,14 +68,10 @@ jobs:
           name: login-rar
           path: login.rar
 
-  keepalive-job:
-    name: Keepalive Workflow
+  workflow-keepalive:
+    if: github.event_name == 'schedule'
     runs-on: ubuntu-latest
     permissions:
       actions: write
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Keep Workflow Active
-        uses: gautamkrishnar/keepalive-workflow@v2
+      - uses: liskin/gh-workflow-keepalive@v1
