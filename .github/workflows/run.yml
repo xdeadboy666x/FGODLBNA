@@ -67,9 +67,11 @@ jobs:
         with:
           name: login-rar
           path: login.rar
-      
-      - name: Keep alive
-        run: |
-          python scripts/keepalive.py
-          
-  
+
+  workflow-keepalive:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - uses: liskin/gh-workflow-keepalive@master
