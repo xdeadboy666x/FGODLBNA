@@ -71,5 +71,5 @@ jobs:
       - name: Keep alive
         run: |
           python scripts/keepalive.py
-          git push
+          
   
