@@ -2,7 +2,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import git
+#import git
 
 
 def main():
