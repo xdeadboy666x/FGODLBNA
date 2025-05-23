@@ -74,4 +74,4 @@ jobs:
     permissions:
       actions: write
     steps:
-      - uses: liskin/gh-workflow-keepalive@master
+      - uses: liskin/gh-workflow-keepalive@v1
