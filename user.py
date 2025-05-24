@@ -1,6 +1,6 @@
 # coding: utf-8
 import msgpack
-imporuuid
+import uuid
 import hashlib
 import base64
 import fgourl
