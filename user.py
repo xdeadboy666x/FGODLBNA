@@ -463,7 +463,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
             if svtId in [2300800, 2300700]:  #岸波白野的SvtID
                 found_svt = True 
                 
-                gachaId = 3  #这个限定卡池有两个ID【 2 / 3 】懒得写判定，如果报错就用2
+                gachaId = 2  #这个限定卡池有两个ID【 2 / 3 】懒得写判定，如果报错就用2
                 gachaSubId = 417  #这个限定卡池有两个ID【 416 / 417 】懒得写判定，如果报错就用416
 
                 self.builder_.AddParameter('storyAdjustIds', '[]')
