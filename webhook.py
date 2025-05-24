@@ -210,7 +210,7 @@ def LTO_Gacha(servants) -> None:
 
     if servants:
         servants_atlas = requests.get(
-            "https://api.atlasacademy.io/export/NA/basic_svt_lang_en.json"
+            "https://api.atlasacademy.io/export/NA/basic_svt.json"
         ).json()
         svt_dict = {svt["id"]: svt for svt in servants_atlas}
 
