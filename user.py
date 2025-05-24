@@ -507,7 +507,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
 
     def drawFP(self):
         #SubID判定有点不准了.偶尔错误抽卡失败...等哪天闲暇再修
-        gachaSubId = GetGachaSubIdFP("JP")
+        gachaSubId = GetGachaSubIdFP("NA")
 
         if gachaSubId is None:
            gachaSubId = 0
