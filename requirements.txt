@@ -1,6 +1,6 @@
 # coding: utf-8
 coloredlogs
-cryptography~=43.0.1
+cryptography~=44.0.1
 fake-useragent
 httpx
 json5
