@@ -144,7 +144,7 @@ class user:
     def topLogin(self):
         DataWebhook = []  
         device_info = os.environ.get('DEVICE_INFO_SECRET')
-        appCheck = os.environ.get('APP_CHECK_SECRET')
+        #appCheck = os.environ.get('APP_CHECK_SECRET')
 
         private_key_pem = """
 -----BEGIN RSA PRIVATE KEY-----
@@ -184,11 +184,12 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
         userState = (-int(lastAccessTime) >>
                      2) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
+       self.builder_.AddParameter('country', '484')
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
         self.builder_.AddParameter('idempotencyKeySignature', idempotencyKeySignature)
         self.builder_.AddParameter('deviceInfo', device_info)
-        self.builder_.AddParameter('appCheckErrorMessage', appCheck)
+        #self.builder_.AddParameter('appCheckErrorMessage', appCheck)
         self.builder_.AddParameter('isTerminalLogin', '1')
         self.builder_.AddParameter('userState', str(userState))
 
@@ -518,8 +519,8 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
         self.builder_.AddParameter('num', '10')
         self.builder_.AddParameter('ticketItemId', '0')
         self.builder_.AddParameter('shopIdIndex', '1')
-        self.builder_.AddParameter('gachaSubId', gachaSubId)
-        #self.builder_.AddParameter('gachaSubId', '449')
+        #self.builder_.AddParameter('gachaSubId', gachaSubId)
+        self.builder_.AddParameter('gachaSubId', '449')
 
         main.logger.info(f"\n {'=' * 40} \n [+] 友情卡池ID : {gachaSubId}\n {'=' * 40} " )
         data = self.Post(f'{fgourl.server_addr_}/gacha/draw?_userId={self.user_id_}')
