@@ -184,7 +184,7 @@ xCGlz9vV3+AAQ31C2phoyd/QhvpL85p39n6Ibg==
         userState = (-int(lastAccessTime) >>
                      2) ^ self.user_id_ & fgourl.data_server_folder_crc_
 
-       self.builder_.AddParameter('country', '484')
+        self.builder_.AddParameter('country', '484')
         self.builder_.AddParameter(
             'assetbundleFolder', fgourl.asset_bundle_folder_)
         self.builder_.AddParameter('idempotencyKeySignature', idempotencyKeySignature)
