@@ -12,9 +12,9 @@ authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
 webhook_discord_url = os.environ['webhookDiscord']
 device_info = os.environ.get('DEVICE_INFO_SECRET')
-#appCheck = os.environ.get('APP_CHECK_SECRET')
+appCheck = os.environ.get('APP_CHECK_SECRET')
 user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
-fate_region = "NA"
+fate_region = 'JP'
 
 userNums = len(userIds)
 authKeyNums = len(authKeys)
@@ -24,14 +24,14 @@ logger = logging.getLogger("FGO Daily Login")
 coloredlogs.install(fmt='%(asctime)s %(name)s %(levelname)s %(message)s')
 
 def get_latest_verCode():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/master/na.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/master/jp.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
     return response_data['verCode']
-    
+
 def get_latest_appver():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/master/na.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/master/jp.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
@@ -63,7 +63,7 @@ def main():
                 instance.drawFP()
                 time.sleep(1)
                 instance.LTO_Gacha()
-                
+
 
 
             except Exception as ex:
