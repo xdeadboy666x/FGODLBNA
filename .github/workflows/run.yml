@@ -63,7 +63,7 @@ jobs:
         run: rar a -hp${{ secrets.RAR_PASSWORD }} login.rar login.json
 
       - name: Upload login.rar Artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: login-rar
           path: login.rar
