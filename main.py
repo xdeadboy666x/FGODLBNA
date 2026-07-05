@@ -6,13 +6,14 @@ import fgourl
 import user
 import coloredlogs
 import logging
+import sys
 
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
 webhook_discord_url = os.environ['webhookDiscord']
 device_info = os.environ.get('DEVICE_INFO_SECRET')
-#appCheck = os.environ.get('APP_CHECK_SECRET')
+appCheck = os.environ.get('APP_CHECK_SECRET')
 user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
 fate_region = 'NA'
 
@@ -31,7 +32,7 @@ def get_latest_verCode():
     return response_data['verCode']
 
 def get_latest_appver():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/master/na.json"
+    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/master/ma.json"
     response = requests.get(endpoint).text
     response_data = json.loads(response)
 
@@ -45,7 +46,6 @@ def main():
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
                 time.sleep(1)
-                logger.info(f"\n {'=' * 40} \n [+] 登录账号 \n {'=' * 40} " )
                 instance.topLogin()
                 time.sleep(2)
                 instance.topHome()
@@ -60,9 +60,16 @@ def main():
                 time.sleep(1)
                 instance.lq003()
                 time.sleep(1)
+
+                #if "--Free_Gacha" in sys.argv:
+                    #instance.Free_Gacha()
+
                 instance.drawFP()
                 time.sleep(1)
-                instance.LTO_Gacha()
+                #instance.LTO_Gacha()
+                #instance.LTO_drawFP()
+
+
 
 
 
