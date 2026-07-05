@@ -6,14 +6,12 @@ import fgourl
 import user
 import coloredlogs
 import logging
-import sys
 
 userIds = os.environ['userIds'].split(',')
 authKeys = os.environ['authKeys'].split(',')
 secretKeys = os.environ['secretKeys'].split(',')
 webhook_discord_url = os.environ['webhookDiscord']
 device_info = os.environ.get('DEVICE_INFO_SECRET')
-appCheck = os.environ.get('APP_CHECK_SECRET')
 user_agent_2 = os.environ.get('USER_AGENT_SECRET_2')
 fate_region = 'NA'
 
@@ -31,12 +29,6 @@ def get_latest_verCode():
 
     return response_data['verCode']
 
-def get_latest_appver():
-    endpoint = "https://raw.githubusercontent.com/xdeadboy666x/FGO-JP-NA-VerCode-Extractor/master/ma.json"
-    response = requests.get(endpoint).text
-    response_data = json.loads(response)
-
-    return response_data['appVer']
 
 
 def main():
@@ -45,32 +37,22 @@ def main():
         for i in range(userNums):
             try:
                 instance = user.user(userIds[i], authKeys[i], secretKeys[i])
+                time.sleep(3)
+                logger.info(f"\n ======================================== \n [+] 登录账号 \n ======================================== " )
+
                 time.sleep(1)
-                instance.topLogin()
+                instance.topLogin_s()
                 time.sleep(2)
                 instance.topHome()
-                time.sleep(0.5)
+                time.sleep(2)
                 instance.lq001()
-                time.sleep(0.5)
-                instance.Present()
-                time.sleep(0.5)
                 instance.lq002()
                 time.sleep(2)
                 instance.buyBlueApple()
                 time.sleep(1)
                 instance.lq003()
                 time.sleep(1)
-
-                #if "--Free_Gacha" in sys.argv:
-                    #instance.Free_Gacha()
-
                 instance.drawFP()
-                time.sleep(1)
-                #instance.LTO_Gacha()
-                #instance.LTO_drawFP()
-
-
-
 
 
             except Exception as ex:
